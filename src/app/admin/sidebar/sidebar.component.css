@@ -1,0 +1,22 @@
+.sidebar {
+    width: 250px;
+    transition: transform 0.3s ease-in-out;
+    background-color: #fff;
+    height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+}
+
+.sidebar.closed {
+    transform: translateX(-100%);
+}
+
+/* Mode Responsive */
+@media (max-width: 768px) {
+    .sidebar {
+        width: 200px;
+    }
+}
+

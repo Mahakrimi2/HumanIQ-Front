@@ -1,0 +1,87 @@
+<app-navbar></app-navbar>
+<app-sidebar></app-sidebar>
+
+<main id="main" class="main">
+  <div class="pagetitle">
+    <h1>Leave Requests List</h1>
+  </div>
+
+  <section class="section">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="card">
+          <div class="card-body">
+            <table class="table datatable">
+              <thead>
+                <tr>
+                  <th>Employee ID</th>
+                  <th>Employee Name</th>
+                  <th>Department</th>
+                  <th>Leave Type</th>
+                  <th>Leave from</th>
+                  <th>Leave to</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let request of leaveRequests">
+                  <td>{{ request.id }}</td>
+                  <td>{{ request.name }}</td>
+                  <td>{{ request.department }}</td>
+                  <td>{{ request.leaveType }}</td>
+                  <td>{{ request.leaveFrom }}</td>
+                  <td>{{ request.leaveTo }}</td>
+                  <td>
+                    <span [ngClass]="{
+                        'text-success': request.status === 'Approved',
+                        'text-danger': request.status === 'Rejected',
+                        'text-warning': request.status === 'Pending'
+                      }">{{ request.status }}</span>
+                  </td>
+                  <td>
+                    <button class="btn btn-primary" (click)="openModal(request)">
+                      <i class="fa-solid fa-pen-to-square text-white"></i>
+                    </button>
+                 
+            <i
+            class="fa-solid fa-trash text-danger ms-2"
+            style="cursor: pointer"
+            (click)="deleteUser()"
+                ></i>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- Modal -->
+<div id="leaveModal" class="modal fade" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Leave Request Details</h5>
+        <button type="button" class="btn-close" (click)="closeModal()"></button>
+      </div>
+      <div class="modal-body">
+        <p><strong>Employee:</strong> {{ selectedRequest?.name }}</p>
+        <p><strong>Department:</strong> {{ selectedRequest?.department }}</p>
+        <p><strong>Leave Type:</strong> {{ selectedRequest?.leaveType }}</p>
+        <p><strong>Leave from:</strong> {{ selectedRequest?.leaveFrom }}</p>
+        <p><strong>Leave to:</strong> {{ selectedRequest?.leaveTo }}</p>
+        <p><strong>Status:</strong> <span>{{ selectedRequest?.status }}</span></p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-success" (click)="updateStatus('Approved')">Accept</button>
+        <button class="btn btn-danger" (click)="updateStatus('Rejected')">Reject</button>
+        <button class="btn btn-warning" (click)="updateStatus('Pending')">Pending</button>
+        <button type="button" class="btn btn-secondary" (click)="closeModal()">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

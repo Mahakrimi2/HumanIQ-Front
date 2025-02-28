@@ -1,0 +1,125 @@
+<app-navbar></app-navbar>
+<app-sidebar></app-sidebar>
+
+<main id="main" class="main">
+  <div class="pagetitle d-flex justify-content-between align-items-center">
+    <h1>Departments List</h1>
+    <button class="btn btn-success" (click)="addDepartment()">
+      <i class="fa-solid fa-plus"></i> Add Department
+    </button>
+  </div>
+
+  <section class="section">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="card">
+          <div class="card-body">
+            <table class="table datatable">
+              <thead>
+                <tr>
+                  <th>Department Name</th>
+                  <th>Head of Department</th>
+                  <th>Phone</th>
+                  <th>Email</th>
+                  <th>Employee Capacity</th>
+                  <th>Established Year</th>
+                  <th>Total Employees</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let department of departments">
+                  <td>{{ department.name }}</td>
+                  <td>{{ department.head }}</td>
+                  <td>{{ department.phone }}</td>
+                  <td>{{ department.email }}</td>
+                  <td>{{ department.capacity }}</td>
+                  <td>{{ department.establishedYear }}</td>
+                  <td>{{ department.totalEmployees }}</td>
+                  <td>
+                    <button class="btn btn-primary" (click)="openModal(department)">
+                      <i class="fa-solid fa-eye text-white"></i>
+                    </button>
+                    <i class="fa-solid fa-trash text-danger ms-2" 
+                       style="cursor: pointer" 
+                       (click)="deleteDepartment(department.name)">
+                    </i>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- View Department Modal -->
+<div id="departmentModal" class="modal fade" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Department Details</h5>
+        <button type="button" class="btn-close" (click)="closeModal()"></button>
+      </div>
+      <div class="modal-body">
+        <p><strong>Department Name:</strong> {{ selectedDepartment?.name }}</p>
+        <p><strong>Head of Department:</strong> {{ selectedDepartment?.head }}</p>
+        <p><strong>Phone:</strong> {{ selectedDepartment?.phone }}</p>
+        <p><strong>Email:</strong> {{ selectedDepartment?.email }}</p>
+        <p><strong>Employee Capacity:</strong> {{ selectedDepartment?.capacity }}</p>
+        <p><strong>Established Year:</strong> {{ selectedDepartment?.establishedYear }}</p>
+        <p><strong>Total Employees:</strong> {{ selectedDepartment?.totalEmployees }}</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeModal()">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Add Department Modal -->
+<div id="addDepartmentModal" class="modal fade" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Add New Department</h5>
+        <button type="button" class="btn-close" (click)="closeModal()"></button>
+      </div>
+      <div class="modal-body">
+        <form (ngSubmit)="addDepartment()">
+          <div class="form-group mb-3">
+            <label for="name">Department Name</label>
+            <input type="text" id="name" class="form-control" name="name" required>
+          </div>
+          <div class="form-group mb-3">
+            <label for="head">Head of Department</label>
+            <input type="text" id="head" class="form-control" name="head" required>
+          </div>
+          <div class="form-group mb-3">
+            <label for="phone">Phone</label>
+            <input type="text" id="phone" class="form-control"  name="phone">
+          </div>
+          <div class="form-group mb-3">
+            <label for="email">Email</label>
+            <input type="email" id="email" class="form-control" name="email">
+          </div>
+          <div class="form-group mb-3">
+            <label for="capacity">Employee Capacity</label>
+            <input type="number" id="capacity" class="form-control"  name="capacity">
+          </div>
+          <div class="form-group mb-3">
+            <label for="establishedYear">Established Year</label>
+            <input type="number" id="establishedYear" class="form-control"  name="establishedYear">
+          </div>
+          <div class="form-group mb-3">
+            <label for="totalEmployees">Total Employees</label>
+            <input type="number" id="totalEmployees" class="form-control" name="totalEmployees">
+          </div>
+          <button type="submit" class="btn btn-primary">Add Department</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
