@@ -50,25 +50,33 @@ export class UserService {
     });
   }
 
-  uploadProfileImage(userId: number, file: File): Observable<string> {
+  uploadProfileImage(userId: number, file: File): Observable<any> {
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders({
       Authorization: `Bearer ${token}`,
     });
     const formData = new FormData();
     formData.append('file', file);
-    return this.http.post<string>(
-      `${this.apiUrl}/${userId}/uploadProfileImage`,
+    return this.http.post<any>(
+      `${this.apiUrl}/users/${userId}/uploadProfileImage?file`,
       formData,
-      { headers }
+      { headers ,responseType:"text" as "json"}
     );
+  }
+
+  deleteProfileImage(userId: number) {
+     const token = localStorage.getItem('token');
+     const headers = new HttpHeaders({
+       Authorization: `Bearer ${token}`,
+     });
+    return this.http.delete(`${this.apiUrl}/users/${userId}/deleteProfileImage`, { headers,responseType: "text" as "json"})
   }
   getProfileImage(filename: string): Observable<Blob> {
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders({
       Authorization: `Bearer ${token}`,
     });
-    return this.http.get(`${this.apiUrl}/profileImage/${filename}`, {
+    return this.http.get(`${this.apiUrl}/users/profileImage/${filename}`, {
       headers: headers,
       responseType: 'blob',
     });

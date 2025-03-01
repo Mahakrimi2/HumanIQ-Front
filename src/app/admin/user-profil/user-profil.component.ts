@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { User } from 'src/app/models/user.model';
 import { UserService } from 'src/app/services/user.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-user-profil',
@@ -28,48 +29,36 @@ export class UserProfilComponent implements OnInit {
   };
   isEditing = false;
   selectedFile: File | null = null;
+  ProfilImageUrl: any;
 
   constructor(private userService: UserService) {}
   ngOnInit(): void {
+    this.uploadProfileImage();
     this.loadUserProfile();
   }
 
-  onFileSelected(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    if (input.files && input.files.length > 0) {
-      this.selectedFile = input.files[0];
-      this.uploadProfileImage();
-    }
+  onFileSelected(event: any): void {
+    this.selectedFile = event.target.files[0];
+    this.uploadProfileImage();
   }
   uploadProfileImage(): void {
     if (!this.user || !this.selectedFile) return;
+    console.log(this.user, this.selectedFile);
 
     this.userService
       .uploadProfileImage(this.user.id, this.selectedFile)
       .subscribe({
         next: (imagePath) => {
-          // Mettre à jour le chemin de l'image dans l'utilisateur
-          this.user!.profileImagePath = `http://localhost:4300/uploads/${imagePath}`;
-          alert('Profile image updated successfully!');
+          this.loadUserProfile();
+          Swal.fire({
+            icon: 'success',
+            title: 'Success!',
+            text: 'Profile image deleted successfully',
+            confirmButtonText: 'OK',
+          });
         },
         error: (err) => console.error('Failed to upload profile image', err),
       });
-  }
-
-  exportProfileImage(): void {
-    if (!this.user) return;
-
-    this.userService.getProfileImage(this.user.profileImagePath).subscribe({
-      next: (blob) => {
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'profile-image.png'; // Nom du fichier téléchargé
-        a.click();
-        window.URL.revokeObjectURL(url);
-      },
-      error: (err) => console.error('Failed to export profile image', err),
-    });
   }
 
   /*
@@ -85,24 +74,86 @@ export class UserProfilComponent implements OnInit {
     });
   }
 */
-  // Charger le profil utilisateur
+
   loadUserProfile(): void {
     this.userService.getCurrentUserProfile().subscribe({
       next: (data) => {
         // Ajouter l'URL de base au chemin de l'image
-        data.profileImagePath = `http://localhost:4300/uploads/${data.profileImagePath}`;
-        this.user = data;
+
+        //   this.userService.getProfileImage(data.profileImagePath).subscribe(data=>{
+        //     console.log("image insére avec succes", data);
+        //     this.ProfilImageUrl = data;
+        //   }, (error)=>{
+        //     console.error("error",error);
+        //  });
+        if (data && data.profileImagePath) {
+          this.ProfilImageUrl =
+            'http://localhost:8082/api/rh/users/profileImage/' +
+            data.profileImagePath;
+          this.user = data;
+        } else {
+          this.ProfilImageUrl = 'assets/img/anonyme.jpg';
+          this.user = data;
+        }
       },
+
       error: (err) => console.error('Failed to load user profile', err),
     });
   }
   saveProfile(): void {
-    this.userService.updateCurrentUserProfile(this.user!).subscribe({
+    this.userService.updateCurrentUserProfile(this.user).subscribe({
       next: (data) => {
         this.user = data;
+        console.log(data);
         this.isEditing = false;
+
+        Swal.fire({
+          icon: 'success',
+          title: 'Success!',
+          text: 'Profile updated successfully',
+          confirmButtonText: 'OK',
+        });
       },
-      error: (err) => console.error('Failed to update user profile', err),
+      error: (err) => {
+        console.error('Failed to update user profile', err);
+
+        let errorMessage = 'An error occurred while updating the profile.';
+        if (err.status === 403) {
+          errorMessage = 'You do not have permission to update this profile.';
+        }
+
+        Swal.fire({
+          icon: 'error',
+          title: 'Error!',
+          text: errorMessage,
+          confirmButtonText: 'OK',
+        });
+      },
     });
+  }
+
+  onDeleteProfileImage() {
+    this.userService.deleteProfileImage(this.user.id).subscribe(
+      (response) => {
+        console.log(response); // Affiche "Profile image deleted successfully"
+        this.user.profileImagePath = ''; // Supprimer le chemin de l'image
+        this.ProfilImageUrl = 'assets/img/anonyme.jpeg';
+        Swal.fire({
+          icon: 'success',
+          title: 'Success!',
+          text: 'Profile image deleted successfully',
+          confirmButtonText: 'OK',
+        });
+      },
+      (error) => {
+        console.error(error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error!',
+          text: 'An error occurred while deleting the profile image',
+          confirmButtonText: 'OK',
+        });
+      }
+    );
   }
 }

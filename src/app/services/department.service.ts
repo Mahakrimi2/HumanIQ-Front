@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Department } from '../models/department.model';
 import { Observable } from 'rxjs';
@@ -12,35 +12,69 @@ export class DepartmentService {
   constructor(private http: HttpClient) {}
 
   getAllDepartments(): Observable<Department[]> {
-    return this.http.get<Department[]>(`${this.apiUrl}/departments`);
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+    });
+    return this.http.get<Department[]>(`${this.apiUrl}/departments`, {
+      headers,
+    });
   }
 
   getDepartmentById(id: number): Observable<Department> {
-    return this.http.get<Department>(`${this.apiUrl}/department/${id}`);
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+    });
+    return this.http.get<Department>(`${this.apiUrl}/department/${id}`, {
+      headers,
+    });
   }
 
   createDepartment(department: Department): Observable<Department> {
-    return this.http.post<Department>(`${this.apiUrl}/department`, department);
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+    });
+    return this.http.post<Department>(`${this.apiUrl}/department`, department, {
+      headers,
+    });
   }
 
   updateDepartment(id: number, department: Department): Observable<Department> {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+    });
     return this.http.put<Department>(
       `${this.apiUrl}/department/${id}`,
-      department
+      department,
+      { headers }
     );
   }
 
   deleteDepartment(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/department/${id}`);
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+    });
+    return this.http.delete<void>(`${this.apiUrl}/department/${id}`, {
+      headers,
+    });
   }
 
   addEmployeeToDepartment(
     departmentId: number,
     employeeId: number
   ): Observable<Department> {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+    });
     return this.http.post<Department>(
       `${this.apiUrl}/department/${departmentId}/add-employee?employeeId=${employeeId}`,
-      {}
+      {},
+      { headers }
     );
   }
 
@@ -48,15 +82,45 @@ export class DepartmentService {
     departmentId: number,
     employeeId: number
   ): Observable<Department> {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+    });
     return this.http.post<Department>(
       `${this.apiUrl}/department/${departmentId}/remove-employee?employeeId=${employeeId}`,
-      {}
+      {},
+      { headers }
     );
   }
 
   getAvailableEmployees(): Observable<User[]> {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+    });
     return this.http.get<User[]>(
-      `${this.apiUrl}/department/available-employees`
+      `${this.apiUrl}/department/available-employees`,
+      { headers }
     );
+  }
+
+  getDepartmentNames(): Observable<string[]> {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+    });
+    return this.http.get<string[]>(`${this.apiUrl}/department/names`, {
+      headers,
+    });
+  }
+
+  getAvailableHeads(): Observable<User[]> {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+    });
+    return this.http.get<User[]>(`${this.apiUrl}/department/available-heads`, {
+      headers,
+    });
   }
 }
