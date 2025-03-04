@@ -13,18 +13,13 @@
       <i class="fa-solid fa-file-excel"></i> Export to Excel
     </button>
   </div>
-    
     </div>
   </div>
-  <!-- End Page Title -->
-
-  <section class="section">
+   <section class="section">
     <div class="row">
       <div class="col-lg-12">
         <div class="card">
           <div class="card-body">
-
-             <!-- Search Input -->
          <div class="mb-3">
   <input
     type="text"
@@ -33,11 +28,7 @@
     [(ngModel)]="searchText"
     (keyup)="filterUsers($event)"
     aria-label="Search"
-  />
-
-            </div>
-
-            <!-- Table with stripped rows -->
+  />            </div>
             <table class="table datatable">
               <thead>
                 <tr>
@@ -46,9 +37,7 @@
                   <th>Tel Number</th>
                   <th>Address</th>
                   <th>Position</th>
-                 
                   <th>Actions</th>
-
                 </tr>
               </thead>
               <tbody>
@@ -62,14 +51,12 @@
                     <button class="btn btn-primary" (click)="openModal('editUserModal', user)">
                       <i class="fa-solid fa-pen-to-square text-white"></i>
                     </button>
-
                     <i
                       class="fa-solid fa-trash text-danger ms-2"
                       style="cursor: pointer"
                       (click)="deleteUser(user.id)"
                     ></i>
-                  </td>
-   
+                  </td>   
                 </tr>
               </tbody>
             </table>
@@ -126,17 +113,14 @@
               <input type="text" class="form-control form-control-lg shadow-sm" id="position" formControlName="position">
             </div>
             <div class="col-md-6">
-              <label for="department" class="form-label">Department</label>
-              <select class="form-control form-control-lg shadow-sm" id="department" name="department">
-                <option value="" disabled selected>Select a department</option>
-                <option value="development">Development</option>
-                <option value="design">Design</option>
-                <option value="marketing">Marketing</option>
-                <option value="quality">Quality Assurance</option>
-                <option value="support">Technical Support</option>
-                <option value="it">Internal IT</option>
-              </select>
-            </div>
+  <label for="department" class="form-label">Department</label>
+  <select class="form-control form-control-lg shadow-sm" id="department" (change)="Onselected($event)" >
+    <option value="" disabled selected>Select a department</option>
+    <option *ngFor="let department of departments" [value]="department.id">
+      {{ department.name }}
+    </option>
+  </select>
+</div>
           </div>
         </form>
       </div>

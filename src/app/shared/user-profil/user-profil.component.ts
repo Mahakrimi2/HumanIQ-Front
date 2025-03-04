@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ChangePasswordRequest } from 'src/app/models/ChangePasswordRequest.model';
 import { User } from 'src/app/models/user.model';
 import { UserService } from 'src/app/services/user.service';
 import Swal from 'sweetalert2';
@@ -9,24 +10,27 @@ import Swal from 'sweetalert2';
   styleUrls: ['./user-profil.component.css'],
 })
 export class UserProfilComponent implements OnInit {
-  user: User = {
+  copyobj() {
+    this.edituser.id = this.user.id;
+    this.edituser.fullname = this.user.fullname
+    this.edituser.position = this.user.position
+    this.edituser.telNumber = this.user.telNumber
+    this.edituser.address=this.user.address
+  }
+  changePasswordRequest: ChangePasswordRequest = {
+    oldPassword: '',
+    newPassword: '',
+  };
+  confirmNewPassword: string = '';
+  user: any = {
     id: 0,
     fullname: '',
     username: '',
-    gender: '',
     address: '',
     position: '',
-    salary: 0,
     telNumber: '',
-    hireDate: new Date(),
-    email: '',
-    roles: '',
-    nationalID: '',
-    profileImagePath: '',
-    dateOfBirth: new Date(),
-    accountVerified: false, // Ajouté
-    isDisabled: false,
   };
+
   isEditing = false;
   selectedFile: File | null = null;
   ProfilImageUrl: any;
@@ -78,6 +82,8 @@ export class UserProfilComponent implements OnInit {
   loadUserProfile(): void {
     this.userService.getCurrentUserProfile().subscribe({
       next: (data) => {
+        console.log(data);
+
         // Ajouter l'URL de base au chemin de l'image
 
         //   this.userService.getProfileImage(data.profileImagePath).subscribe(data=>{
@@ -100,8 +106,16 @@ export class UserProfilComponent implements OnInit {
       error: (err) => console.error('Failed to load user profile', err),
     });
   }
+  edituser: any = {
+    id: 0,
+    fullname: '',
+    username: '',
+    address: '',
+    position: '',
+    telNumber: '',
+  };
   saveProfile(): void {
-    this.userService.updateCurrentUserProfile(this.user).subscribe({
+    this.userService.updateCurrentUserProfile(this.edituser).subscribe({
       next: (data) => {
         this.user = data;
         console.log(data);
@@ -151,6 +165,39 @@ export class UserProfilComponent implements OnInit {
           icon: 'error',
           title: 'Error!',
           text: 'An error occurred while deleting the profile image',
+          confirmButtonText: 'OK',
+        });
+      }
+    );
+  }
+
+  onSubmit() {
+    if (this.changePasswordRequest.newPassword !== this.confirmNewPassword) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error!',
+        text: 'New password and confirm password do not match',
+        confirmButtonText: 'OK',
+      });
+      return;
+    }
+
+    this.userService.ChangePassword(this.changePasswordRequest).subscribe(
+      () => {
+        Swal.fire({
+          icon: 'success',
+          title: 'Success!',
+          text: 'Password changed successfully',
+          confirmButtonText: 'OK',
+        });
+        this.changePasswordRequest = { oldPassword: '', newPassword: '' };
+        this.confirmNewPassword = '';
+      },
+      (error: { error: any }) => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error!',
+          text: 'Failed to change password',
           confirmButtonText: 'OK',
         });
       }

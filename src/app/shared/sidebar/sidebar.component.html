@@ -1,14 +1,14 @@
 <aside id="sidebar" class="sidebar" [ngClass]="{ 'closed': isClosed }">
   <ul class="sidebar-nav" id="sidebar-nav" >
 
-    <li class="nav-item">
+    <li class="nav-item" >
       <a class="nav-link" href="index.html">
         <i class="bi bi-speedometer2"></i>
         <span>Dashboard</span>
       </a>
     </li>
 
-    <li class="nav-item">
+    <li class="nav-item" *ngIf="isRH">
       <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
         <i class="bi bi-people"></i><span>Personnel</span><i class="bi bi-chevron-down ms-auto"></i>
       </a>
@@ -27,14 +27,20 @@
         <i class="bi bi-people"></i><span>Contracts</span><i class="bi bi-chevron-down ms-auto"></i>
       </a>
       <ul id="components-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
-        <li>
+        <li *ngIf="isRH">
           <a routerLink="/admin/list-contracts">
            <span>All Contracts</span>
           </a>
         </li>
-        <li>
+        <li *ngIf="isRH">
           <a routerLink="/admin/archived-contracts">
            <span>Archived Contracts</span>
+          </a>
+        </li>
+
+          <li *ngIf="isEmployee">
+          <a routerLink="/employee/my-contracts">
+           <span>my Contracts</span>
           </a>
         </li>
       </ul>
@@ -42,12 +48,18 @@
 
     <li class="nav-item">
       <a class="nav-link collapsed" data-bs-target="#leave-nav" data-bs-toggle="collapse" href="#">
-        <i class="bi bi-calendar-check"></i><span>Leave Management</span><i class="bi bi-chevron-down ms-auto"></i>
+        <i class="bi bi-calendar-check"></i><span>holiday Management</span><i class="bi bi-chevron-down ms-auto"></i>
       </a>
       <ul id="leave-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
-        <li>
+        <li *ngIf="isRH">
           <a routerLink="/admin/leave-requests">
-            <i class="bi bi-file-earmark-text"></i><span>All Leave Requests</span>
+            <i class="bi bi-file-earmark-text"></i><span>holiday Requests</span>
+          </a>
+        </li>
+
+         <li *ngIf="isEmployee">
+          <a routerLink="/employee/holiday-request">
+            <i class="bi bi-file-earmark-text"></i><span>my holiday Requests</span>
           </a>
         </li>
       </ul>
@@ -58,18 +70,26 @@
         <i class="bi bi-cash-stack"></i><span>Paie</span><i class="bi bi-chevron-down ms-auto"></i>
       </a>
       <ul id="payroll-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
-        <li>
+        <li *ngIf="isRH">
           <a routerLink="/admin/payroll">
             <i class="bi bi-wallet2"></i><span>Employee Salary</span>
           </a>
           <a routerLink="/admin/payroll-list">
-            <i class="bi bi-wallet2"></i><span>Payroll List</span>
+            <i class="bi bi-wallet2"></i><span>Payslip List</span>
+          </a>
+        </li>
+
+
+         <li *ngIf="isEmployee">
+       
+          <a routerLink="/admin/payroll-list">
+            <i class="bi bi-wallet2"></i><span>My payslips</span>
           </a>
         </li>
       </ul>
     </li>
 
-    <li class="nav-item">
+    <li class="nav-item" *ngIf="isRH" >
       <a class="nav-link collapsed" data-bs-target="#department-nav" data-bs-toggle="collapse" href="#">
         <i class="bi bi-building"></i><span>Département</span><i class="bi bi-chevron-down ms-auto"></i>
       </a>

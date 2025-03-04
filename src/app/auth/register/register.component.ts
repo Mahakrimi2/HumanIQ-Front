@@ -32,17 +32,17 @@ export class RegisterComponent {
 
   onSubmit() {
     if (this.registerForm.valid) {
-      this.authservice.register(this.registerForm.value).subscribe(
-        {
-          next: (response) => {
+      // this.authservice.register(this.registerForm.value).subscribe(
+      //   {
+      //     next: (response) => {
             
-          console.log('Inscription réussie !');
-          this.router.navigate(['/login']);
-        },
-        error: (err) => {
-          this.errorMessage = err;
-        },
-      });
+      //     console.log('Inscription réussie !');
+      //     this.router.navigate(['/login']);
+      //   },
+      //   error: (err) => {
+      //     this.errorMessage = err;
+      //   },
+      // });
     }
   }
 }

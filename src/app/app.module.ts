@@ -5,7 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AuthService } from './services/auth.service';
 import { FormsModule } from '@angular/forms';
-
+import { ContractsComponent } from './employeeDash/contracts/contracts.component';
 
 @NgModule({
   declarations: [AppComponent],

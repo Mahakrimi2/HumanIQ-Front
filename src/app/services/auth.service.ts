@@ -3,29 +3,29 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http
 import { Observable, throwError } from 'rxjs';
 import { tap, catchError } from 'rxjs/operators';
 import { LoginDTO, AuthRequest, AuthModel } from '../models/auth.model';
-
+import { jwtDecode } from 'jwt-decode';
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  getProtectedData() {
-    throw new Error('Method not implemented.');
-  }
-  isrole = 'RH';
   private apiUrl = 'http://localhost:8082/api/auth';
 
   constructor(private http: HttpClient) {}
 
-  register(registerData:any): Observable<any> {
-   const token = localStorage.getItem('token');
-   const headers = new HttpHeaders({
-     Authorization: `Bearer ${token}`,
-   });
+  register(registerData: any, id: number): Observable<any> {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+    });
     return this.http
-      .post<any>(`http://localhost:8082/api/rh/register`, registerData, {
-        responseType: 'text' as 'json',
-        headers: headers,
-      })
+      .post<any>(
+        `http://localhost:8082/api/rh/register?id=` + id,
+        registerData,
+        {
+          responseType: 'text' as 'json',
+          headers: headers,
+        }
+      )
       .pipe(catchError(this.handleError));
   }
 
@@ -106,4 +106,50 @@ export class AuthService {
   validateAccount(code: string): Observable<any> {
     return this.http.post(`${this.apiUrl}/validate-account`, { token: code });
   }
+  decodeToken(token: string): any {
+    try {
+      return jwtDecode(token); // Nouvelle méthode
+    } catch (error) {
+      console.error('Erreur lors du décodage du token:', error);
+      return null;
+    }
+  }
+  getRole(): string | null {
+    const token = this.getToken();
+    if (token) {
+      const decodedToken = this.decodeToken(token);
+      console.log('Token décodé:', decodedToken);
+
+      if (
+        decodedToken &&
+        decodedToken.authorities &&
+        decodedToken.authorities.length > 0
+      ) {
+        return decodedToken.authorities[0];
+      }
+    }
+    return null;
+  }
+
+  private userId: number | null = null;
+
+  setUserId(userId: number): void {
+    this.userId = userId;
+    localStorage.setItem('userId', userId.toString()); // Stocker l'ID dans localStorage
+  }
+
+  getUsername(): string | null {
+    const token = this.getToken();
+    if (token) {
+      const decodedToken = this.decodeToken(token);
+      if (decodedToken && decodedToken.sub) {
+        return decodedToken.sub; // Retourne l'e-mail de l'utilisateur
+      }
+    }
+    return null; // Retourne null si le token est invalide ou si l'e-mail n'est pas trouvé
+  }
+  // logout(): void {
+  //   this.userId = null;
+  //   localStorage.removeItem('userId');
+  // }
 }

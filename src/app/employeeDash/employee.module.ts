@@ -1,0 +1,27 @@
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+
+import { EmployeeRoutingModule } from './employee-routing.module';
+import { AdminRoutingModule } from 'src/app/admin/admin-routing.module';
+
+import { FullCalendarModule } from '@fullcalendar/angular';
+import { HttpClientModule } from '@angular/common/http';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ContractsComponent } from './contracts/contracts.component';
+import { SharedModule } from '../shared/shared.module';
+import { RouterLink } from '@angular/router';
+import { HolidayRequestComponent } from './holiday-request/holiday-request.component';
+
+@NgModule({
+  declarations: [ContractsComponent, HolidayRequestComponent],
+  imports: [
+    CommonModule,
+    EmployeeRoutingModule,
+    CommonModule,
+    SharedModule,
+    HttpClientModule,
+    ReactiveFormsModule,
+    RouterLink
+  ],
+})
+export class EmployeeModule {}

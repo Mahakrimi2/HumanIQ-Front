@@ -93,4 +93,17 @@ export class ContractService {
       { headers }
     );
   }
+
+  getContratByUsername(username: string): Observable<Contract[]> {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+    });
+    return this.http.get<Contract[]>(
+      `http://localhost:8082/api/employee/${username}/contracts`,
+      { headers }
+    );
+  }
+
+ 
 }

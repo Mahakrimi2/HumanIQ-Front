@@ -14,41 +14,30 @@
             <table class="table datatable">
               <thead>
                 <tr>
-                  <th>Employee ID</th>
-                  <th>Employee Name</th>
-                  <th>Department</th>
-                  <th>Leave Type</th>
+                 
+                  <th>Type</th>
                   <th>Leave from</th>
-                  <th>Leave to</th>
+                  <th>Duration</th>
                   <th>Status</th>
                   <th>Actions</th>
                 </tr>
               </thead>
               <tbody>
                 <tr *ngFor="let request of leaveRequests">
-                  <td>{{ request.id }}</td>
-                  <td>{{ request.name }}</td>
-                  <td>{{ request.department }}</td>
-                  <td>{{ request.leaveType }}</td>
-                  <td>{{ request.leaveFrom }}</td>
-                  <td>{{ request.leaveTo }}</td>
-                  <td>
-                    <span [ngClass]="{
-                        'text-success': request.status === 'Approved',
-                        'text-danger': request.status === 'Rejected',
-                        'text-warning': request.status === 'Pending'
-                      }">{{ request.status }}</span>
-                  </td>
+                  <td>{{ request.type }}</td>
+                  <td>{{ request.startDate | date }}</td>
+                  <td>{{ request.duration }} days</td>
+                     <td>{{request.status}}</td> 
+                 
                   <td>
                     <button class="btn btn-primary" (click)="openModal(request)">
                       <i class="fa-solid fa-pen-to-square text-white"></i>
                     </button>
-                 
-            <i
-            class="fa-solid fa-trash text-danger ms-2"
-            style="cursor: pointer"
-            (click)="deleteUser()"
-                ></i>
+                    <i
+                      class="fa-solid fa-trash text-danger ms-2"
+                      style="cursor: pointer"
+                    
+                    ></i>
                   </td>
                 </tr>
               </tbody>
@@ -69,17 +58,16 @@
         <button type="button" class="btn-close" (click)="closeModal()"></button>
       </div>
       <div class="modal-body">
-        <p><strong>Employee:</strong> {{ selectedRequest?.name }}</p>
-        <p><strong>Department:</strong> {{ selectedRequest?.department }}</p>
-        <p><strong>Leave Type:</strong> {{ selectedRequest?.leaveType }}</p>
-        <p><strong>Leave from:</strong> {{ selectedRequest?.leaveFrom }}</p>
-        <p><strong>Leave to:</strong> {{ selectedRequest?.leaveTo }}</p>
+        <!-- <p><strong>Employee:</strong> {{ selectedRequest?.employeeName }}</p> -->
+        <p><strong>Leave Type:</strong> {{ selectedRequest?.type }}</p>
+        <p><strong>Leave from:</strong> {{ selectedRequest?.startDate | date }}</p>
+        <p><strong>Duration:</strong> {{ selectedRequest?.duration }} days</p>
         <p><strong>Status:</strong> <span>{{ selectedRequest?.status }}</span></p>
       </div>
       <div class="modal-footer">
-        <button class="btn btn-success" (click)="updateStatus('Approved')">Accept</button>
-        <button class="btn btn-danger" (click)="updateStatus('Rejected')">Reject</button>
-        <button class="btn btn-warning" (click)="updateStatus('Pending')">Pending</button>
+        <button class="btn btn-success" (click)="5">Accept</button>
+        <button class="btn btn-danger" (click)="5">Reject</button>
+        <button class="btn btn-warning" (click)="5">Pending</button>
         <button type="button" class="btn btn-secondary" (click)="closeModal()">Close</button>
       </div>
     </div>

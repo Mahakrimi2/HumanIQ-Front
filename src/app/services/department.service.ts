@@ -31,24 +31,24 @@ export class DepartmentService {
     });
   }
 
-  createDepartment(department: Department): Observable<Department> {
+  createDepartment(department: Department,id:number): Observable<any> {
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders({
       Authorization: `Bearer ${token}`,
     });
-    return this.http.post<Department>(`${this.apiUrl}/department`, department, {
+    return this.http.post(`${this.apiUrl}/departments/${id}/${department}`, {}, {
       headers,
     });
   }
 
-  updateDepartment(id: number, department: Department): Observable<Department> {
+  updateDepartment(id: number, department: any,iduser:number): Observable<Department> {
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders({
       Authorization: `Bearer ${token}`,
     });
     return this.http.put<Department>(
-      `${this.apiUrl}/department/${id}`,
-      department,
+      `${this.apiUrl}/departments/${id}?department=${department}&iduser=${iduser},`,
+      {},
       { headers }
     );
   }

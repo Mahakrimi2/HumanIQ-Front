@@ -18,23 +18,35 @@ export class DepartmentComponent implements OnInit {
   addDepartmentForm: FormGroup;
   updateDepartmentForm: FormGroup;
   listUser: any[] = [];
-  departmentNames: string[] = [];
+  departmentNames: any[] = [];
   availableHeads: User[] = [];
 
   Opentable: boolean = false;
+  selecteuserid: any;
+  Onselected(event: any) {
+    this.selecteuserid = (event.target as HTMLSelectElement).value;
+    console.log('====================================');
+    console.log(this.selecteuserid);
+    console.log('====================================');
+  }
+  selecteid: any;
+  selectedDepartmentName: string = '';
+
+  Onselecteddep(event: Event) {
+     this.selecteid = (event.target as HTMLSelectElement).value;
+
+    
+  }
 
   constructor(
     private departmentService: DepartmentService,
     private fb: FormBuilder
   ) {
     this.addDepartmentForm = this.fb.group({
-      name: ['WebDevelopment', Validators.required],
-      head: [null, Validators.required],
-      totalEmployees: [''],
+      name: ['', Validators.required],
     });
     this.updateDepartmentForm = this.fb.group({
       name: ['', Validators.required],
-      head: [null, Validators.required],
     });
   }
 
@@ -45,8 +57,8 @@ export class DepartmentComponent implements OnInit {
   }
 
   loadDepartmentNames(): void {
-    this.departmentService.getDepartmentNames().subscribe(
-      (data: string[]) => {
+    this.departmentService.getAllDepartments().subscribe(
+      (data: any[]) => {
         this.departmentNames = data;
       },
       (error) => {
@@ -93,8 +105,6 @@ export class DepartmentComponent implements OnInit {
 
   openEditDepartmentModal(department: Department): void {
     this.selectedDepartment = department;
-
-    // Pré-remplir le formulaire avec les données du département sélectionné
     this.updateDepartmentForm.patchValue({
       name: department.name,
       head: department.responsableDep?.id || null, // Utiliser l'ID du responsable existant
@@ -114,45 +124,45 @@ export class DepartmentComponent implements OnInit {
       return;
     }
 
-    const newDepartment: Department = {
-      ...this.addDepartmentForm.value,
-      users: [],
-    };
+    console.log(this.addDepartmentForm.value);
 
-    this.departmentService.createDepartment(newDepartment).subscribe(
-      (response) => {
-        Swal.fire('Success', 'Department added successfully!', 'success');
-        this.closeAddDepartmentModal();
-        this.loadDepartments();
-      },
-      (error) => {
-        Swal.fire('Error', 'Failed to add department', 'error');
-      }
-    );
+    this.departmentService
+      .createDepartment(this.addDepartmentForm.value.name, this.selecteuserid)
+      .subscribe(
+        (response) => {
+          Swal.fire('Success', 'Department added successfully!', 'success');
+          this.closeAddDepartmentModal();
+          this.loadDepartments();
+        },
+        (error) => {
+          console.log(error);
+
+          Swal.fire('Error', 'Failed to add department', 'error');
+        }
+      );
   }
 
   onUpdateDepartmentSubmit(): void {
-    if (
-      this.updateDepartmentForm.invalid ||
-      !this.selectedDepartment ||
-      !this.selectedDepartment.id
-    ) {
+    if (this.updateDepartmentForm.invalid) {
       return;
     }
 
-    const updatedDepartment = {
-      ...this.updateDepartmentForm.value,
-      head: Number(this.updateDepartmentForm.value.head), 
-      id: this.selectedDepartment.id, 
-    };
-
-    console.log('Data being sent to backend:', updatedDepartment); 
+    console.log(
+      'Data being sent to backend:',
+    this.updateDepartmentForm.value.name.id,
+      this.selecteuserid,
+      this.selecteid
+    );
 
     this.departmentService
-      .updateDepartment(this.selectedDepartment.id, updatedDepartment)
+      .updateDepartment(
+        this.updateDepartmentForm.value.name.id,
+        this.updateDepartmentForm.value.name.name,
+        this.selecteuserid
+      )
       .subscribe(
         (response) => {
-          console.log('Response from backend:', response); 
+          console.log('Response from backend:', response);
           Swal.fire('Success', 'Department updated successfully!', 'success');
           this.closeEditDepartmentModal();
           this.loadDepartments();

@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { User } from '../models/user.model';
+import { ChangePasswordRequest } from '../models/ChangePasswordRequest.model';
 
 @Injectable({
   providedIn: 'root',
@@ -10,12 +11,13 @@ export class UserService {
   private apiUrl = 'http://localhost:8082/api/rh';
   constructor(private http: HttpClient) {}
 
-  addUser(user: User): Observable<User> {
+  addUser(user: User,id:number): Observable<User> {
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders({
       Authorization: `Bearer ${token}`,
     });
-    return this.http.post<User>(`${this.apiUrl}/user`, user, { headers });
+     const body = { ...user};
+    return this.http.post<User>(`${this.apiUrl}/register?id=${id}`, user, { headers });
   }
 
   getAllUsers(): Observable<User[]> {
@@ -96,6 +98,16 @@ export class UserService {
       Authorization: `Bearer ${token}`,
     });
     return this.http.put<User>(`${this.apiUrl}/users/profile`, user, {
+      headers,
+    });
+  }
+
+  ChangePassword(request: ChangePasswordRequest): Observable<User>{
+      const token = localStorage.getItem('token');
+      const headers = new HttpHeaders({
+        Authorization: `Bearer ${token}`,
+      });
+    return this.http.post<User>(`${this.apiUrl}/users/change-password`, request, {
       headers,
     });
   }

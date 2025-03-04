@@ -6,6 +6,7 @@ import { UserService } from 'src/app/services/user.service';
 import { AuthService } from 'src/app/services/auth.service';
 import * as XLSX from 'xlsx';
 import { saveAs as fileSaverSaveAs } from 'file-saver';
+import { DepartmentService } from 'src/app/services/department.service';
 
 
 @Component({
@@ -16,22 +17,23 @@ import { saveAs as fileSaverSaveAs } from 'file-saver';
 export class EmployeesListComponent implements OnInit {
   filteredUsers: User[] = [];
   searchText: string = '';
-
+  departments: any[] = [];
   users: User[] = [];
   selectedUser: User | null = null;
   addUserForm!: FormGroup;
   editUserForm!: FormGroup;
-
   constructor(
     private fb: FormBuilder,
     private userService: UserService,
-    private auth: AuthService
+    private auth: AuthService,
+    private departmentService: DepartmentService
   ) {}
 
   ngOnInit(): void {
     this.initAddUserForm();
     this.initEditUserForm();
     this.loadUsers();
+    this.loadDepartments();
   }
 
   initAddUserForm(): void {
@@ -45,6 +47,7 @@ export class EmployeesListComponent implements OnInit {
       position: ['', Validators.required],
       roles: [[{ name: 'ROLE_EMPLOYEE' }], Validators.required],
       password: ['', [Validators.required]],
+      // department: ['', Validators.required],
     });
   }
 
@@ -97,16 +100,13 @@ export class EmployeesListComponent implements OnInit {
     );
   }
 
-
   filterUsers(event: any): void {
-    const searchText = event.target.value.toLowerCase().trim(); // Récupérer et nettoyer le texte de recherche
-    console.log('Search Text:', searchText); // Afficher le texte de recherche
+    const searchText = event.target.value.toLowerCase().trim();
+    console.log('Search Text:', searchText);
 
     if (!searchText) {
-      // Si le champ de recherche est vide, afficher tous les utilisateurs
       this.filteredUsers = [...this.users];
     } else {
-      // Filtrer les utilisateurs en fonction du texte de recherche
       this.filteredUsers = this.users.filter((user) => {
         const fullname = user.fullname ? user.fullname.toLowerCase() : '';
         const username = user.username ? user.username.toLowerCase() : '';
@@ -121,7 +121,7 @@ export class EmployeesListComponent implements OnInit {
     this.userService.getAllUsers().subscribe({
       next: (data: User[]) => {
         this.users = data;
-       this.filteredUsers = [...data];
+        this.filteredUsers = [...data];
         console.log('====================================');
         console.log(data);
         console.log('====================================');
@@ -129,7 +129,25 @@ export class EmployeesListComponent implements OnInit {
       error: (err: any) => console.error('Failed to load users:', err),
     });
   }
-
+  Onselected(event: any) {
+    this.selectedid = (event.target as HTMLSelectElement).value;
+    console.log('====================================');
+    console.log(this.selectedid);
+    console.log('====================================');
+  }
+  loadDepartments(): void {
+    this.departmentService.getAllDepartments().subscribe({
+      next: (data: any[]) => {
+        this.departments = data;
+        console.log('====================================');
+        console.log(data);
+        console.log('====================================');
+      },
+      error: (err: any) => {
+        console.error('Failed to load departments:', err);
+      },
+    });
+  }
   deleteUser(id: number): void {
     Swal.fire({
       title: 'Are you sure?',
@@ -154,12 +172,16 @@ export class EmployeesListComponent implements OnInit {
       }
     });
   }
+  selectedid: any;
 
   addUser(): any {
     if (this.addUserForm.invalid) {
       Swal.fire('Error', 'Please fill all required fields correctly.', 'error');
       return; // Arrêter l'exécution si le formulaire est invalide
     }
+    console.log('====================================');
+    console.log(this.selectedid);
+    console.log('====================================');
     const addButton = document.querySelector(
       '#addUserModal .btn-success'
     ) as HTMLButtonElement;
@@ -170,7 +192,7 @@ export class EmployeesListComponent implements OnInit {
     console.log('====================================');
     console.log(newUser);
     console.log('====================================');
-    this.auth.register(newUser).subscribe({
+    this.auth.register(newUser, this.selectedid).subscribe({
       next: (data: User) => {
         if (addButton) {
           addButton.disabled = false;
@@ -204,7 +226,7 @@ export class EmployeesListComponent implements OnInit {
             }
             Swal.fire('Success', 'User updated successfully!', 'success');
             this.closeModal('editUserModal');
-              this.loadUsers();
+            this.loadUsers();
           },
           error: (err: any) => {
             console.error('Failed to update user:', err);

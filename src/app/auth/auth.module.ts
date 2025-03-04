@@ -9,6 +9,7 @@ import { RegisterComponent } from './register/register.component';
 import { AuthService } from '../services/auth.service';
 import { ForgetPwdComponent } from './forget-pwd/forget-pwd.component';
 import { ValidateAccountComponent } from './validate-account/validate-account.component';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { ValidateAccountComponent } from './validate-account/validate-account.co
     AuthRoutingModule,
     ReactiveFormsModule,
     HttpClientModule,
+    SharedModule
   ],
   providers: [AuthService],
 })

@@ -28,7 +28,7 @@
                 <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-overview">Overview</button>
               </li>
               <li class="nav-item">
-                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-edit">Edit Profile</button>
+                <button class="nav-link" (click)="copyobj()" data-bs-toggle="tab" data-bs-target="#profile-edit">Edit Profile</button>
               </li>
               <li class="nav-item">
                 <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-change-password">Change Password</button>
@@ -86,28 +86,28 @@
     <div class="row mb-3">
       <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Full Name</label>
       <div class="col-md-8 col-lg-9">
-        <input name="fullName" type="text" class="form-control" id="fullName" [(ngModel)]="user.fullname">
+        <input name="fullName" type="text" class="form-control" id="fullName" [(ngModel)]="edituser.fullname">
       </div>
     </div>
 
     <div class="row mb-3">
       <label for="position" class="col-md-4 col-lg-3 col-form-label">Position</label>
       <div class="col-md-8 col-lg-9">
-        <input name="position" type="text" class="form-control" id="position" [(ngModel)]="user.position">
+        <input name="position" type="text" class="form-control" id="position" [(ngModel)]="edituser.position">
       </div>
     </div>
 
     <div class="row mb-3">
       <label for="address" class="col-md-4 col-lg-3 col-form-label">Address</label>
       <div class="col-md-8 col-lg-9">
-        <input name="address" type="text" class="form-control" id="address" [(ngModel)]="user.address">
+        <input name="address" type="text" class="form-control" id="address" [(ngModel)]="edituser.address">
       </div>
     </div>
 
     <div class="row mb-3">
       <label for="phone" class="col-md-4 col-lg-3 col-form-label">Phone</label>
       <div class="col-md-8 col-lg-9">
-        <input name="phone" type="text" class="form-control" id="phone" [(ngModel)]="user.telNumber">
+        <input name="phone" type="text" class="form-control" id="phone" [(ngModel)]="edituser.telNumber">
       </div>
     </div>
     <div class="text-center">
@@ -117,34 +117,35 @@
 </div>
 
               <!-- Onglet "Change Password" -->
-              <!-- <div class="tab-pane fade" id="profile-change-password">
-                <form (ngSubmit)="changePassword()">
-                  <div class="row mb-3">
-                    <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">Current Password</label>
-                    <div class="col-md-8 col-lg-9">
-                      <input name="currentPassword" type="password" class="form-control" id="currentPassword" >
-                    </div>
-                  </div>
+              <!-- Formulaire de changement de mot de passe -->
+<div class="tab-pane fade" id="profile-change-password">
+  <form (ngSubmit)="onSubmit()">
+    <div class="row mb-3">
+      <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">Current Password</label>
+      <div class="col-md-8 col-lg-9">
+        <input name="currentPassword" type="password" class="form-control" id="currentPassword" [(ngModel)]="changePasswordRequest.oldPassword" required>
+      </div>
+    </div>
 
-                  <div class="row mb-3">
-                    <label for="newPassword" class="col-md-4 col-lg-3 col-form-label">New Password</label>
-                    <div class="col-md-8 col-lg-9">
-                      <input name="newPassword" type="password" class="form-control" id="newPassword" >
-                    </div>
-                  </div>
+    <div class="row mb-3">
+      <label for="newPassword" class="col-md-4 col-lg-3 col-form-label">New Password</label>
+      <div class="col-md-8 col-lg-9">
+        <input name="newPassword" type="password" class="form-control" id="newPassword" [(ngModel)]="changePasswordRequest.newPassword" required>
+      </div>
+    </div>
 
-                  <div class="row mb-3">
-                    <label for="renewPassword" class="col-md-4 col-lg-3 col-form-label">Re-enter New Password</label>
-                    <div class="col-md-8 col-lg-9">
-                      <input name="renewPassword" type="password" class="form-control" id="renewPassword" >
-                    </div>
-                  </div>
+    <div class="row mb-3">
+      <label for="renewPassword" class="col-md-4 col-lg-3 col-form-label">Re-enter New Password</label>
+      <div class="col-md-8 col-lg-9">
+        <input name="renewPassword" type="password" class="form-control" id="renewPassword" [(ngModel)]="confirmNewPassword" required>
+      </div>
+    </div>
 
-                  <div class="text-center">
-                    <button type="submit" class="btn btn-primary">Change Password</button>
-                  </div>
-                </form>
-              </div> -->
+    <div class="text-center">
+      <button type="submit" class="btn btn-primary">Change Password</button>
+    </div>
+  </form>
+</div>
             </div>
           </div>
         </div>
