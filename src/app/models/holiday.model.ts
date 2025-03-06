@@ -1,8 +1,12 @@
+import { User } from "./user.model";
+
 export class Holiday {
-    id?: number;
-    startDate!: Date;
-    duration!: number;
+  id?: number;
+  startDate!: Date;
+  duration!: number;
     type!: string;
-    status!: string;
-    certificate?: string;
+    reason!:string
+  status!: string;
+  file?: string;
+  user?: User;
 }

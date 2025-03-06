@@ -11,9 +11,10 @@ import { ContractsComponent } from './contracts/contracts.component';
 import { SharedModule } from '../shared/shared.module';
 import { RouterLink } from '@angular/router';
 import { HolidayRequestComponent } from './holiday-request/holiday-request.component';
+import { AddHolidayRequestComponent } from './add-holiday-request/add-holiday-request.component';
 
 @NgModule({
-  declarations: [ContractsComponent, HolidayRequestComponent],
+  declarations: [ContractsComponent, HolidayRequestComponent,AddHolidayRequestComponent],
   imports: [
     CommonModule,
     EmployeeRoutingModule,

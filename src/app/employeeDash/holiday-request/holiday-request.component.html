@@ -1,73 +1,37 @@
-<!-- demande-conge.component.html -->
 <app-navbar></app-navbar>
 <app-sidebar></app-sidebar>
 <main id="main" class="main">
-  <div class="pagetitle">
-    <div class="d-flex justify-content-between align-items-center">
-      <h1>Holiday Request</h1>
-    </div>
-  </div>
-  <div class="container-fluid">
-    <div class="row">
-      <!-- Main Content -->
-      <div class="col-lg-10">
-        <div class="card">
-          <div class="card-body">
-            <form [formGroup]="holidayRequestForm!" (ngSubmit)="5">
-              <!-- Leave Type -->
-              <div class="row mb-3">
-                <label for="type" class="col-sm-2 col-form-label">Leave Type</label>
-                <div class="col-sm-10">
-                  <select class="form-select" formControlName="type">
-                    <option value="">Select a type</option>
-                    <!-- Itérer sur les valeurs de holidayTypes -->
-                    <option *ngFor="let type of holidayTypes" [value]="type">{{ type }}</option>
-                  </select>
-                </div>
-              </div>
-
-              <!-- Start Date -->
-              <div class="row mb-3">
-                <label for="startDate" class="col-sm-2 col-form-label">Start Date</label>
-                <div class="col-sm-10">
-                  <input type="date" class="form-control" formControlName="startDate">
-                </div>
-              </div>
-
-              <!-- Duration -->
-              <div class="row mb-3">
-                <label for="duration" class="col-sm-2 col-form-label">Duration (days)</label>
-                <div class="col-sm-10">
-                  <input type="number" class="form-control" formControlName="duration">
-                </div>
-              </div>
-
-              <!-- Reason -->
-              <div class="row mb-3">
-                <label for="reason" class="col-sm-2 col-form-label">Reason</label>
-                <div class="col-sm-10">
-                  <textarea class="form-control" formControlName="reason" rows="3"></textarea>
-                </div>
-              </div>
-
-              <!-- Certificate (Optional) -->
-              <div class="row mb-3">
-                <label for="certificate" class="col-sm-2 col-form-label">Certificate</label>
-                <div class="col-sm-10">
-                 <input type="file" class="form-control" (change)="onFileChange($event)"> 
-                </div>
-              </div>
-
-              <!-- Submit Button -->
-              <div class="row mb-3">
-                <div class="col-sm-10 offset-sm-2">
-                  <button type="submit" class="btn btn-primary" [disabled]="">Submit</button>
-                </div>
-              </div>
-            </form>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-lg-10">
+      <h2>My Leave Requests</h2>
+      <div class="row">
+        <!-- Card for each leave request -->
+        <div *ngFor="let request of leaveRequests" class="col-md-4 mb-4">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">{{ request.type }}</h5>
+              <p class="card-text">
+                <strong>Start Date:</strong> {{ request.startDate | date }}<br>
+                <strong>Duration:</strong> {{ request.duration }} days<br>
+                <strong>Status:</strong>
+                <span [ngClass]="{
+                  'badge bg-warning': request.status === 'PENDING',
+                  'badge bg-success': request.status === 'ACCEPTED',
+                  'badge bg-danger': request.status === 'REJECTED'
+                }">
+                  {{ request.status }}
+                </span>
+              </p>
+              <p class="card-text">
+                <strong>Reason:</strong> {{ request.reason }}
+              </p>
+              <button class="btn btn-primary btn-sm" (click)="viewDetails(request)">View Details</button>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
+</div>
 </main>

@@ -18,20 +18,20 @@ export class NavbarComponent {
 
   constructor(private authService: AuthService) {}
 
-  ngOnInit(): void {
-    this.loadUserInfo();
-  }
+  // ngOnInit(): void {
+  //   this.loadUserInfo();
+  // }
 
-  loadUserInfo(): void {
-    this.authService.getUserInfo().subscribe(
-      (data) => {
-        this.authmodel = data;
-      },
-      (error) => {
-        // Display user-friendly error message
-        alert('Failed to load user information. Please try again later.');
-        console.error('Error:', error);
-      }
-    );
-  }
+  // loadUserInfo(): void {
+  //   this.authService.getUserInfo().subscribe(
+  //     (data) => {
+  //       this.authmodel = data;
+  //     },
+  //     (error) => {
+  //       // Display user-friendly error message
+  //       alert('Failed to load user information. Please try again later.');
+  //       console.error('Error:', error);
+  //     }
+  //   );
+  // }
 }

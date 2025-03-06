@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { AuthService } from './services/auth.service';
 import { FormsModule } from '@angular/forms';
 import { ContractsComponent } from './employeeDash/contracts/contracts.component';
+import { AddHolidayRequestComponent } from './employeeDash/add-holiday-request/add-holiday-request.component';
 
 @NgModule({
   declarations: [AppComponent],

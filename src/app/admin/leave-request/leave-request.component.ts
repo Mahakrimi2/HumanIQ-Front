@@ -8,103 +8,108 @@ import Swal from 'sweetalert2';
   templateUrl: './leave-request.component.html',
   styleUrls: ['./leave-request.component.css'],
 })
-export class LeaveRequestComponent implements OnInit {
-  leaveRequests: Holiday[] = []; 
-  selectedRequest: Holiday | null = null; 
+export class LeaveRequestComponent {
+
+  leaveRequests: Holiday[] = []; // Liste des demandes de congé
+  holidayStatuses: string[] = []; // Statuts possibles
+  selectedRequest: Holiday | null = null; // Demande sélectionnée pour le modal
+  newStatus: string = ''; // Nouveau statut sélectionné
 
   constructor(private holidayService: HolidayService) {}
 
   ngOnInit(): void {
     this.loadLeaveRequests();
+    this.loadHolidayStatuses();
   }
+
 
   loadLeaveRequests() {
     this.holidayService.getAllHolidays().subscribe(
       (requests) => {
         this.leaveRequests = requests;
-        console.log(requests);
-        
       },
       (error) => {
         console.error(
           'Erreur lors de la récupération des demandes de congé:',
           error
         );
+        Swal.fire({
+          title: 'Erreur',
+          text: 'Une erreur est survenue lors de la récupération des demandes de congé.',
+          icon: 'error',
+          confirmButtonText: 'OK',
+        });
       }
     );
   }
 
+  
+  loadHolidayStatuses() {
+    this.holidayService.getHolidayStatus().subscribe(
+      (statuses) => {
+        this.holidayStatuses = statuses;
+      },
+      (error) => {
+        console.error('Erreur lors de la récupération des statuts:', error);
+      }
+    );
+  }
+
+  openStatusModal(request: Holiday) {
+    this.selectedRequest = request;
+    this.newStatus = request.status; 
+    const modal = document.getElementById('statusModal');
+    if (modal) {
+      modal.classList.add('show');
+      modal.style.display = 'block';
+    }
+  }
+
  
-  openModal(request: Holiday) {
-    this.selectedRequest = { ...request };
-    const modal = document.getElementById('leaveModal');
-    if (modal) modal.classList.add('show', 'd-block');
+  closeStatusModal() {
+    this.selectedRequest = null;
+    this.newStatus = '';
+    const modal = document.getElementById('statusModal');
+    if (modal) {
+      modal.classList.remove('show');
+      modal.style.display = 'none';
+    }
+  }
+
+  saveStatusChange() {
+    if (this.selectedRequest && this.newStatus) {
+      this.holidayService
+        .updateHolidayStatus(this.selectedRequest.id!, this.newStatus)
+        .subscribe(
+          () => {
+           
+            const request = this.leaveRequests.find(
+              (r) => r.id === this.selectedRequest?.id
+            );
+            if (request) {
+              request.status = this.newStatus;
+            }
+            this.closeStatusModal();
+            Swal.fire({
+              title: 'Statut mis à jour avec succès !',
+              icon: 'success',
+              confirmButtonText: 'OK',
+            });
+          },
+          (error) => {
+            console.error('Erreur lors de la mise à jour du statut:', error);
+            Swal.fire({
+              title: 'Erreur',
+              text: 'Une erreur est survenue lors de la mise à jour du statut.',
+              icon: 'error',
+              confirmButtonText: 'OK',
+            });
+          }
+        );
+    }
   }
 
 
-  closeModal() {
-    const modal = document.getElementById('leaveModal');
-    if (modal) modal.classList.remove('show', 'd-block');
-  }
-
-  // Mettre à jour le statut d'une demande
-
-  // updateStatus(newStatus: string) {
-  //   if (this.selectedRequest) {
-  //     const id = this.selectedRequest.id;
-  //     if (newStatus === 'Approved') {
-  //       this.holidayService.approveHoliday(id, 'RH Manager').subscribe(
-  //         () => {
-  //           this.selectedRequest!.status = newStatus;
-  //           this.closeModal();
-  //           this.loadLeaveRequests(); // Recharger la liste
-  //           Swal.fire({
-  //             title: 'Demande approuvée avec succès !',
-  //             icon: 'success',
-  //             draggable: true,
-  //             confirmButtonText: 'OK',
-  //           });
-  //         },
-  //         (error) => {
-  //           console.error("Erreur lors de l'approbation de la demande:", error);
-  //           Swal.fire({
-  //             title: 'Erreur',
-  //             text: "Une erreur est survenue lors de l'approbation de la demande.",
-  //             icon: 'error',
-  //             confirmButtonText: 'OK',
-  //           });
-  //         }
-  //       );
-  //     } else if (newStatus === 'Rejected') {
-  //       this.holidayService.rejectHoliday(id, 'RH Manager').subscribe(
-  //         () => {
-  //           this.selectedRequest!.status = newStatus;
-  //           this.closeModal();
-  //           this.loadLeaveRequests(); // Recharger la liste
-  //           Swal.fire({
-  //             title: 'Demande rejetée avec succès !',
-  //             icon: 'success',
-  //             draggable: true,
-  //             confirmButtonText: 'OK',
-  //           });
-  //         },
-  //         (error) => {
-  //           console.error('Erreur lors du rejet de la demande:', error);
-  //           Swal.fire({
-  //             title: 'Erreur',
-  //             text: 'Une erreur est survenue lors du rejet de la demande.',
-  //             icon: 'error',
-  //             confirmButtonText: 'OK',
-  //           });
-  //         }
-  //       );
-  //     } else if (newStatus === 'Pending') {
-  //       // Implémentez une méthode pour mettre à jour le statut en "Pending" si nécessaire
-  //     }
-  //   }
-  // }
-
-  // Supprimer une demande de congé
   deleteRequest(id: number) {
     Swal.fire({
       title: 'Êtes-vous sûr ?',
@@ -117,7 +122,7 @@ export class LeaveRequestComponent implements OnInit {
       if (result.isConfirmed) {
         this.holidayService.deleteHoliday(id).subscribe(
           () => {
-            this.loadLeaveRequests(); // Recharger la liste
+            this.loadLeaveRequests();
             Swal.fire({
               title: 'Supprimé !',
               text: 'La demande a été supprimée avec succès.',

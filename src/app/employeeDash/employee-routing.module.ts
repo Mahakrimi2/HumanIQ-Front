@@ -8,6 +8,7 @@ import { UserProfilComponent } from 'src/app/shared/user-profil/user-profil.comp
 import { ContractsComponent } from './contracts/contracts.component';
 import { DashboardComponent } from '../shared/dashboard/dashboard.component';
 import { HolidayRequestComponent } from './holiday-request/holiday-request.component';
+import { AddHolidayRequestComponent } from './add-holiday-request/add-holiday-request.component';
 
 const routes: Routes = [
   {
@@ -21,6 +22,7 @@ const routes: Routes = [
       { path: 'my-contracts', component: ContractsComponent },
       { path: 'user-profil', component: UserProfilComponent },
       { path: 'holiday-request', component: HolidayRequestComponent },
+      { path: 'add-holiday-request', component: AddHolidayRequestComponent },
       {
         path: '',
         redirectTo: 'dashboard',

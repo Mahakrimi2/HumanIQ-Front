@@ -58,8 +58,12 @@
         </li>
 
          <li *ngIf="isEmployee">
+
+           <a routerLink="/employee/add-holiday-request">
+            <i class="bi bi-file-earmark-text"></i><span>Add  Request</span>
+          </a>
           <a routerLink="/employee/holiday-request">
-            <i class="bi bi-file-earmark-text"></i><span>my holiday Requests</span>
+            <i class="bi bi-file-earmark-text"></i><span>my all Requests</span>
           </a>
         </li>
       </ul>

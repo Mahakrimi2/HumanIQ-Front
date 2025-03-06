@@ -14,11 +14,11 @@
             <table class="table datatable">
               <thead>
                 <tr>
-                 
                   <th>Type</th>
                   <th>Leave from</th>
                   <th>Duration</th>
                   <th>Status</th>
+                  <th>User</th>
                   <th>Actions</th>
                 </tr>
               </thead>
@@ -27,16 +27,25 @@
                   <td>{{ request.type }}</td>
                   <td>{{ request.startDate | date }}</td>
                   <td>{{ request.duration }} days</td>
-                     <td>{{request.status}}</td> 
-                 
                   <td>
-                    <button class="btn btn-primary" (click)="openModal(request)">
-                      <i class="fa-solid fa-pen-to-square text-white"></i>
+                   
+                    <span [ngClass]="{
+                      'status-pending': request.status === 'PENDING',
+                      'status-accepted': request.status === 'ACCEPTED',
+                      'status-cancelled': request.status === 'CANCELLED'
+                    }">
+                      {{ request.status }}
+                    </span>
+                  </td>
+                  <td>{{ request.user?.fullname || 'N/A' }}</td>
+                  <td>
+                    <button class="btn btn-warning" (click)="openStatusModal(request)">
+                      <i class="fa-solid fa-pen-to-square text-white"></i> Change Status
                     </button>
                     <i
                       class="fa-solid fa-trash text-danger ms-2"
                       style="cursor: pointer"
-                    
+                      (click)="deleteRequest(request.id!)"
                     ></i>
                   </td>
                 </tr>
@@ -49,26 +58,31 @@
   </section>
 </main>
 
-<!-- Modal -->
-<div id="leaveModal" class="modal fade" tabindex="-1">
-  <div class="modal-dialog">
+<!-- Modal pour changer le statut -->
+<div id="statusModal" class="modal fade" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Leave Request Details</h5>
-        <button type="button" class="btn-close" (click)="closeModal()"></button>
+        <h5 class="modal-title">Change Leave Request Status</h5>
+        <button type="button" class="btn-close" (click)="closeStatusModal()"></button>
       </div>
       <div class="modal-body">
-        <!-- <p><strong>Employee:</strong> {{ selectedRequest?.employeeName }}</p> -->
-        <p><strong>Leave Type:</strong> {{ selectedRequest?.type }}</p>
-        <p><strong>Leave from:</strong> {{ selectedRequest?.startDate | date }}</p>
-        <p><strong>Duration:</strong> {{ selectedRequest?.duration }} days</p>
-        <p><strong>Status:</strong> <span>{{ selectedRequest?.status }}</span></p>
+        <p><strong>Current Status:</strong> {{ selectedRequest?.status }}</p>
+        <p>
+          <strong>New Status:</strong>
+          <div class="custom-select">
+            <select [(ngModel)]="newStatus">
+              <option *ngFor="let status of holidayStatuses" [value]="status">
+                {{ status }}
+              </option>
+            </select>
+            <span class="custom-arrow">▼</span>
+          </div>
+       
       </div>
       <div class="modal-footer">
-        <button class="btn btn-success" (click)="5">Accept</button>
-        <button class="btn btn-danger" (click)="5">Reject</button>
-        <button class="btn btn-warning" (click)="5">Pending</button>
-        <button type="button" class="btn btn-secondary" (click)="closeModal()">Close</button>
+        <button type="button" class="btn btn-secondary" (click)="closeStatusModal()">Close</button>
+        <button type="button" class="btn btn-primary" (click)="saveStatusChange()">Save Changes</button>
       </div>
     </div>
   </div>
