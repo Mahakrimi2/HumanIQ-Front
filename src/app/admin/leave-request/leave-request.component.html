@@ -19,6 +19,7 @@
                   <th>Duration</th>
                   <th>Status</th>
                   <th>User</th>
+                  <th>leave_balance</th>
                   <th>Actions</th>
                 </tr>
               </thead>
@@ -28,19 +29,26 @@
                   <td>{{ request.startDate | date }}</td>
                   <td>{{ request.duration }} days</td>
                   <td>
-                   
-                    <span [ngClass]="{
-                      'status-pending': request.status === 'PENDING',
-                      'status-accepted': request.status === 'ACCEPTED',
-                      'status-cancelled': request.status === 'CANCELLED'
-                    }">
+                    <span
+                      [ngClass]="{
+                        'status-pending': request.status === 'PENDING',
+                        'status-accepted': request.status === 'ACCEPTED',
+                        'status-cancelled': request.status === 'CANCELLED'
+                      }"
+                    >
                       {{ request.status }}
                     </span>
                   </td>
-                  <td>{{ request.user?.fullname || 'N/A' }}</td>
+                  <td>{{ request.user?.fullname || "N/A" }}</td>
+                  <td>{{ request.user?.leave_balance || "N/A" }}</td>
+
                   <td>
-                    <button class="btn btn-warning" (click)="openStatusModal(request)">
-                      <i class="fa-solid fa-pen-to-square text-white"></i> Change Status
+                    <button
+                      class="btn btn-warning"
+                      (click)="openStatusModal(request)"
+                    >
+                      <i class="fa-solid fa-pen-to-square text-white"></i>
+                      Change Status
                     </button>
                     <i
                       class="fa-solid fa-trash text-danger ms-2"
@@ -64,25 +72,42 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">Change Leave Request Status</h5>
-        <button type="button" class="btn-close" (click)="closeStatusModal()"></button>
+        <button
+          type="button"
+          class="btn-close"
+          (click)="closeStatusModal()"
+        ></button>
       </div>
       <div class="modal-body">
         <p><strong>Current Status:</strong> {{ selectedRequest?.status }}</p>
         <p>
           <strong>New Status:</strong>
-          <div class="custom-select">
-            <select [(ngModel)]="newStatus">
-              <option *ngFor="let status of holidayStatuses" [value]="status">
-                {{ status }}
-              </option>
-            </select>
-            <span class="custom-arrow">▼</span>
-          </div>
-       
+        </p>
+
+        <div class="custom-select">
+          <select [(ngModel)]="newStatus">
+            <option *ngFor="let status of holidayStatuses" [value]="status">
+              {{ status }}
+            </option>
+          </select>
+          <span class="custom-arrow">▼</span>
+        </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" (click)="closeStatusModal()">Close</button>
-        <button type="button" class="btn btn-primary" (click)="saveStatusChange()">Save Changes</button>
+        <button
+          type="button"
+          class="btn btn-secondary"
+          (click)="closeStatusModal()"
+        >
+          Close
+        </button>
+        <button
+          type="button"
+          class="btn btn-primary"
+          (click)="saveStatusChange()"
+        >
+          Save Changes
+        </button>
       </div>
     </div>
   </div>

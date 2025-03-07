@@ -10,12 +10,14 @@ export class HolidayService {
   private apiUrl = 'http://localhost:8082/api/holiday';
   constructor(private http: HttpClient) {}
 
-  createHolidayRequest(formData: FormData): Observable<any> {
+  createHolidayRequest(email: string, formData: FormData): Observable<any> {
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders({
       Authorization: `Bearer ${token}`,
     });
-    return this.http.post(`${this.apiUrl}`, formData, { headers });
+    return this.http.post(`${this.apiUrl}?email=${email}&file`, formData, {
+      headers,responseType:'text'
+    });
   }
 
   getAllHolidays(): Observable<Holiday[]> {

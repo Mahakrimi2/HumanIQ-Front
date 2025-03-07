@@ -60,15 +60,14 @@
                 </div>
               </div>
 
-         
               <div class="row mb-3">
                 <label for="file" class="col-sm-2 col-form-label">Certificate</label>
                 <div class="col-sm-10">
-                  <input type="file" class="form-control" (change)="onFileChange($event)">
+                  <input type="file" class="form-control" (change)="onFileChange($event)" formControlName="file">
                 </div>
               </div>
 
-              <!-- Submit Button -->
+    
               <div class="row mb-3">
                 <div class="col-sm-10 offset-sm-2">
                   <button type="submit" class="btn btn-primary" [disabled]="holidayRequestForm.invalid">Submit</button>

@@ -16,4 +16,5 @@ export interface User {
   accountVerified: Boolean;
   isDisabled: Boolean;
   profileImagePath: string;
+  leave_balance:number;
 }

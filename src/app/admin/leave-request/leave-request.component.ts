@@ -27,6 +27,9 @@ export class LeaveRequestComponent {
     this.holidayService.getAllHolidays().subscribe(
       (requests) => {
         this.leaveRequests = requests;
+        console.log('====================================');
+        console.log(requests);
+        console.log('====================================');
       },
       (error) => {
         console.error(
