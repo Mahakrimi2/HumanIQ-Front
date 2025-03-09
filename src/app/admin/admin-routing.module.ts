@@ -14,6 +14,7 @@ import { UserProfilComponent } from '../shared/user-profil/user-profil.component
 import { combineEventUis } from '@fullcalendar/core/internal';
 import { ArchivedContractsComponent } from './archived-contracts/archived-contracts.component';
 import { DashboardComponent } from '../shared/dashboard/dashboard.component';
+import { PointageListComponent } from './pointage-list/pointage-list.component';
 
 const routes: Routes = [
   {
@@ -30,6 +31,7 @@ const routes: Routes = [
       { path: 'list-contracts', component: ListContractsComponent },
       { path: 'user-profil', component: UserProfilComponent },
       { path: 'archived-contracts', component: ArchivedContractsComponent },
+      { path: 'pointage-list', component: PointageListComponent },
       {
         path: '',
         redirectTo: 'dashboard',

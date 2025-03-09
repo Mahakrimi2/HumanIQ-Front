@@ -20,6 +20,7 @@ import { UserProfilComponent } from '../shared/user-profil/user-profil.component
 import { ArchivedContractsComponent } from './archived-contracts/archived-contracts.component';
 import { SharedModule } from '../shared/shared.module';
 import { DashboardComponent } from '../shared/dashboard/dashboard.component';
+import { PointageListComponent } from './pointage-list/pointage-list.component';
 
 
 @NgModule({
@@ -33,6 +34,7 @@ import { DashboardComponent } from '../shared/dashboard/dashboard.component';
     ListContractsComponent,
     ArchivedContractsComponent,
     UserProfilComponent,
+    PointageListComponent,
   ],
   imports: [
     CommonModule,
