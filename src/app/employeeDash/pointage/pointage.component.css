@@ -1,0 +1,222 @@
+.main-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    /* Prend toute la hauteur de la vue */
+    padding: 20px;
+    background-color: #f0f0f0;
+    /* Couleur de fond pour mieux voir le centrage */
+}
+
+/* Style général */
+.pointage-container {
+    padding: 20px;
+    font-family: 'Arial', sans-serif;
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: #f9f9f9;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+h2 {
+    color: #333;
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+p {
+    color: #555;
+    font-size: 16px;
+}
+
+/* Boutons de pointage */
+.pointage-buttons {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+button {
+    padding: 15px;
+    font-size: 16px;
+    border: none;
+    border-radius: 10px;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+button:not(:disabled):hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.btn-arrival {
+    background-color: #28a745;
+}
+
+.btn-pause {
+    background-color: #ffc107;
+}
+
+.btn-return {
+    background-color: #17a2b8;
+}
+
+.btn-departure {
+    background-color: #dc3545;
+}
+
+/* Statut du pointage */
+.pointage-status {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.status-card {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 15px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.status-card i {
+    font-size: 24px;
+    color: #007bff;
+}
+
+.status-card .label {
+    color: #777;
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+.status-card .time {
+    color: #333;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+/* Notifications contextuelles */
+.notifications {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 15px;
+    background-color: #fff3cd;
+    border-radius: 10px;
+    color: #856404;
+}
+
+.notifications i {
+    font-size: 20px;
+}
+
+.notifications p {
+    margin: 0;
+    font-size: 14px;
+}
+
+/* Animation pour les boutons */
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.05);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+button:not(:disabled) {
+    animation: pulse 2s infinite;
+}
+
+button:not(:disabled):hover {
+    animation: none;
+    /* Désactive l'animation au survol */
+}
+
+/* Animation pour les cartes de statut */
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.status-card {
+    animation: slideIn 0.5s ease-out;
+}
+
+/* Délai pour chaque carte */
+.status-card:nth-child(1) {
+    animation-delay: 0.1s;
+}
+
+.status-card:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.status-card:nth-child(3) {
+    animation-delay: 0.3s;
+}
+
+.status-card:nth-child(4) {
+    animation-delay: 0.4s;
+}
+
+/* Animation pour la notification */
+@keyframes bounce {
+
+    0%,
+    20%,
+    50%,
+    80%,
+    100% {
+        transform: translateY(0);
+    }
+
+    40% {
+        transform: translateY(-10px);
+    }
+
+    60% {
+        transform: translateY(-5px);
+    }
+}
+
+.notifications {
+    animation: bounce 1.5s infinite;
+}

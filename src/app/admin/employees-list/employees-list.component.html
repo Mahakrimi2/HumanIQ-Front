@@ -1,0 +1,245 @@
+<app-navbar></app-navbar>
+<app-sidebar></app-sidebar>
+
+<main id="main" class="main">
+  <div class="pagetitle">
+    <div class="d-flex justify-content-between align-items-center">
+      <h1>Personnel List</h1>
+       <div>
+    <button class="btn btn-success me-1" data-bs-toggle="modal" data-bs-target="#addUserModal">
+      <i class="fa-solid fa-plus"></i> Add Employee
+    </button>
+    <button class="btn btn-primary" (click)="exportToExcel()">
+      <i class="fa-solid fa-file-excel"></i> Export to Excel
+    </button>
+  </div>
+    </div>
+  </div>
+   <section class="section">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="card">
+          <div class="card-body">
+         <div class="mb-3">
+  <input
+    type="text"
+    class="form-control"
+    placeholder="Search by Full Name or Email"
+    [(ngModel)]="searchText"
+    (keyup)="filterUsers($event)"
+    aria-label="Search"
+  />            </div>
+            <table class="table datatable">
+              <thead>
+                <tr>
+                  <th>Full Name</th>
+                  <th>Email</th>
+                  <th>Tel Number</th>
+                  <th>Address</th>
+                  <th>Position</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let user of filteredUsers">
+                  <td>{{user.fullname}}</td>
+                  <td>{{user.username}}</td>
+                  <td>{{user.telNumber}}</td>
+                  <td>{{user.address}}</td>
+                  <td>{{user.position}}</td>
+                  <td>
+                    <button class="btn btn-primary" (click)="openModal('editUserModal', user)">
+                      <i class="fa-solid fa-pen-to-square text-white"></i>
+                    </button>
+                    <i
+                      class="fa-solid fa-trash text-danger ms-2"
+                      style="cursor: pointer"
+                      (click)="deleteUser(user.id)"
+                    ></i>
+                  </td>   
+                </tr>
+              </tbody>
+            </table>
+            <!-- End Table with stripped rows -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+<!-- End #main -->
+
+<!-- Modal pour ajouter un employé -->
+<div class="modal fade" id="addUserModal" tabindex="-1" aria-labelledby="addUserModalLabel" aria-hidden="true" data-bs-backdrop="false">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content shadow-lg rounded-4 border-0">
+      <div class="modal-header bg-gradient-to-r from-primary to-secondary text-black">
+        <h5 class="modal-title" id="addUserModalLabel">Add Employee</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="addUserForm">
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label for="fullname" class="form-label">Full Name</label>
+              <input type="text" class="form-control form-control-lg shadow-sm" id="fullname" formControlName="fullname">
+            </div>
+            <div class="col-md-6">
+              <label for="username" class="form-label">Email</label>
+              <input type="email" class="form-control form-control-lg shadow-sm" id="username" formControlName="username">
+            </div>
+            <div class="col-md-6">
+              <label for="password" class="form-label">Password</label>
+              <input type="password" class="form-control form-control-lg shadow-sm" id="password" formControlName="password">
+            </div>
+            <div class="col-md-6">
+              <label for="telNumber" class="form-label">Tel Number</label>
+              <input type="text" class="form-control form-control-lg shadow-sm" id="telNumber" formControlName="telNumber">
+            </div>
+            <div class="col-md-6">
+              <label for="hireDate" class="form-label">Hire Date</label>
+              <input type="date" class="form-control form-control-lg shadow-sm" id="hireDate" formControlName="hireDate">
+            </div>
+            <div class="col-md-6">
+              <label for="address" class="form-label">Address</label>
+              <textarea class="form-control form-control-lg shadow-sm" id="address" rows="4" formControlName="address"></textarea>
+            </div>
+            <div class="col-md-6">
+              <label for="nationalID" class="form-label">National ID</label>
+              <input type="text" class="form-control form-control-lg shadow-sm" id="nationalID" formControlName="nationalID">
+            </div>
+            <div class="col-md-6">
+              <label for="position" class="form-label">Position</label>
+              <input type="text" class="form-control form-control-lg shadow-sm" id="position" formControlName="position">
+            </div>
+            <div class="col-md-6">
+  <label for="department" class="form-label">Department</label>
+  <select class="form-control form-control-lg shadow-sm" id="department" (change)="Onselected($event)" >
+    <option value="" disabled selected>Select a department</option>
+    <option *ngFor="let department of departments" [value]="department.id">
+      {{ department.name }}
+    </option>
+  </select>
+</div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-success" (click)="addUser()">Add Employee</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal pour éditer un employé -->
+<div
+  class="modal fade"
+  id="editUserModal"
+  tabindex="-1"
+  aria-labelledby="editUserModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content shadow-lg rounded-4 border-0">
+      <div
+        class="modal-header bg-gradient-to-r from-primary to-secondary text-black"
+      >
+        <h5 class="modal-title" id="editUserModalLabel">Edit Employee</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close" (click)="closeModal('editUserModal')"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="editUserForm">
+          <div class="row">
+            <div class="col-md-6 mb-4">
+              <label for="editFullname" class="form-label">Full Name</label>
+              <input
+                type="text"
+                class="form-control form-control-lg shadow-sm"
+                id="editFullname"
+                formControlName="fullname"
+              />
+            </div>
+            <div class="col-md-6 mb-4">
+              <label for="editEmail" class="form-label">Email</label>
+              <input
+                type="email"
+                class="form-control form-control-lg shadow-sm"
+                id="editEmail"
+                formControlName="username"
+              />
+            </div>
+              <div class="row">
+              <div class="col-md-6 mb-4">
+              <label for="editHireDate" class="form-label">Hire Date</label>
+              <input
+                type="Date"
+                class="form-control form-control-lg shadow-sm"
+                id="editHireDate"
+                formControlName="hireDate"
+              />
+        
+
+              </div>
+              <div class="col-md-6 mb-4">
+              <label for="editNtionalID" class="form-label">National ID</label>
+              <input
+                type="number"
+                class="form-control form-control-lg shadow-sm"
+                id="editNtionalID"
+                formControlName="nationalID"
+              />
+              </div>
+           </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6 mb-4">
+              <label for="editTelNumber" class="form-label">Tel Number</label>
+              <input
+                type="text"
+                class="form-control form-control-lg shadow-sm"
+                id="editTelNumber"
+                formControlName="telNumber"
+              />
+            </div>
+            <div class="col-md-6 mb-4">
+              <label for="editPosition" class="form-label">Position</label>
+              <input
+                type="text"
+                class="form-control form-control-lg shadow-sm"
+                id="editPosition"
+                formControlName="position"
+              />
+            </div>
+          </div>
+          <div class="mb-4">
+            <label for="editAddress" class="form-label">Address</label>
+            <textarea
+              class="form-control form-control-lg shadow-sm"
+              id="editAddress"
+              rows="4"
+              formControlName="address"
+            ></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+       <button
+  type="button"
+  class="btn btn-outline-secondary"
+  (click)="closeModal('editUserModal')"
+>
+  Cancel
+</button>
+        <button type="button" class="btn btn-success" (click)="saveChanges()">
+          Save Changes
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
