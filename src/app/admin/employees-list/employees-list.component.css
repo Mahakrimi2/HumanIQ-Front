@@ -1,0 +1,48 @@
+.modal-content {
+    border-radius: 15px;
+}
+
+.modal-header {
+    background: linear-gradient(45deg, #007bff, #00ff88);
+    color: white;
+}
+
+.btn-close {
+    filter: invert(1);
+}
+
+.modal-content {
+    border-radius: 15px;
+}
+
+.modal-header {
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+}
+
+.form-control-lg {
+    border-radius: 10px;
+}
+
+.btn-success {
+    background-color: #28a745;
+    border-color: #28a745;
+}
+
+.btn-success:hover {
+    background-color: #218838;
+    border-color: #1e7e34;
+}
+
+.btn-outline-secondary {
+    border-color: #6c757d;
+    color: #6c757d;
+}
+
+.btn-outline-secondary:hover {
+    background-color: #6c757d;
+    color: #fff;
+}
+.modal-backdrop {
+    display: none !important;
+}

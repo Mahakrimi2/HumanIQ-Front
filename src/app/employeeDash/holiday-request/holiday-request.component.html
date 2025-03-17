@@ -1,0 +1,44 @@
+<app-navbar></app-navbar>
+<app-sidebar></app-sidebar>
+<main id="main" class="main">
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-lg-10">
+      <h2>My Leave Requests</h2>
+      <div class="row">
+        <!-- Card for each leave request -->
+        <div *ngFor="let request of leaveRequests" class="col-md-4 mb-4">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">{{ request.type }}</h5>
+              <p class="card-text">
+                <strong>Start Date:</strong> {{ request.startDate | date }}<br>
+                <strong>Duration:</strong> {{ request.duration }} days<br>
+                <strong>Status:</strong>
+                <span [ngClass]="{
+                  'badge bg-warning': request.status === 'PENDING',
+                  'badge bg-success': request.status === 'ACCEPTED',
+                  'badge bg-danger': request.status === 'REJECTED'
+                }">
+                  {{ request.status }}
+                </span>
+              </p>
+              <p class="card-text">
+                <strong>Reason:</strong> {{ request.reason }}
+              </p>
+ <a *ngIf="!request.isPdf" class="btn btn-primary" target="_blank" [href]="request.fileUrl" alt="Profil">See File</a>
+
+  <!-- Affichage du PDF directement dans la page -->
+<a *ngIf="request.isPdf" class="btn btn-primary"
+        [href]="request.fileUrl" target="_blank"
+      > See File
+            </a>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</main>

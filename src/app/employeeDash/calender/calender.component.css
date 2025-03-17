@@ -1,0 +1,33 @@
+/* Appliquer un thème sombre au calendrier */
+full-calendar {
+    background-color: #fcfbfb;
+    /* Fond sombre */
+    color: #111111;
+    width: 80%;
+    /* Texte blanc */
+}
+.main-content {
+    padding: 100px;
+}
+
+.custom-event {
+    background-color: #cb9b00;
+    /* Couleur de fond */
+    border-color: #357abd;
+    /* Couleur de la bordure */
+    color: #e30000;
+    /* Couleur du texte */
+    border-radius: 4px;
+    /* Coins arrondis */
+    padding: 5px;
+    /* Espacement interne */
+    font-size: 14px;
+    /* Taille de la police */
+    font-weight: bold;
+    /* Texte en gras */
+}
+
+.fc-event:hover {
+    opacity: 0.9;
+    /* Légère transparence au survol */
+}

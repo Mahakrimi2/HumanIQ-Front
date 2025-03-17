@@ -1,0 +1,27 @@
+/* Styles pour le statut "PRESENT" */
+.status-present {
+    background-color: #d4edda;
+    /* Fond vert clair */
+    color: #155724;
+    /* Texte vert foncé */
+    padding: 5px 10px;
+    border-radius: 5px;
+    border: 1px solid #c3e6cb;
+}
+
+/* Styles pour le statut "ABSCENT" */
+.status-absent {
+    background-color: #f8d7da;
+    /* Fond rouge clair */
+    color: #721c24;
+    /* Texte rouge foncé */
+    padding: 5px 10px;
+    border-radius: 5px;
+    border: 1px solid #f5c6cb;
+}
+
+/* Optionnel : Ajouter une ombre pour un effet plus moderne */
+.status-present,
+.status-absent {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}

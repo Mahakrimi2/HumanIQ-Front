@@ -1,0 +1,114 @@
+ <app-navbar (toggleSidebar)="toggleSidebar()"></app-navbar>
+    <app-sidebar [isClosed]="isSidebarClosed"></app-sidebar>
+
+    <main id="main" class="main">
+        <div class="pagetitle">
+            <h1>Tableau de Bord RH</h1>
+            <nav>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#">Accueil</a></li>
+                    <li class="breadcrumb-item active">Dashboard</li>
+                </ol>
+            </nav>
+        </div>
+
+        <section class="section dashboard">
+            <div class="row">
+                <!-- Cartes statistiques RH -->
+                <div class="col-xl-3 col-md-6">
+                    <div class="card info-card employees-card">
+                        <div class="card-body">
+                            <h5 class="card-title">Employés <span>| Total</span></h5>
+                            <div class="d-flex align-items-center">
+                                <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                    <i class="bi bi-people-fill"></i>
+                                </div>
+                                <div class="ps-3">
+                                    <h6>256</h6>
+                                    <span class="text-success small pt-1 fw-bold">+3%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xl-3 col-md-6">
+                    <div class="card info-card turnover-card">
+                        <div class="card-body">
+                            <h5 class="card-title">Turnover <span>| Annuel</span></h5>
+                            <div class="d-flex align-items-center">
+                                <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                    <i class="bi bi-arrow-repeat"></i>
+                                </div>
+                                <div class="ps-3">
+                                    <h6>12%</h6>
+                                    <span class="text-danger small pt-1 fw-bold">-1.5%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xl-3 col-md-6">
+                    <div class="card info-card leave-card">
+                        <div class="card-body">
+                            <h5 class="card-title">Congés en attente</h5>
+                            <div class="d-flex align-items-center">
+                                <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                    <i class="bi bi-calendar-check"></i>
+                                </div>
+                                <div class="ps-3">
+                                    <h6>8</h6>
+                                    <span class="text-warning small pt-1 fw-bold">+2 demandes</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xl-3 col-md-6">
+                    <div class="card info-card recruitment-card">
+                        <div class="card-body">
+                            <h5 class="card-title">Postes ouverts</h5>
+                            <div class="d-flex align-items-center">
+                                <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                    <i class="bi bi-briefcase"></i>
+                                </div>
+                                <div class="ps-3">
+                                    <h6>5</h6>
+                                    <span class="text-primary small pt-1 fw-bold">Nouveaux recrutements</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Graphiques -->
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Évolution des Effectifs</h5>
+                            <canvas id="employeeChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Répartition des employés</h5>
+                            <canvas id="departmentChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer id="footer" class="footer">
+        <div class="copyright">
+            &copy; 2025 <strong><span>RH Dashboard</span></strong>. Tous droits réservés.
+        </div>
+    </footer>

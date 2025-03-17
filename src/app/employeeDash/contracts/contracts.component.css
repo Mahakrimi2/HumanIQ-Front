@@ -1,0 +1,102 @@
+/* Styles généraux pour les cartes */
+.contract-card {
+    border: none;
+    border-radius: 10px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.contract-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* En-tête de carte avec dégradé */
+.contract-card .card-header {
+    background: linear-gradient(135deg, #189be7, #2575fc);
+    border-bottom: none;
+    padding: 1.5rem;
+}
+
+.contract-card .card-header h5 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: white;
+    margin: 0;
+}
+
+/* Corps de la carte */
+.contract-card .card-body {
+    padding: 1.5rem;
+    background-color: #ffffff;
+}
+
+.contract-card .card-body p {
+    margin-bottom: 0.75rem;
+    font-size: 0.95rem;
+    color: #555;
+}
+
+.contract-card .card-body strong {
+    color: #333;
+}
+
+/* Pied de carte */
+.contract-card .card-footer {
+    background-color: transparent;
+    border-top: none;
+    padding: 1rem 1.5rem;
+    text-align: right;
+}
+
+/* Bouton "See Document" */
+.contract-card .btn-outline-secondary {
+    border: 2px solid #0b57d0;
+    color: #270ff9;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.contract-card .btn-outline-secondary:hover {
+    background-color: #2575fc;
+    color: white;
+}
+
+/* Styles pour les statuts */
+.status-active,
+.status-pending,
+.status-expired,
+.status-suspended,
+.status-cancelled {
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    text-transform: uppercase;
+}
+
+.status-active {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.status-pending {
+    background-color: #FFC107;
+    color: black;
+}
+
+.status-expired {
+    background-color: #F44336;
+    color: white;
+}
+
+.status-suspended {
+    background-color: #9E9E9E;
+    color: white;
+}
+
+.status-cancelled {
+    background-color: #607D8B;
+    color: white;
+}

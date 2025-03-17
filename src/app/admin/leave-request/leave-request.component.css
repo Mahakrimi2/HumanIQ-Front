@@ -1,0 +1,131 @@
+/* Styles pour les statuts */
+.status-pending {
+    color: #ff9800;
+    /* Orange */
+    background-color: #fff3e0;
+    /* Fond orange clair */
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-weight: 500;
+    display: inline-block;
+}
+
+.status-accepted {
+    color: #4caf50;
+    /* Vert */
+    background-color: #e8f5e9;
+    /* Fond vert clair */
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-weight: 500;
+    display: inline-block;
+}
+
+.status-cancelled {
+    color: #cf261a;
+
+    background-color: #ffffff;
+ 
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-weight: 500;
+    display: inline-block;
+}
+
+/* Styles pour le modal */
+#statusModal .modal-content {
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    border: none;
+}
+
+#statusModal .modal-header {
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #dee2e6;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    padding: 1rem;
+}
+
+#statusModal .modal-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #333;
+}
+
+#statusModal .modal-body {
+    padding: 1.5rem;
+}
+
+#statusModal .modal-footer {
+    background-color: #f8f9fa;
+    border-top: 1px solid #dee2e6;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    padding: 1rem;
+}
+
+/* Styles pour le bouton Close */
+#statusModal .btn-secondary {
+    background-color: #6c757d;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    color: #fff;
+    transition: background-color 0.3s ease;
+}
+
+#statusModal .btn-secondary:hover {
+    background-color: #5a6268;
+}
+
+/* Styles pour le bouton Save Changes */
+#statusModal .btn-primary {
+    background-color: #007bff;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    color: #fff;
+    transition: background-color 0.3s ease;
+}
+
+#statusModal .btn-primary:hover {
+    background-color: #0056b3;
+}
+
+/* Styles pour le select personnalisé */
+.custom-select {
+    position: relative;
+    width: 100%;
+    margin-top: 0.5rem;
+}
+
+.custom-select select {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    background-color: #fff;
+    appearance: none;
+    /* Supprime l'apparence par défaut du select */
+    font-size: 1rem;
+    color: #495057;
+    cursor: pointer;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.custom-select select:focus {
+    border-color: #80bdff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+    outline: none;
+}
+
+.custom-select .custom-arrow {
+    position: absolute;
+    top: 50%;
+    right: 1rem;
+    transform: translateY(-50%);
+    pointer-events: none;
+    color: #495057;
+    font-size: 0.75rem;
+}
