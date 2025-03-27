@@ -1,0 +1,38 @@
+<app-navbar></app-navbar>
+<app-sidebar></app-sidebar>
+
+<main id="main" class="main">
+  <div class="container">
+    <div class="employee-projects">
+      <h2 class="page-title">My Current projects </h2>
+
+      <!-- Afficher un message d'erreur s'il y en a un -->
+      <div *ngIf="errorMessage" class="error-message">
+        {{ errorMessage }}
+      </div>
+
+      <!-- Liste des projets -->
+      <div *ngIf="projects.length > 0; else noProjects" class="project-list">
+        <div *ngFor="let project of projects" class="project-item">
+          <div class="project-info">
+            <h3 class="project-title">{{ project.name }}</h3>
+            <p class="project-description">{{ project.description }}</p> <p class="project-status" [ngClass]="getStatusClass(project.status)">
+    Statut: {{ project.status }}
+  </p>
+            <p class="project-date">Début: {{ project.startDate }} | Fin: {{ project.endDate }}</p>
+          </div>
+          <div class="project-actions">
+            <button class="btn btn-details">see my tasks</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Message si aucun projet n'est assigné -->
+      <ng-template #noProjects>
+        <div class="no-projects-message">
+          <p>Aucun projet assigné à cet employé.</p>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+</main>

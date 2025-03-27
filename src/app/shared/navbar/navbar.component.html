@@ -1,0 +1,222 @@
+<header id="header" class="header fixed-top d-flex align-items-center">
+
+  <!-- Logo et bouton de sidebar -->
+  <div class="d-flex align-items-center justify-content-between ">
+    <img src="assets/img/logo.png" alt="" width="10px" class="logo">
+    <i class="bi bi-list toggle-sidebar-btn" (click)="toggle()"></i>
+  </div><!-- End Logo -->
+
+  <!-- Barre de recherche 
+  <div class="search-bar">
+    <form class="search-form d-flex align-items-center" method="POST" action="#">
+      <input type="text" name="query" placeholder="Search" title="Enter search keyword">
+      <button type="submit" title="Search"><i class="bi bi-search"></i></button>
+    </form>
+  </div>End Search Bar -->
+
+  <!-- Navigation -->
+  <nav class="header-nav ms-auto">
+    <ul class="d-flex align-items-center">
+      <li class="nav-item">
+        <button id="theme-toggle" class="nav-link nav-icon" title="Toggle Theme">
+          <i class="bi bi-moon"></i> <!-- Icône pour le thème sombre -->
+        </button>
+      </li>
+
+      <!-- Icône de recherche pour mobile -->
+      <li class="nav-item d-block d-lg-none">
+        <a class="nav-link nav-icon search-bar-toggle" href="#">
+          <i class="bi bi-search"></i>
+        </a>
+      </li><!-- End Search Icon-->
+
+      <!-- Notifications -->
+<li class="nav-item dropdown" [class.show]="showNotifications">
+  <a class="nav-link nav-icon position-relative" href="#" (click)="toggleNotifications(); $event.preventDefault()">
+    <i class="bi bi-bell fs-5"></i>
+    <span *ngIf="totalNotifications > 0" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+      {{totalNotifications}}
+      <span class="visually-hidden">unread notifications</span>
+    </span>
+  </a>
+  
+  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications" [class.show]="showNotifications">
+    <!-- Pending Requests Section -->
+    <ng-container *ngIf="(isRH || isManager) && pendingRequests.length > 0">
+      <li class="dropdown-header d-flex justify-content-between align-items-center px-3 py-2">
+        <span class="fw-semibold">Pending Requests</span>
+        <span class="badge bg-primary rounded-pill">{{pendingCount}}</span>
+      </li>
+      <li><hr class="dropdown-divider my-1"></li>
+      
+      <ng-container *ngFor="let request of pendingRequests.slice(0, 3)">
+        <li class="notification-item px-3 py-2">
+          <div class="d-flex align-items-start">
+            <div class="flex-shrink-0">
+              <div class="avatar-sm bg-light rounded-circle d-flex align-items-center justify-content-center">
+                <i class="bi bi-person-circle text-secondary fs-4"></i>
+              </div>
+            </div>
+            <div class="flex-grow-1 ms-3">
+              <div class="d-flex justify-content-between">
+                <h6 class="mb-1">{{request.user?.fullname}}</h6>
+                <small class="text-muted">{{request.startDate | date:'shortDate'}}</small>
+              </div>
+              <div class="d-flex align-items-center mb-1">
+                <span class="badge bg-light text-dark me-2">{{request.type | titlecase}}</span>
+                <small class="text-muted">{{request.duration}} day(s)</small>
+              </div>
+              <p class="small mb-0 text-truncate" *ngIf="request.reason">
+                <i class="bi bi-chat-left-text me-1"></i>{{request.reason}}
+              </p>
+            </div>
+          </div>
+        </li>
+        <li><hr class="dropdown-divider my-1"></li>
+      </ng-container>
+      
+      <li *ngIf="pendingRequests.length > 3" class="dropdown-footer px-3 py-2 text-center">
+        <a routerLink="/admin/leave-requests" class="text-decoration-none fw-semibold">
+          View {{pendingRequests.length - 3}} more requests
+        </a>
+      </li>
+    </ng-container>
+
+    <!-- Events Section -->
+    <ng-container *ngIf="eventNotifications.length > 0">
+      <li class="dropdown-header d-flex justify-content-between align-items-center px-3 py-2">
+        <span class="fw-semibold">Upcoming Events</span>
+        <span class="badge bg-primary rounded-pill">{{eventCount}}</span>
+      </li>
+      <li><hr class="dropdown-divider my-1"></li>
+      
+      <ng-container *ngFor="let event of eventNotifications.slice(0, 3)">
+        <li class="notification-item px-3 py-2">
+          <div class="d-flex align-items-start">
+            <div class="flex-shrink-0">
+              <div class="avatar-sm bg-light rounded-circle d-flex align-items-center justify-content-center">
+                <i class="bi bi-calendar-event text-primary fs-4"></i>
+              </div>
+            </div>
+            <div class="flex-grow-1 ms-3">
+              <div class="d-flex justify-content-between">
+                <h6 class="mb-1">{{event.title}}</h6>
+                <small class="text-muted">{{event.startDateTime| date:'shortDate'}}</small>
+              </div>
+              <div class="d-flex align-items-center mb-1">
+                <span class="badge bg-light text-dark me-2">{{event.type | titlecase}}</span>
+                <small class="text-muted">Organized by {{event.creator?.fullname || 'a colleague'}}</small>
+              </div>
+              <p class="small mb-0 text-truncate" *ngIf="event.description">
+                <i class="bi bi-info-circle me-1"></i>{{event.description}}
+              </p>
+            </div>
+          </div>
+        </li>
+        <li><hr class="dropdown-divider my-1"></li>
+      </ng-container>
+      
+      <li *ngIf="eventNotifications.length > 3" class="dropdown-footer px-3 py-2 text-center">
+        <a routerLink="/events" class="text-decoration-none fw-semibold">
+          View {{eventNotifications.length - 3}} more events
+        </a>
+      </li>
+    </ng-container>
+
+    <!-- No Notifications -->
+    <ng-container *ngIf="(!isRH && !isManager || pendingRequests.length === 0) && eventNotifications.length === 0">
+      <li class="notification-item px-3 py-3 text-center">
+        <div class="mb-2">
+          <i class="bi bi-check-circle-fill text-success" style="font-size: 2rem;"></i>
+        </div>
+        <p class="mb-0 fw-semibold">All caught up!</p>
+        <small class="text-muted">No new notifications</small>
+      </li>
+    </ng-container>
+  </ul>
+</li>
+
+    <!-- No Notifications -->
+    <ng-container *ngIf="(!isRH && !isManager || pendingRequests.length === 0) && eventNotifications.length === 0">
+      <li class="notification-item px-3 py-3 text-center">
+        <div class="mb-2">
+          <i class="bi bi-check-circle-fill text-success" style="font-size: 2rem;"></i>
+        </div>
+        <p class="mb-0 fw-semibold">Tout est à jour !</p>
+        <small class="text-muted">Aucune nouvelle notification</small>
+      </li>
+    </ng-container>
+
+
+      <!-- Messages -->
+      <li class="nav-item dropdown">
+        <a class="nav-link nav-icon" routerLink="/shared/chat" data-bs-toggle="dropdown">
+          <i class="bi bi-chat-left-text"></i>
+          <span class="badge bg-success badge-number">{{ unreadMessagesCount }}</span>
+        </a>
+        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow messages">
+          <li class="dropdown-header">
+            You have 3 new messages
+            <a href="#"><span class="badge rounded-pill bg-primary p-2 ms-2">View all</span></a>
+          </li>
+          <li><hr class="dropdown-divider"></li>
+          <li class="message-item">
+            <a href="#">
+              <img src="assets/img/messages-2.jpg" alt="" class="rounded-circle">
+              <div>
+                <h4>Anna Nelson</h4>
+                <p>Velit asperiores et ducimus soluta repudiandae labore officia est ut...</p>
+                <p>6 hrs. ago</p>
+              </div>
+            </a>
+          </li>
+          <li><hr class="dropdown-divider"></li>
+          <li class="dropdown-footer">
+            <a href="#">Show all messages</a>
+          </li>
+        </ul>
+      </li><!-- End Messages Nav -->
+
+      <!-- Profil -->
+     <li class="nav-item dropdown pe-3">
+  <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+    <!-- Photo de profil -->
+    <img [src]="ProfilImageUrl" alt="Profile" class="rounded-circle">
+    <!-- Indicateur de connexion -->
+    <span class="status-indicator bg-success"></span>
+    <!-- Nom de l'utilisateur -->
+    <span class="d-none d-md-block dropdown-toggle ps-2">{{ user.username }}</span>
+  </a>
+  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+    <li class="dropdown-header">
+      <h6>{{ user.username }}</h6>
+      <span>Web Designer</span>
+    </li>
+    <li><hr class="dropdown-divider"></li>
+    <li>
+          <li><hr class="dropdown-divider"></li>
+          <li>
+            <a class="dropdown-item d-flex align-items-center" href="users-profile.html">
+              <i class="bi bi-gear"></i>
+              <span>Account Settings</span>
+            </a>
+          </li>
+          <li><hr class="dropdown-divider"></li>
+          <li>
+            <a class="dropdown-item d-flex align-items-center" href="pages-faq.html">
+              <i class="bi bi-question-circle"></i>
+              <span>Need Help?</span>
+            </a>
+          </li>
+          <li><hr class="dropdown-divider"></li>
+          <li>
+            <a class="dropdown-item d-flex align-items-center" href="#">
+              <i class="bi bi-box-arrow-right"></i>
+              <span>Sign Out</span>
+            </a>
+          </li>
+        </ul>
+      </li><!-- End Profile Nav -->
+    </ul>
+  </nav><!-- End Icons Navigation -->
+</header>

@@ -1,0 +1,202 @@
+<app-navbar></app-navbar>
+<app-sidebar></app-sidebar>
+
+<main id="main" class="main">
+  <div class="pagetitle d-flex justify-content-between align-items-center">
+    <h1>Projects List</h1>
+    <button class="btn btn-success" (click)="openAddProjectModal()">
+      <i class="fa-solid fa-plus"></i> Add Project
+    </button>
+  </div>
+
+  <section class="section">
+    <div class="row">
+      <!-- Loop through each project with fadeIn animation -->
+      <div class="col-lg-4 col-md-6 mb-4" *ngFor="let project of projects">
+        <div class="card project-card h-100">
+          <div class="card-body">
+            <h5 class="card-title">{{ project.name }}</h5>
+            <p class="card-text">{{ project.description }}</p>
+            <p class="mb-1">
+              <small class="text-muted">
+                <i class="fa-solid fa-calendar"></i>
+                {{ project.startDate | date:'shortDate' }} - {{ project.endDate | date:'shortDate' }}
+              </small>
+            </p>
+          <p class="mb-1">
+  <span class="badge status-badge" [ngClass]="{
+    'in-progress': project.status === 'IN_PROGRESS',
+    'completed': project.status === 'COMPLETED',
+    'cancelled': project.status === 'CANCELLED'
+  }">
+    {{ project.status }}
+  </span>
+</p>
+
+            <!-- Afficher le Project Manager -->
+            <div class="mt-3">
+              <h6>Project Manager</h6>
+              <ul class="list-unstyled">
+                <li *ngIf="project.projectManager">
+                  <i class="fa-solid fa-user-tie"></i> {{ project.projectManager.fullname }} ({{ project.projectManager.position }})
+                </li>
+                <li *ngIf="!project.projectManager">
+                  <i class="fa-solid fa-user-tie"></i> No project manager assigned
+                </li>
+              </ul>
+            <div class="mt-3">
+              <h6>Employees</h6>
+              <ul class="list-unstyled">
+                <li *ngFor="let employee of project.employees">
+                  <i class="fa-solid fa-user"></i> {{ employee.fullname }}
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="card-footer d-flex justify-content-between">
+            <button class="btn btn-outline-primary btn-sm" (click)="openEditProjectModal(project)">
+              <i class="fa-solid fa-pen-to-square"></i> Edit
+            </button>
+            <button class="btn btn-outline-danger btn-sm" (click)="deleteProject(project.id!)">
+              <i class="fa-solid fa-trash"></i> Delete
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+  </section>
+</main>
+
+<main id="main" class="main">
+  <div *ngIf="showAddProjectModal" class="modern-modal">
+    <div class="modal-backdrop" (click)="closeAddProjectModal()"></div>
+    <div class="modal-box">
+      <div class="modal-header">
+        <h2>Add New Project</h2>
+        <button class="modal-close" (click)="closeAddProjectModal()">×</button>
+      </div>
+      <div class="modal-content">
+        <!-- Wizard Tabs -->
+        <ul class="nav nav-tabs">
+          <li class="nav-item">
+            <a class="nav-link" [class.active]="currentStep === 1" (click)="goToStep(1)">
+              Project Details
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" [class.active]="currentStep === 2" (click)="goToStep(2)">
+              Team
+            </a>
+          </li>
+        </ul>
+
+        <!-- Wizard Form -->
+        <form [formGroup]="addProjectWizardForm" (ngSubmit)="onAddProjectSubmit()">
+          <div [hidden]="currentStep !== 1" class="wizard-step">
+            <div class="form-group">
+              <label for="name">Project Name</label>
+              <input id="name" type="text" class="form-control" formControlName="name" required />
+            </div>
+            <div class="form-group">
+              <label for="description">Description</label>
+              <textarea id="description" class="form-control" formControlName="description" rows="3"></textarea>
+            </div>
+            <div class="form-group">
+              <label for="startDate">Start Date</label>
+              <input id="startDate" type="date" class="form-control" formControlName="startDate" />
+            </div>
+            <div class="form-group">
+              <label for="endDate">End Date</label>
+              <input id="endDate" type="date" class="form-control" formControlName="endDate" />
+            </div>
+            <div class="form-group">
+              <label for="status">Status</label>
+              <select id="status" class="form-control" formControlName="status">
+                <option *ngFor="let status of ProjectsNames" [value]="status">{{ status }}</option>
+              </select>
+            </div>
+            <div class="d-flex justify-content-end mt-3">
+              <button type="button" class="btn btn-primary" (click)="goToStep(2)">Next</button>
+            </div>
+          </div>
+          <div [hidden]="currentStep !== 2" class="wizard-step">
+           
+
+          <div class="form-group">
+            <label for="projectManager">Project Manager</label>
+            <select id="projectManager" class="form-control" formControlName="projectManager">
+              <option *ngFor="let employee of employees" [value]="employee.id">
+                {{ employee.fullname }} ({{ employee.position }})
+              </option>
+            </select>
+        </div>
+  <div class="form-group">
+    <label for="assignedEmployees">Assigned Employees</label>
+    <select
+      id="assignedEmployees"
+      class="form-control"
+      (change)="onEmployeeSelect($event)"
+    >
+      <option value="">Select employees...</option>
+      <option *ngFor="let employee of employees" [value]="employee.id">
+        {{ employee.fullname }} ({{ employee.position }})
+      </option>
+    </select>
+
+    <div class="selected-employees mt-2">
+      <div *ngFor="let employee of selectedEmployees" class="selected-employee">
+        <span>{{ employee.fullname }} ({{ employee.position }})</span>
+        <button class="btn btn-sm btn-danger" (click)="removeEmployee(employee)">
+          <i class="fa-solid fa-times"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+            <div class="d-flex justify-content-between mt-3">
+              <button type="button" class="btn btn-outline-primary" (click)="goToStep(1)">Previous</button>
+              <button type="button" class="btn btn-primary" (click)="onAddProjectSubmit()">Submit</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</main>
+<!-- Edit Project Modal -->
+<div *ngIf="showEditProjectModal" class="modern-modal">
+  <div class="modal-backdrop" (click)="closeEditProjectModal()"></div>
+  <div class="modal-box">
+    <div class="modal-header">
+      <h2>Edit Project</h2>
+      <button class="modal-close" (click)="closeEditProjectModal()">×</button>
+    </div>
+    <div class="modal-content">
+      <form [formGroup]="editProjectForm" (ngSubmit)="onEditProjectSubmit()">
+        <div class="form-group">
+          <label for="editName">Project Name</label>
+          <input type="text" id="editName" class="form-control" formControlName="name" required>
+        </div>
+        <div class="form-group">
+          <label for="editDescription">Description</label>
+          <textarea id="editDescription" class="form-control" formControlName="description" required></textarea>
+        </div>
+        <div class="form-group">
+          <label for="editStartDate">Start Date</label>
+          <input type="date" id="editStartDate" class="form-control" formControlName="startDate" required>
+        </div>
+        <div class="form-group">
+          <label for="editEndDate">End Date</label>
+          <input type="date" id="editEndDate" class="form-control" formControlName="endDate" required>
+        </div>
+        <div class="form-group">
+          <label for="editStatus">Status</label>
+          <select id="editStatus" class="form-control" formControlName="status" required>
+            <option *ngFor="let status of ProjectsNames" [value]="status">{{ status }}</option>
+          </select>
+        </div>
+        <button type="submit" class="btn-primary">Update Project</button>
+      </form>
+    </div>
+  </div>
+</div>

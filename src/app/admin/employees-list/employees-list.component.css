@@ -1,0 +1,96 @@
+/* Style pour le modal */
+.modal-content {
+    border: none;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.modal-header {
+    background-color: #007bff;
+    /* Couleur primaire */
+    color: white;
+    border-bottom: none;
+    border-radius: 8px 8px 0 0;
+}
+
+.modal-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.modal-body {
+    padding: 20px;
+}
+
+.modal-footer {
+    border-top: none;
+    padding: 20px;
+    background-color: #f8f9fa;
+    /* Fond léger */
+    border-radius: 0 0 8px 8px;
+}
+
+/* Style pour les boutons */
+.btn-outline-secondary {
+    border-color: #6c757d;
+    color: #6c757d;
+    transition: all 0.3s ease;
+}
+
+.btn-outline-secondary:hover {
+    background-color: #6c757d;
+    color: white;
+}
+
+.btn-success {
+    background-color: #28a745;
+    border-color: #28a745;
+    transition: all 0.3s ease;
+}
+
+.btn-success:hover {
+    background-color: #218838;
+    border-color: #1e7e34;
+}
+
+/* Style pour les champs de formulaire */
+.form-control {
+    border: 1px solid #ced4da;
+    border-radius: 8px;
+    padding: 10px;
+    transition: border-color 0.3s ease;
+}
+
+.form-control:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+/* Style pour les labels */
+.form-label {
+    font-weight: 500;
+    color: #495057;
+}
+
+.status-badge {
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: inline-block;
+    min-width: 80px;
+    text-align: center;
+}
+
+.active {
+    background-color: #e6f7ee;
+    color: #28a745;
+    border: 1px solid #c3e6cb;
+}
+
+.inactive {
+    background-color: #fdecea;
+    color: #dc3545;
+    border: 1px solid #f5c6cb;
+}

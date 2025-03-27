@@ -1,0 +1,120 @@
+<app-navbar></app-navbar>
+<app-sidebar></app-sidebar>
+
+<main id="main" class="main">
+  <!-- Affichage des erreurs -->
+  <div *ngIf="errorMessage; else companyData" class="error-container">
+    <p class="error-message">{{ errorMessage }}</p>
+  </div>
+
+  <!-- Affichage des données de l'entreprise -->
+  <ng-template #companyData>
+    <div class="company-container">
+      <div class="company-header">
+        <h1>{{ companyInfo?.name }}</h1>
+        <p class="company-tagline">{{ companyInfo?.mission }}</p>
+      </div>
+
+      <div class="company-details">
+        <div class="detail-box">
+          <h2>About Us</h2>
+          <p>{{ companyInfo?.description }}</p>
+        </div>
+
+        <div class="detail-box">
+          <h2>Our Vision</h2>
+          <p>{{ companyInfo?.vision }}</p>
+        </div>
+
+        <div class="detail-box">
+          <h2>Core Values</h2>
+          <p>{{ companyInfo?.values }}</p>
+        </div>
+
+        <div class="detail-box">
+          <h2>Founded</h2>
+          <p>{{ companyInfo?.foundedYear }}</p>
+        </div>
+
+        <div class="detail-box">
+          <h2>Location</h2>
+          <p>{{ companyInfo?.location }}</p>
+        </div>
+
+        <div class="detail-box">
+          <h2>Website</h2>
+          <a [href]="companyInfo?.website" target="_blank">{{ companyInfo?.website }}</a>
+        </div>
+
+        <div class="detail-box">
+          <h2>Our Policies</h2>
+          <p>{{ companyInfo?.policies }}</p>
+        </div>
+      </div>
+
+     <button class="edit-button" (click)="openEditModal()">Edit Company Info</button>
+    </div>
+  </ng-template>
+
+  <!-- Modal pour l'édition des informations de l'entreprise -->
+  <!-- Bouton pour ouvrir le modal -->
+
+
+<!-- Modal -->
+<!-- Modal -->
+<div class="modal-overlay" *ngIf="isModalOpen" [@modalAnimation]>
+  <div class="modal-content">
+    <span class="close-btn" (click)="closeModal()">&times;</span>
+    <h2>Edit Company Information</h2>
+    <form (ngSubmit)="submitEdit()">
+      <div class="form-grid">
+        <!-- Colonne de gauche -->
+        <div class="form-column">
+          <div class="form-group">
+            <label for="name">Company Name:</label>
+            <input type="text" [(ngModel)]="companyInfo.name" name="name" required />
+          </div>
+          <div class="form-group">
+            <label for="mission">Mission:</label>
+            <input type="text" [(ngModel)]="companyInfo.mission" name="mission" required />
+          </div>
+          <div class="form-group">
+            <label for="description">Description:</label>
+            <textarea [(ngModel)]="companyInfo.description" name="description" rows="4" required></textarea>
+          </div>
+          <div class="form-group">
+            <label for="vision">Vision:</label>
+            <input type="text" [(ngModel)]="companyInfo.vision" name="vision" required />
+          </div>
+        </div>
+
+        <!-- Colonne de droite -->
+        <div class="form-column">
+          <div class="form-group">
+            <label for="values">Core Values:</label>
+            <input type="text" [(ngModel)]="companyInfo.values" name="values" required />
+          </div>
+          <div class="form-group">
+            <label for="foundedYear">Founded Year:</label>
+            <input type="number" [(ngModel)]="companyInfo.foundedYear" name="foundedYear" required />
+          </div>
+          <div class="form-group">
+            <label for="location">Location:</label>
+            <input type="text" [(ngModel)]="companyInfo.location" name="location" required />
+          </div>
+          <div class="form-group">
+            <label for="website">Website:</label>
+            <input type="url" [(ngModel)]="companyInfo.website" name="website" required />
+          </div>
+          <div class="form-group">
+            <label for="policies">Policies:</label>
+            <input type="text" [(ngModel)]="companyInfo.policies" name="policies" required />
+          </div>
+        </div>
+      </div>
+
+      <!-- Bouton de soumission -->
+      <button type="submit" class="btn-submit">Save Changes</button>
+    </form>
+  </div>
+</div>

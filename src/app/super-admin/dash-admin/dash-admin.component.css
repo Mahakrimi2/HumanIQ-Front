@@ -1,0 +1,27 @@
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.clock {
+    text-align: center;
+    margin: 20px;
+    padding: 10px;
+    background-color: #f4f4f4;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.clock h2 {
+    margin: 0;
+    font-size: 1.5em;
+    color: #333;
+}
+
+.clock p {
+    margin: 10px 0 0;
+    font-size: 2em;
+    font-weight: bold;
+    color: #007bff;
+}

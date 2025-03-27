@@ -1,0 +1,194 @@
+/* Style général de la navbar */
+.header {
+    background: rgba(255, 255, 255, 0.9);
+    /* Fond semi-transparent */
+    backdrop-filter: blur(10px);
+    /* Effet de flou */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    /* Ombre portée */
+    padding: 10px 20px;
+}
+
+/* Logo avec animation */
+/* Logo */
+.logo {
+    width: 100px;
+    /* Taille du logo */
+    transition: transform 0.3s ease;
+    /* Animation au survol */
+}
+
+.logo:hover {
+    transform: scale(1.1);
+    /* Effet de zoom au survol */
+}
+
+/* Barre de recherche */
+.search-bar {
+    flex-grow: 1;
+    margin: 0 20px;
+}
+
+.search-form input {
+    border: none;
+    border-radius: 20px;
+    padding: 10px 20px;
+    background: rgba(255, 255, 255, 0.8);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.search-form input:focus {
+    background: rgba(255, 255, 255, 1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.search-form button {
+    border: none;
+    background: none;
+    color: #6a11cb;
+    transition: color 0.3s ease;
+}
+
+.search-form button:hover {
+    color: #2575fc;
+}
+
+/* Icônes de navigation */
+.nav-icon {
+    font-size: 1.25rem;
+    color: #333;
+    transition: color 0.3s ease;
+}
+
+.nav-icon:hover {
+    color: #6a11cb;
+}
+
+/* Badges */
+.badge {
+    font-size: 0.75rem;
+    padding: 4px 8px;
+    transition: background-color 0.3s ease;
+}
+
+.badge:hover {
+    background-color: #2575fc !important;
+}
+
+/* Dropdowns */
+.dropdown-menu {
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(10px);
+}
+
+.dropdown-item {
+    padding: 10px 20px;
+    transition: background-color 0.3s ease;
+}
+
+.dropdown-item:hover {
+    background-color: rgba(106, 17, 203, 0.1);
+}
+
+/* Profil */
+.nav-profile img {
+    transition: transform 0.3s ease;
+}
+
+.nav-profile:hover img {
+    transform: scale(1.1);
+    /* Effet de zoom au survol */
+}
+
+/* Animation pour les notifications et messages */
+.notification-item,
+.message-item {
+    transition: background-color 0.3s ease;
+}
+
+.notification-item:hover,
+.message-item:hover {
+    background-color: rgba(106, 17, 203, 0.1);
+}
+
+/* Indicateur de connexion */
+.status-indicator {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    border: 2px solid #fff;
+    /* Bordure blanche pour le cercle */
+}
+
+.status-indicator.bg-success {
+    background-color: #28a745;
+    /* Couleur verte */
+}
+
+/* Photo de profil */
+.nav-profile img {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    position: relative;
+}
+
+/* Conteneur du nom de l'utilisateur */
+.nav-profile span {
+    margin-left: 10px;
+    display: inline-block;
+    /* Assure que le texte est visible */
+}
+.nav-profile .dropdown-toggle {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    /* Espace entre la photo et le texte */
+}
+/* Notification dropdown styles */
+.notifications {
+    width: 380px;
+    max-height: 60vh;
+    overflow-y: auto;
+}
+
+.notification-item {
+    transition: background-color 0.2s ease;
+}
+
+.notification-item:hover {
+    background-color: rgba(var(--bs-primary-rgb), 0.05);
+}
+
+.avatar-sm {
+    width: 36px;
+    height: 36px;
+}
+
+/* Modern scrollbar for dropdown */
+.notifications::-webkit-scrollbar {
+    width: 6px;
+}
+
+.notifications::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+.notifications::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 10px;
+}
+
+.notifications::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+

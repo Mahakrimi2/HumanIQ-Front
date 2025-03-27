@@ -1,0 +1,72 @@
+.sidebar {
+    width: 250px;
+    transition: transform 0.3s ease-in-out;
+    background-color: #fff;
+    height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+}
+
+.sidebar.closed {
+    transform: translateX(-100%);
+}
+
+/* Mode Responsive */
+@media (max-width: 768px) {
+    .sidebar {
+        width: 200px;
+    }
+}
+
+/* Thème clair (par défaut) */
+:root {
+    --background-color: #ffffff;
+    --text-color: #333333;
+    --header-background: rgba(255, 255, 255, 0.9);
+    --header-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    --dropdown-background: rgba(255, 255, 255, 0.9);
+    --dropdown-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+/* Thème sombre */
+[data-theme="dark"] {
+    --background-color: #1a1a1a;
+    --text-color: #f0f0f0;
+    --header-background: rgba(26, 26, 26, 0.9);
+    --header-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    --dropdown-background: rgba(26, 26, 26, 0.9);
+    --dropdown-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+/* Appliquer les styles */
+body {
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+
+.header {
+    background: var(--header-background);
+    box-shadow: var(--header-shadow);
+}
+
+.dropdown-menu {
+    background: var(--dropdown-background);
+    box-shadow: var(--dropdown-shadow);
+}
+
+/* Style du bouton de bascule de thème */
+#theme-toggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.25rem;
+    color: var(--text-color);
+    transition: color 0.3s ease;
+}
+
+#theme-toggle:hover {
+    color: #6a11cb;
+}
+

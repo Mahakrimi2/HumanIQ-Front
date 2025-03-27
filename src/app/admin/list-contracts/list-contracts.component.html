@@ -1,0 +1,336 @@
+<app-navbar></app-navbar>
+<app-sidebar></app-sidebar>
+
+<main id="main" class="main">
+  <div class="pagetitle">
+    <div class="d-flex justify-content-between align-items-center">
+      <h1>Contracts List</h1>
+      <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addContractModal">
+        <i class="fa-solid fa-plus"></i> Add Contract
+      </button>
+    </div>
+  </div>
+
+  <!-- Table of contracts -->
+  <section class="section">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="card">
+          <div class="card-body">
+               <div class="mb-3">
+  <input
+    type="text"
+    class="form-control"
+    placeholder="Search by Contract Type"
+    [(ngModel)]="searchText"
+    (keyup)="filterContracts($event)"
+    aria-label="Search"
+  />
+
+            </div>
+            <table class="table datatable">
+              <thead>
+                <tr>
+                  <th>Contract Type</th>
+                  <th>Description</th>
+                  <th>Start Date</th>
+                  <th>End Date</th>
+                  <th>Working Hours/month</th>
+                  <th>Benefits</th>
+                  <th>Salary</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let contract of filteredContracts">
+                  <td>{{ contract.contractType }}</td>
+                  <td>{{ contract.description }}</td>
+                  <td>{{ contract.startDate | date }}</td>
+                  <td>{{ contract.endDate | date }}</td>
+                  <td>{{ contract.workingHours }}</td>
+      <td>       
+   <span *ngIf="contract.benefits.length>5; else showAll">
+    {{ contract.benefits | slice:0:50 }}...
+    <a (click)="openPopup(contract.benefits)" 
+       style="color: blue; text-decoration: underline; cursor: pointer;">
+      Learn More
+    </a>
+  </span>
+  
+  <!-- Si texte court -->
+  <ng-template #showAll>
+    {{ contract.benefits }}
+  </ng-template>
+  
+  <!-- Popup (s'affiche quand showPopup=true) -->
+  <div *ngIf="showPopup" class="popup-overlay">
+    <div class="popup-box">
+      <button (click)="closePopup()" class="close-btn">×</button>
+      <div class="popup-content">
+        {{ popupText }}
+      </div>
+    </div>
+  </div>
+  </td>   
+              <td>{{ contract.salary | number }} DT</td>
+                  <td>
+  <span class="status-badge" [ngClass]="{
+    'active': contract.status === 'active',
+    'pending': contract.status === 'PENDING',
+    'expired': contract.status === 'EXPIRED',
+    'terminated': contract.status === 'TERMINATED',
+    'suspended': contract.status === 'SUSPENDED',
+    'cancelled': contract.status === 'CANCELLED'
+  }">
+    {{ contract.status }}
+  </span>
+</td>
+                <td>
+<i
+  class="fa-solid fa-pen-to-square text-primary"
+  style="cursor: pointer;"
+  data-bs-toggle="modal"
+  data-bs-target="#editContractModal"
+  (click)="loadContractForEdit(contract)"
+></i>
+
+
+<i
+  class="fa-solid fa-trash text-danger ms-2"
+  style="cursor: pointer;"
+  (click)="deleteContract(contract.id)"
+></i>
+
+
+<i
+  class="fa-solid fa-print text-info ms-2"
+  style="cursor: pointer;"
+  (click)="downloadContract(contract.id)"
+></i>
+</td>
+
+                </tr>
+              </tbody>
+            </table>
+
+           <!-- Modal pour afficher les avantages complets -->
+<div class="modal fade" #benefitsModal tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Full Benefits</h5>
+        <button type="button" class="btn-close" (click)="hideModal()"></button>
+      </div>
+      <div class="modal-body">
+        {{ fullBenefits }}
+      </div>
+    </div>
+  </div>
+</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+
+  
+<div class="modal fade" id="addContractModal" tabindex="-1" aria-labelledby="addContractModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content shadow-lg rounded-4 border-0">
+      <!-- En-tête du modal -->
+      <div class="modal-header bg-gradient-to-r from-primary to-secondary text-black">
+        <h5 class="modal-title" id="addContractModalLabel">Add Contract</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <!-- Corps du modal -->
+      <div class="modal-body">
+        <form>
+          <div class="row">
+            <!-- Colonne de gauche -->
+            <div class="col-md-6">
+              <!-- Champ : Type de contrat -->
+              <div class="mb-4">
+                <label for="contractType" class="form-label">Contract Type</label>
+                <select class="form-control form-control-lg shadow-sm" id="contractType" [(ngModel)]="newContract.contractType" name="contractType">
+                  <option value="">Select Contract Type</option>
+                  <option value="PEC">PEC</option>
+                  <option value="FTC">FTC</option>
+                  <option value="Freelance">Freelance</option>
+                  <option value="Apprenticeship">Apprenticeship</option>
+                  <option value="Internship">Internship</option>
+                  <option value="Part_time">Part-time</option>
+                  <option value="Seasonal">Seasonal</option>
+                </select>
+              </div>
+
+              <!-- Champ : Date de début -->
+              <div class="mb-4">
+                <label for="startDate" class="form-label">Start Date</label>
+                <input type="date" class="form-control form-control-lg shadow-sm" id="startDate" [(ngModel)]="newContract.startDate" name="startDate" />
+              </div>
+
+              <!-- Champ : Heures de travail -->
+              <div class="mb-4">
+                <label for="workingHours" class="form-label">Working Hours</label>
+                <input type="number" class="form-control form-control-lg shadow-sm" id="workingHours" [(ngModel)]="newContract.workingHours" name="workingHours" />
+              </div>
+
+              <!-- Champ : Utilisateur -->
+              <div class="mb-4">
+                <label for="user" class="form-label">User</label>
+                <select class="form-control form-control-lg shadow-sm" id="user" [(ngModel)]="iduser" name="iduser">
+                  <option *ngFor="let user of users" [value]="user.id">{{ user.fullname }}</option>
+                </select>
+              </div>
+
+              <!-- Champ : Salaire -->
+              <div class="mb-4">
+                <label for="salary" class="form-label">Salary</label>
+                <input type="number" class="form-control form-control-lg shadow-sm" id="salary" [(ngModel)]="newContract.salary" name="salary" />
+              </div>
+            </div>
+
+            <!-- Colonne de droite -->
+            <div class="col-md-6">
+              <!-- Champ : Description -->
+              <div class="mb-4">
+                <label for="description" class="form-label">Description</label>
+                <input type="text" class="form-control form-control-lg shadow-sm" id="description" [(ngModel)]="newContract.description" name="description" />
+              </div>
+
+              <!-- Champ : Date de fin -->
+              <div class="mb-4">
+                <label for="endDate" class="form-label">End Date</label>
+                <input type="date" class="form-control form-control-lg shadow-sm" id="endDate" [(ngModel)]="newContract.endDate" name="endDate" />
+              </div>
+
+              <!-- Champ : Contrat signé -->
+              <div class="mb-4">
+                <label for="isSigned" class="form-label">Is Signed</label>
+                <select class="form-control form-control-lg shadow-sm" id="isSigned" [(ngModel)]="newContract.signed" name="signed">
+                  <option value="true">Yes</option>
+                  <option value="false">No</option>
+                </select>
+              </div>
+
+              <!-- Champ : Avantages -->
+              <div class="mb-4">
+                <label for="benefits" class="form-label">Benefits</label>
+                <textarea class="form-control form-control-lg shadow-sm" id="benefits" rows="4" [(ngModel)]="newContract.benefits" name="benefits"></textarea>
+              </div>
+
+              <!-- Champ : Statut -->
+              <div class="mb-4">
+                <label for="status" class="form-label">Status</label>
+                <select class="form-control form-control-lg shadow-sm" id="status" [(ngModel)]="newContract.status" name="status">
+                  <option value="active">Active</option>
+                  <option value="PENDING">PENDING</option>
+                  <option value="EXPIRED">EXPIRED</option>
+                  <option value="TERMINATED">TERMINATED</option>
+                  <option value="SUSPENDED">SUSPENDED</option>
+                  <option value="CANCELLED">CANCELLED</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <!-- Pied de page du modal -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-success" (click)="saveChanges()">Save Changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <!-- Edit Contract Modal -->
+  <div class="modal fade" id="editContractModal" tabindex="-1" aria-labelledby="editContractModalLabel" aria-hidden="true" >
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content shadow-lg rounded-4 border-0">
+        <div class="modal-header bg-gradient-to-r from-primary to-secondary text-black">
+          <h5 class="modal-title" id="editContractModalLabel">Edit Contract</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form [formGroup]="editContractForm">
+            <div class="row">
+              <div class="col-md-6 mb-4">
+                <label for="editContractType" class="form-label">Contract Type</label>
+                <select class="form-control form-control-lg shadow-sm" id="editContractType" formControlName="contractType">
+                  <option value="">Select Contract Type</option>
+                  <option value="PEC">PEC</option>
+                  <option value="FTC">FTC</option>
+                  <option value="Freelance">Freelance</option>
+                  <option value="Apprenticeship">Apprenticeship</option>
+                  <option value="Internship">Internship</option>
+                  <option value="Part_time">Part-time</option>
+                  <option value="Seasonal">Seasonal</option>
+                </select>
+              </div>
+              <div class="col-md-6 mb-4">
+                <label for="editDescription" class="form-label">Description</label>
+                <input type="text" class="form-control form-control-lg shadow-sm" id="editDescription" formControlName="description" />
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6 mb-4">
+                <label for="editStartDate" class="form-label">Start Date</label>
+                <input type="date" class="form-control form-control-lg shadow-sm" id="editStartDate" formControlName="startDate" />
+              </div>
+              <div class="col-md-6 mb-4">
+                <label for="editEndDate" class="form-label">End Date</label>
+                <input type="date" class="form-control form-control-lg shadow-sm" id="editEndDate" formControlName="endDate" />
+              </div>
+            </div>
+            <div class="mb-4">
+              <label for="editWorkingHours" class="form-label">Working Hours</label>
+              <input type="number" class="form-control form-control-lg shadow-sm" id="editWorkingHours" formControlName="workingHours" />
+            </div>
+            <div class="mb-4">
+              <label for="editIsSigned" class="form-label">Is Signed</label>
+              <select class="form-control form-control-lg shadow-sm" id="editIsSigned" formControlName="signed">
+                <option value="true">Yes</option>
+                <option value="false">No</option>
+              </select>
+            </div>
+            <!-- <div class="mb-4">
+              <label for="editUser" class="form-label">User</label>
+              <select class="form-control form-control-lg shadow-sm" id="editUser" formControlName="user">
+                <option *ngFor="let user of users" [ngValue]="user">{{ user.fullname }}</option>
+              </select>
+            </div> -->
+            <div class="mb-4">
+              <label for="editBenefits" class="form-label">Benefits</label>
+              <textarea class="form-control form-control-lg shadow-sm" id="editBenefits" rows="4" formControlName="benefits"></textarea>
+            </div>
+            <div class="mb-4">
+              <label for="editSalary" class="form-label">Salary</label>
+              <input type="number" class="form-control form-control-lg shadow-sm" id="editSalary" formControlName="salary" />
+            </div>
+            <div class="mb-4">
+              <label for="editStatus" class="form-label">Status</label>
+              <select class="form-control form-control-lg shadow-sm" id="editStatus" formControlName="status">
+                <option value="active">Active</option>
+                <option value="PENDING">PENDING</option>
+                <option value="EXPIRED">EXPIRED</option>
+                <option value="TERMINATED">TERMINATED</option>
+                <option value="SUSPENDED">SUSPENDED</option>
+                <option value="CANCELLED">CANCELLED</option>
+              </select>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-success" (click)="updateContract()">Save Changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>

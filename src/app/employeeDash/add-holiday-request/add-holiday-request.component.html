@@ -1,0 +1,82 @@
+<app-navbar></app-navbar>
+<app-sidebar></app-sidebar>
+<main id="main" class="main">
+  <div class="pagetitle">
+    <div class="d-flex justify-content-between align-items-center">
+      <h1>Holiday Request</h1>
+    </div>
+  </div>
+  <div class="container-fluid">
+    <div class="row">
+      <!-- Main Content -->
+      <div class="col-lg-10">
+        <div class="card">
+          <div class="card-body">
+            <form [formGroup]="holidayRequestForm" (ngSubmit)="onSubmit()">
+              <!-- Leave Type -->
+              <div class="row mb-3">
+                <label for="type" class="col-sm-2 col-form-label">Leave Type</label>
+                <div class="col-sm-10">
+                  <select class="form-select" formControlName="type">
+                    <option value="">Select a type</option>
+                    <option *ngFor="let type of holidayTypes" [value]="type">{{ type }}</option>
+                  </select>
+                  <div *ngIf="holidayRequestForm.get('type')?.invalid && holidayRequestForm.get('type')?.touched" class="text-danger">
+                    Leave type is required.
+                  </div>
+                </div>
+              </div>
+
+              <!-- Start Date -->
+              <div class="row mb-3">
+                <label for="startDate" class="col-sm-2 col-form-label">Start Date</label>
+                <div class="col-sm-10">
+                  <input type="date" class="form-control" formControlName="startDate">
+                  <div *ngIf="holidayRequestForm.get('startDate')?.invalid && holidayRequestForm.get('startDate')?.touched" class="text-danger">
+                    Start date is required.
+                  </div>
+                </div>
+              </div>
+
+              <!-- Duration -->
+              <div class="row mb-3">
+                <label for="duration" class="col-sm-2 col-form-label">Duration (days)</label>
+                <div class="col-sm-10">
+                  <input type="number" class="form-control" formControlName="duration">
+                  <div *ngIf="holidayRequestForm.get('duration')?.invalid && holidayRequestForm.get('duration')?.touched" class="text-danger">
+                    Duration must be at least 1 day.
+                  </div>
+                </div>
+              </div>
+
+              <!-- Reason -->
+              <div class="row mb-3">
+                <label for="reason" class="col-sm-2 col-form-label">Reason</label>
+                <div class="col-sm-10">
+                  <textarea class="form-control" formControlName="reason" rows="3"></textarea>
+                  <div *ngIf="holidayRequestForm.get('reason')?.invalid && holidayRequestForm.get('reason')?.touched" class="text-danger">
+                    Reason is required.
+                  </div>
+                </div>
+              </div>
+
+              <div class="row mb-3" *ngIf="showCertificate">
+                <label for="file" class="col-sm-2 col-form-label">Certificate</label>
+                <div class="col-sm-10">
+                  <input type="file" class="form-control" (change)="onFileChange($event)" formControlName="file">
+                </div>
+              </div>
+
+    
+              <div class="row mb-3">
+                <div class="col-sm-10 offset-sm-2">
+                  <button type="submit" class="btn btn-primary" [disabled]="holidayRequestForm.invalid">Submit</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>

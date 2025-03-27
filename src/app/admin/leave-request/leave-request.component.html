@@ -1,0 +1,115 @@
+<app-navbar></app-navbar>
+<app-sidebar></app-sidebar>
+
+<main id="main" class="main">
+  <div class="pagetitle">
+    <h1>Leave Requests List</h1>
+  </div>
+
+  <section class="section">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="card">
+          <div class="card-body">
+            <table class="table datatable">
+              <thead>
+                <tr>
+                  <th>Type</th>
+                  <th>Leave from</th>
+                  <th>Duration</th>
+                  <th>Status</th>
+                  <th>User</th>
+                  <th>leave_balance</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let request of leaveRequests">
+                  <td>{{ request.type }}</td>
+                  <td>{{ request.startDate | date }}</td>
+                   
+                  <td>{{ request.duration }} days</td>
+                  <td>
+                    <span
+                      [ngClass]="{
+                        'status-pending': request.status === 'PENDING',
+                        'status-accepted': request.status === 'ACCEPTED',
+                        'status-cancelled': request.status === 'CANCELLED'
+                      }"
+                    >
+                      {{ request.status }}
+                    </span>
+                  </td>
+                  <td>{{ request.user?.fullname || "N/A" }}</td>
+                  <td>{{ request.user?.leave_balance || "N/A" }}</td>
+
+                  <td>
+                    <button
+                      class="btn btn-warning"
+                      (click)="openStatusModal(request)"
+                    >
+                      <i class="fa-solid fa-pen-to-square text-white"></i>
+                      Change Status
+                    </button>
+                    <i
+                      class="fa-solid fa-trash text-danger ms-2"
+                      style="cursor: pointer"
+                      (click)="deleteRequest(request.id!)"
+                    ></i>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- Modal pour changer le statut -->
+<div id="statusModal" class="modal fade" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Change Leave Request Status</h5>
+        <button
+          type="button"
+          class="btn-close"
+          (click)="closeStatusModal()"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <p><strong>Current Status:</strong> {{ selectedRequest?.status }}</p>
+        <p>
+          <strong>New Status:</strong>
+        </p>
+
+        <div class="custom-select">
+          <select [(ngModel)]="newStatus">
+            <option *ngFor="let status of holidayStatuses" [value]="status">
+              {{ status }}
+            </option>
+          </select>
+          <span class="custom-arrow">▼</span>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-secondary"
+          (click)="closeStatusModal()"
+        >
+          Close
+        </button>
+        <button
+          type="button"
+          class="btn btn-primary"
+          (click)="saveStatusChange()"
+        >
+          Save Changes
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

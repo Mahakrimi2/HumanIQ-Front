@@ -1,0 +1,376 @@
+.main {
+    background-color: #f8f9fa;
+    padding: 20px;
+}
+
+
+.project-card {
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Effet de survol */
+.project-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Style pour le titre de la carte */
+.project-card .card-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+/* Style pour le texte de la carte */
+.project-card .card-text {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 15px;
+}
+
+
+
+
+/* Style pour la liste des employés */
+.project-card ul {
+    padding-left: 0;
+}
+
+.project-card ul li {
+    font-size: 0.9rem;
+    color: #3e3d3d;
+    margin-bottom: 5px;
+}
+
+.project-card .fa-user {
+    margin-right: 5px;
+    color: #0e437b;
+}
+
+.project-card .card-footer {
+    background-color: #f8f9fa;
+    border-top: 1px solid #e0e0e0;
+    padding: 10px;
+}
+
+
+.project-card .btn {
+    font-size: 0.8rem;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
+.project-card .btn-outline-primary {
+    border-color: #103863;
+    color: #0d355f;
+}
+
+.project-card .btn-outline-primary:hover {
+    background-color: #1a3f66;
+    color: white;
+}
+
+.project-card .btn-outline-danger {
+    border-color: #dc3545;
+    color: #dc3545;
+}
+
+.project-card .btn-outline-danger:hover {
+    background-color: #bb1425;
+    color: white;
+}
+.modern-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+}
+
+.modal-backdrop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.65);
+    z-index: 1;
+}
+
+.modal-box {
+    position: relative;
+    background: #fff;
+    width: 90%;
+    max-width: 480px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    z-index: 2;
+    animation: popIn 0.4s ease-out;
+    overflow: hidden;
+}
+
+@keyframes popIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* En-tête avec dégradé moderne */
+.modal-header {
+    background: linear-gradient(135deg,#1b0f5a,
+        #050354);
+    padding: 16px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #fff;
+}
+
+.modal-header h2 {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+/* Bouton de fermeture moderne */
+.modal-close {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: #fff;
+    cursor: pointer;
+    transition: transform 0.3s;
+}
+
+.modal-close:hover {
+    transform: scale(1.1);
+}
+
+/* Corps de la modale */
+.modal-content {
+    padding: 24px;
+}
+
+/* Styles des champs de formulaire modernes */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 0.9rem;
+    color: #444;
+}
+
+.form-control {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border 0.3s;
+}
+
+.form-control:focus {
+    border-color: #1b0f5a;
+    outline: none;
+}
+
+/* Bouton d'action moderne */
+.btn-primary {
+    width: 100%;
+    padding: 12px;
+    background: linear-gradient(135deg,#1b0f5a,
+        #0a0b4b);
+    border: none;
+    border-radius: 8px;
+    color: #fff;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, #1b0f5a, #322586);
+}
+.wizard-step {
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    margin-bottom: 20px;
+    min-height: 400px;
+    /* Hauteur minimale pour uniformiser la taille */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.wizard-step .form-group {
+    margin-bottom: 15px;
+}
+
+.wizard-step .d-flex {
+    margin-top: auto;
+    /* Aligner les boutons en bas */
+}
+
+.nav-tabs {
+    margin-bottom: 20px;
+}
+
+.nav-tabs .nav-item {
+    cursor: pointer;
+}
+
+.nav-tabs .nav-link.active {
+    font-weight: bold;
+    border-bottom: 2px solid #062445;
+}
+
+.form-control {
+    width: 100%;
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+
+.btn {
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border: none;
+    color: white;
+}
+
+.btn-outline-primary {
+    border: 1px solid #007bff;
+    color: #007bff;
+    background-color: transparent;
+}
+
+.btn-success {
+    background-color: #28a745;
+    border: none;
+    color: white;
+}
+
+
+/* Style pour la liste déroulante des employés filtrés */
+.dropdown {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    max-height: 150px;
+    overflow-y: auto;
+    margin-top: 5px;
+}
+
+.dropdown-item {
+    padding: 8px 12px;
+    cursor: pointer;
+}
+
+.dropdown-item:hover {
+    background-color: #f8f9fa;
+}
+
+/* Style pour les employés sélectionnés */
+.selected-employees {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.selected-employee {
+    display: flex;
+    align-items: center;
+    background-color: #e9ecef;
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-size: 0.9rem;
+}
+
+.selected-employee button {
+    margin-left: 8px;
+    background-color: transparent;
+    border: none;
+    color: #dc3545;
+    cursor: pointer;
+}
+
+.selected-employee button:hover {
+    color: #a71d2a;
+}
+.project-card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.status-badge {
+    background-color: #007bff;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+}
+
+.list-unstyled li {
+    margin-bottom: 8px;
+}
+
+.fa-user-tie,
+.fa-user {
+    margin-right: 8px;
+    color: #007bff;
+}
+
+.status-badge {
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.9em;
+    font-weight: bold;
+}
+
+.status-badge {
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.9em;
+    font-weight: bold;
+}
+
+.status-badge.in-progress {
+    background-color: #007bff;
+    /* Bleu pour IN_PROGRESS */
+    color: white;
+}
+
+.status-badge.completed {
+    background-color: #28a745;
+    /* Vert pour COMPLETED */
+    color: white;
+}
+
+.status-badge.cancelled {
+    background-color: #ffc107;
+    /* Jaune pour PENDING */
+    color: black;
+}

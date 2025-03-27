@@ -1,0 +1,144 @@
+.modal-content {
+    border-radius: 15px;
+}
+
+.modal-header {
+    background: linear-gradient(45deg, #007bff, #00ff88);
+    color: white;
+}
+
+.btn-close {
+    filter: invert(1);
+}
+
+.modal-content {
+    border-radius: 15px;
+}
+
+.modal-header {
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+}
+
+.form-control-lg {
+    border-radius: 10px;
+}
+
+.btn-success {
+    background-color: #28a745;
+    border-color: #28a745;
+}
+
+.btn-success:hover {
+    background-color: #218838;
+    border-color: #1e7e34;
+}
+
+.btn-outline-secondary {
+    border-color: #6c757d;
+    color: #6c757d;
+}
+
+.btn-outline-secondary:hover {
+    background-color: #6c757d;
+    color: #fff;
+}
+
+.modal-backdrop {
+    display: none !important;
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background: white;
+    padding: 20px;
+    border-radius: 5px;
+    max-width: 500px;
+    max-height: 80vh;
+    overflow: auto;
+}
+
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(89, 0, 255, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.popup-box {
+    background: white;
+    padding: 20px;
+    border-radius: 5px;
+    width: 80%;
+    max-width: 500px;
+    position: relative;
+}
+
+.close-btn {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    font-size: 20px;
+    cursor: pointer;
+    border: none;
+    background: none;
+}
+
+.status-badge {
+    padding: 4px 10px;
+    border-radius: 16px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: inline-block;
+}
+
+/* Couleurs modernes */
+.active {
+    background-color: #e6f7ee;
+    color: #28a745;
+}
+
+.pending {
+    background-color: #fff8e6;
+    color: #ffc107;
+}
+
+.expired {
+    background-color: #fdecea;
+    color: #dc3545;
+}
+
+.terminated {
+    background-color: #f0e6ff;
+    color: #6f42c1;
+}
+
+.suspended {
+    background-color: #ffe8cc;
+    color: #fd7e14;
+}
+
+.cancelled {
+    background-color: #f1f1f1;
+    color: #6c757d;
+}

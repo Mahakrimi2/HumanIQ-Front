@@ -1,0 +1,120 @@
+<app-navbar></app-navbar>
+<app-sidebar></app-sidebar>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
+<body>
+    <main id="main" class="main py-3">
+        <div class="container">
+            <h1 class="h3 mb-3">Messages</h1>
+            <div class="card">
+                <div class="row g-0">
+                    <div class="col-lg-4 border-end">
+                        <div class="p-3">
+                            <button class="btn btn-info btn-sm me-1" (click)="toggleChat()">Chat</button>
+                            <button class="btn btn-light btn-sm border" (click)="toggleChat()">Users</button>
+                        </div>
+
+                        <div *ngIf="!ShowUsers" class="px-3">
+                            <p class="fw-bold">List Users</p>
+                            <div style="max-height: 400px; overflow-y: auto;" class="list-group list-group-flush">
+                                <ng-container *ngIf="usersfilter.length > 0; else noUsers">
+
+                                <div *ngFor="let user of usersfilter">
+                                    <a role="button" class="list-group-item list-group-item-action d-flex align-items-center"
+                                       (click)="selectUser(user)">
+                                        <img [src]="user.profileImageUrl || '../../../assets/img/anonyme.jpg'"
+                                             class="rounded-circle me-2" width="40" height="40">
+                                        <div class="flex-grow-1">
+                                            <strong>{{ user.fullname }}</strong>
+                                        </div>
+                                    </a>
+                                   </div>
+                                 
+                                </ng-container>
+                                <ng-template #noUsers>
+                                    <div class="text-center p-3 text-muted">
+                                        <p>Aucun utilisateur disponible</p>
+                                    </div>
+                                </ng-template>
+                            </div>
+                        </div>
+
+                        <div *ngIf="!ShowChat" class="px-3">
+                            <p class="fw-bold">Conversations</p>
+                            <div style="max-height: 400px; overflow-y: auto;" class="list-group list-group-flush">
+                                <ng-container *ngIf="rooms.length > 0; else noRooms">
+
+                                <div *ngFor="let room of rooms">
+                                    <button class="list-group-item list-group-item-action d-flex align-items-center"
+                                            (click)="selectRoom(room.id, room.users[0])">
+                                        <img [src]="'http://localhost:8082/api/rh/users/profileImage/'+room.users[0].profileImagePath || '../../../assets/img/anonyme.jpg'"
+                                             class="rounded-circle me-2" width="40" height="40">
+                                        <div class="flex-grow-1">
+                                            <strong>{{ room.users[0]?.fullname }}</strong>
+                                        </div>
+                                        <button class="btn btn-danger btn-sm ms-2" (click)="deletechat(room.id)">
+                                            <i class="fas fa-trash"></i>
+                                        </button>                                    </button>
+                                    </div>
+                                
+                                </ng-container>
+                                <ng-template #noRooms>
+                                    <div class="text-center p-3 text-muted">
+                                        <p>Aucun conversation disponible</p>
+                                    </div>
+                                </ng-template>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-8 d-flex flex-column">
+                        <div class="p-3 border-bottom d-flex align-items-center">
+                            <img [src]="SenderProfile" class="rounded-circle me-2" width="40" height="40">
+                            <div class="flex-grow-1">
+                                <strong>{{ user?.fullname || 'Sélectionnez un utilisateur' }}</strong>
+                            </div>
+                            <button *ngIf="selectedRoomId" class="btn btn-info" (click)="close()">X</button>
+                        </div>
+
+                        <div class="flex-grow-1 p-1" style="max-height: 400px; overflow-y: auto;">
+                            <ng-container *ngIf="messages.length > 0; else noMessages">
+                                <div *ngFor="let msg of messages" class="d-flex align-items-start mb-1"
+                                 >
+                                    <div class="bg-light p-2 rounded">
+                                        <strong>{{ msg.sender?.username === username ? 'Vous' : user?.fullname }}:</strong>
+                                        <div>{{ msg.content }}</div>
+                                        <div class="text-muted small">{{ msg.sentAt | date: 'short' }}</div>
+                                    </div>
+                                </div>
+                            </ng-container>
+
+                            <ng-template #noMessages>
+                                <div class="text-center p-3 text-muted">
+                                    <p>Aucun message disponible</p>
+                                </div>
+                            </ng-template>
+                        </div>
+
+                        <div class="p-3 border-top" *ngIf="selectedRoomId || selectedUserId">
+                            <div class="input-group">
+                                <input type="text" class="form-control" [(ngModel)]="newMessage" placeholder="Type a message..."
+                                       (keyup.enter)="sendMessage()">
+                                <button class="btn btn-primary" (click)="sendMessage()">
+                                    <i class="fas fa-paper-plane"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="p-3 border-top text-center text-muted" *ngIf="!selectedRoomId && !selectedUserId">
+                            <p>Sélectionnez une conversation pour commencer à discuter</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>

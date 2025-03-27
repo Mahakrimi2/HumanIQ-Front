@@ -1,0 +1,411 @@
+<aside id="sidebar" class="sidebar" [ngClass]="{ 'closed': isClosed }">
+  <ul class="sidebar-nav" id="sidebar-nav" >
+
+    <li class="nav-item" >
+      <a class="nav-link" >
+        <i class="bi bi-speedometer2"></i>
+        <span></span>
+      </a>
+    </li>
+
+
+
+
+
+    <li class="nav-item" *ngIf="isRH">
+      <a class="nav-link collapsed" data-bs-target="#p-nav" data-bs-toggle="collapse" href="#">
+        <i class="bi bi-people"></i><span>Personnel</span><i class="bi bi-chevron-down ms-auto"></i>
+      </a>
+      <ul id="p-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+        <li>
+          <a routerLink="/admin/list-employees">
+           <span>All Personnel</span>
+          </a>
+        </li>
+      </ul>
+    </li>
+
+
+    <li class="nav-item" *ngIf="isSuperAdmin">
+      <a class="nav-link collapsed" data-bs-target="#p-nav" data-bs-toggle="collapse" href="#">
+        <i class="bi bi-people"></i><span>Personnel</span><i class="bi bi-chevron-down ms-auto"></i>
+      </a>
+      <ul id="p-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+        <li>
+          <a routerLink="/superAdmin/employees-list">
+           <span>All Personnel</span>
+          </a>
+        </li>
+      </ul>
+    </li>
+
+
+
+
+
+
+    
+    <li class="nav-item" *ngIf="isRH">
+      <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
+        <i class="bi bi-people"></i><span>Contracts</span><i class="bi bi-chevron-down ms-auto"></i>
+      </a>
+      <ul id="components-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+        <li *ngIf="isRH">
+          <a routerLink="/admin/list-contracts">
+           <span>All Contracts</span>
+          </a>
+        </li>
+        <li *ngIf="isRH">
+          <a routerLink="/admin/archived-contracts">
+           <span>Archived Contracts</span>
+          </a>
+        </li>
+      </ul>
+    </li>
+
+
+
+
+
+
+     <li class="nav-item" *ngIf="isSuperAdmin">
+      <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
+        <i class="bi bi-people"></i><span>Contracts</span><i class="bi bi-chevron-down ms-auto"></i>
+      </a>
+      <ul id="components-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+        <li *ngIf="isSuperAdmin">
+          <a routerLink="/superAdmin/list-contracts">
+           <span>All Contracts</span>
+          </a>
+        </li>
+        <li *ngIf="isSuperAdmin">
+          <a routerLink="/superAdmin/archived-contracts">
+           <span>Archived Contracts</span>
+          </a>
+        </li>
+      </ul>
+    </li>
+
+
+
+    
+     <li class="nav-item" *ngIf="isEmployee">
+      <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
+        <i class="bi bi-people"></i><span>Contracts</span><i class="bi bi-chevron-down ms-auto"></i>
+      </a>
+      <ul id="components-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+         <li *ngIf="isEmployee">
+          <a routerLink="/employee/my-contracts">
+           <span>My Contracts</span>
+          </a>
+        </li>
+        <li *ngIf="isRH">
+          <a routerLink="/admin/list-contracts">
+           <span>All Contracts</span>
+          </a>
+        </li>
+        <li *ngIf="isRH">
+          <a routerLink="/admin/archived-contracts">
+           <span>Archived Contracts</span>
+          </a>
+        </li>
+      </ul>
+    </li>
+
+
+
+
+
+    
+
+    <li class="nav-item" *ngIf="isRH" >
+      <a class="nav-link collapsed" data-bs-target="#leave-nav" data-bs-toggle="collapse" href="#">
+        <i class="bi bi-calendar-check"></i><span>holiday Management</span><i class="bi bi-chevron-down ms-auto"></i>
+      </a>
+      <ul id="leave-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+        <li *ngIf="isRH">
+          <a routerLink="/admin/leave-requests">
+            <i class="bi bi-file-earmark-text"></i><span>holiday Requests</span>
+          </a>
+        </li>
+
+      </ul>
+    </li>
+
+
+    
+    <li class="nav-item" *ngIf="isSuperAdmin" >
+      <a class="nav-link collapsed" data-bs-target="#leave-nav" data-bs-toggle="collapse" href="#">
+        <i class="bi bi-calendar-check"></i><span>holiday Management</span><i class="bi bi-chevron-down ms-auto"></i>
+      </a>
+      <ul id="leave-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+        <li *ngIf="isSuperAdmin">
+          <a routerLink="/superAdmin/leave-request">
+            <i class="bi bi-file-earmark-text"></i><span>holiday Requests</span>
+          </a>
+        </li>
+
+      </ul>
+    </li>
+
+
+
+     <li class="nav-item" *ngIf="isEmployee" >
+      <a class="nav-link collapsed" data-bs-target="#leave-nav" data-bs-toggle="collapse" href="#">
+        <i class="bi bi-calendar-check"></i><span>holiday Management</span><i class="bi bi-chevron-down ms-auto"></i>
+      </a>
+      <ul id="leave-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+         <li *ngIf="isEmployee">
+         <a routerLink="/employee/add-holiday-request">
+            <i class="bi bi-file-earmark-text"></i><span>Add  Request</span>
+          </a>
+          <a routerLink="/employee/holiday-request">
+            <i class="bi bi-file-earmark-text"></i><span>my all Requests</span>
+          </a>
+        </li>
+      </ul>
+    </li>
+
+
+    <!-- <li class="nav-item">
+      <a class="nav-link collapsed" data-bs-target="#payroll-nav" data-bs-toggle="collapse" href="#">
+        <i class="bi bi-cash-stack"></i><span>Paie</span><i class="bi bi-chevron-down ms-auto"></i>
+      </a>
+      <ul id="payroll-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+        <li *ngIf="isRH">
+          <a routerLink="/admin/payroll">
+            <i class="bi bi-wallet2"></i><span>Employee Salary</span>
+          </a>
+          <a routerLink="/admin/payroll-list">
+            <i class="bi bi-wallet2"></i><span>Payslip List</span>
+          </a>
+        </li>
+         <li *ngIf="isEmployee">
+       
+          <a routerLink="/admin/payroll-list">
+            <i class="bi bi-wallet2"></i><span>My payslips</span>
+          </a>
+        </li>
+      </ul>
+    </li> -->
+
+    <li class="nav-item" *ngIf="isRH" >
+      <a class="nav-link collapsed" data-bs-target="#department-nav" data-bs-toggle="collapse" href="#">
+        <i class="bi bi-building"></i><span>Departement</span><i class="bi bi-chevron-down ms-auto"></i>
+      </a>
+      <ul id="department-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+        <li>
+          <a routerLink="/admin/department">
+            <i class="bi bi-diagram-3"></i><span>All Departements</span>
+          </a>
+        </li>
+      </ul>
+    </li>
+
+
+     <li class="nav-item" *ngIf="isSuperAdmin" >
+      <a class="nav-link collapsed" data-bs-target="#department-nav" data-bs-toggle="collapse" href="#">
+        <i class="bi bi-building"></i><span>Departement</span><i class="bi bi-chevron-down ms-auto"></i>
+      </a>
+      <ul id="department-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+        <li>
+          <a routerLink="/superAdmin/department">
+            <i class="bi bi-diagram-3"></i><span>All Departements</span>
+          </a>
+        </li>
+      </ul>
+    </li>
+
+
+
+
+
+<li class="nav-item" *ngIf="isEmployee">
+  <a class="nav-link collapsed" data-bs-target="#events-nav" data-bs-toggle="collapse" href="#">
+    <i class="bi bi-person-fill"></i><span>Pointage</span><i class="bi bi-chevron-down ms-auto"></i>
+  </a>
+  <ul id="events-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+    <li>
+      <a routerLink="/employee/emp-pointage">
+        <i class="bi bi-person-fill"></i><span>Pointage</span>
+      </a>
+    </li>
+  </ul>
+</li>
+<li class="nav-item" *ngIf="isRH">
+  <a class="nav-link collapsed" data-bs-target="#p-nav" data-bs-toggle="collapse" href="#">
+    <i class="bi bi-person-fill"></i><span>Pointage</span><i class="bi bi-chevron-down ms-auto"></i>
+  </a>
+  <ul id="p-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+    <li>
+      <a routerLink="/admin/pointage">
+        <i class="bi bi-person-fill"></i><span>Pointage</span>
+      </a>
+    </li>
+  </ul>
+</li>
+
+<li class="nav-item" *ngIf="isManager">
+  <a class="nav-link collapsed" data-bs-target="#p-nav" data-bs-toggle="collapse" href="#">
+    <i class="bi bi-person-fill"></i><span>Pointage</span><i class="bi bi-chevron-down ms-auto"></i>
+  </a>
+  <ul id="p-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+    <li>
+      <a routerLink="/admin/pointage">
+        <i class="bi bi-person-fill"></i><span>Pointage</span>
+      </a>
+    </li>
+  </ul>
+</li>
+
+ <li class="nav-item" *ngIf="isEmployee">
+  <a class="nav-link collapsed" data-bs-target="#cal-nav" data-bs-toggle="collapse" href="#">
+    <i class="bi bi-person-fill"></i><span>Calender</span><i class="bi bi-chevron-down ms-auto"></i>
+  </a>
+  <ul id="cal-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+    <li *ngIf="isEmployee">
+      <a routerLink="/employee/calender">
+        <i class="bi bi-person-fill"></i><span>Calender</span>
+      </a>
+    </li>
+  </ul>
+</li>
+<li class="nav-item" *ngIf="isRH">
+  <a class="nav-link collapsed" data-bs-target="#ca-nav" data-bs-toggle="collapse" href="#">
+    <i class="bi bi-person-fill"></i><span>Calender</span><i class="bi bi-chevron-down ms-auto"></i>
+  </a>
+  <ul id="ca-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+    <li *ngIf="isRH">
+      <a routerLink="/admin/calendar">
+        <i class="bi bi-person-fill"></i><span>Calender</span>
+      </a>
+    </li>
+  </ul>
+</li>
+
+<li class="nav-item" *ngIf="isRH">
+  <a class="nav-link collapsed" data-bs-target="#cal-nav" data-bs-toggle="collapse" href="#">
+    <i class="bi bi-calendar-check-fill"></i><span>Pointage & Presence</span><i class="bi bi-chevron-down ms-auto"></i>
+  </a>
+  <ul id="cal-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+    <li  *ngIf="isRH">
+      <a routerLink="/admin/pointage-list">
+        <i class="bi bi-person-fill"></i><span>Pointage list</span>
+      </a>
+    </li>
+  </ul>
+</li>
+
+
+<li class="nav-item" *ngIf="isSuperAdmin">
+  <a class="nav-link collapsed" data-bs-target="#cal-nav" data-bs-toggle="collapse" href="#">
+    <i class="bi bi-calendar-check-fill"></i><span>Pointage & Presence</span><i class="bi bi-chevron-down ms-auto"></i>
+  </a>
+  <ul id="cal-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+    <li  *ngIf="isRH">
+      <a routerLink="/superAdmin/pointage-list">
+        <i class="bi bi-person-fill"></i><span>Pointage list</span>
+      </a>
+    </li>
+  </ul>
+</li>
+
+
+
+
+
+
+  <li class="nav-item" *ngIf="isManager">
+  <a class="nav-link collapsed" data-bs-target="#project-nav" data-bs-toggle="collapse" href="#">
+    <i class="bi bi-folder"></i><span>Projects</span><i class="bi bi-chevron-down ms-auto"></i>
+  </a>
+  <ul id="project-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+    <li>
+      <a routerLink="/manager/projects-list">
+        <i class="bi bi-list-task"></i><span>Project </span>
+      </a>
+    </li>
+  </ul>
+</li>
+
+
+
+
+
+  <li class="nav-item" *ngIf="isEmployee">
+  <a class="nav-link collapsed" data-bs-target="#project-nav" data-bs-toggle="collapse" href="#">
+    <i class="bi bi-folder"></i><span>Projects</span><i class="bi bi-chevron-down ms-auto"></i>
+  </a>
+  <ul id="project-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+    <li>
+      <a routerLink="/employee/my-projects">
+        <i class="bi bi-list-task"></i><span>my Projects </span>
+      </a>
+    </li>
+  </ul>
+</li>
+
+
+
+
+
+  <li class="nav-item" *ngIf="isEmployee">
+  <a class="nav-link collapsed" data-bs-target="#project-nav" data-bs-toggle="collapse" href="#">
+    <i class="bi bi-folder"></i><span>Company</span><i class="bi bi-chevron-down ms-auto"></i>
+  </a>
+  <ul id="project-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+    <li>
+      <a routerLink="/superAdmin/company">
+        <i class="bi bi-list-task"></i><span>Company setting</span>
+      </a>
+    </li>
+  </ul>
+</li>
+
+<li class="nav-item" *ngIf="isManager">
+  <a class="nav-link collapsed" data-bs-target="#project-nav" data-bs-toggle="collapse" href="#">
+    <i class="bi bi-folder"></i><span>Events</span><i class="bi bi-chevron-down ms-auto"></i>
+  </a>
+  <ul id="project-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+    <li>
+      <a routerLink="/superAdmin/list-events">
+        <i class="bi bi-list-task"></i><span>Events</span>
+      </a>
+    </li>
+  </ul>
+</li>
+
+
+<li class="nav-item" *ngIf="isRH">
+  <a class="nav-link collapsed" data-bs-target="#project-nav" data-bs-toggle="collapse" href="#">
+    <i class="bi bi-folder"></i><span>Events</span><i class="bi bi-chevron-down ms-auto"></i>
+  </a>
+  <ul id="project-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+    <li>
+      <a routerLink="/superAdmin/list-events">
+        <i class="bi bi-list-task"></i><span>Events</span>
+      </a>
+    </li>
+  </ul>
+</li>
+
+
+
+    <li class="nav-heading">Pages</li>
+    <li class="nav-item">
+      <a class="nav-link collapsed" >
+         <a routerLink="/admin/user-profil">
+            <i class="bi bi-person-circle"></i><span>Profil</span>
+          </a>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a href="#" (click)="logout()" class="nav-link collapsed">
+        <i class="bi bi-box-arrow-right"></i><span>Déconnexion</span>
+      </a>
+    </li>
+
+  </ul>
+    <ul class="sidebar-nav" id="sidebar-nav" >
+
+   

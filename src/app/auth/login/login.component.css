@@ -1,0 +1,145 @@
+/* Animation pour le fond */
+body {
+    background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+}
+
+@keyframes gradientBG {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+/* Animation pour le formulaire */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.card {
+    animation: fadeInUp 0.8s ease-out;
+}
+
+/* Style pour le conteneur principal */
+
+/* Style pour la carte */
+.card {
+    border: none;
+    border-radius: 15px;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+/* Style pour le titre */
+.card-title {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #333;
+}
+
+/* Style pour les champs de formulaire */
+.form-control {
+    border: none;
+    border-radius: 10px;
+    padding: 12px;
+    background: rgba(255, 255, 255, 0.8);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.form-control:focus {
+    background: rgba(255, 255, 255, 1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Style pour le bouton de connexion */
+.btn-primary {
+    background: linear-gradient(45deg, #031c5f, #2575fc);
+    border: none;
+    border-radius: 10px;
+    padding: 12px;
+    font-size: 1rem;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Style pour les liens */
+a {
+    color: #6a11cb;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: #2575fc;
+    text-decoration: underline;
+}
+
+/* Style pour les icônes */
+.input-group-text {
+    background: rgba(255, 255, 255, 0.8);
+    border: none;
+    border-radius: 10px 0 0 10px;
+}
+
+/* Style pour le bouton "Back to top" */
+.back-to-top {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: linear-gradient(45deg, #6a11cb, #2575fc);
+    color: white;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+}
+
+/* Animation de rotation */
+/* Animation de rebond */
+@keyframes bounce {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-20px);
+    }
+}
+
+.logo-animation {
+    animation: bounce 2s ease-in-out infinite;
+    /* Rebond continu */
+}

@@ -1,0 +1,110 @@
+<app-navbar></app-navbar>
+<app-sidebar></app-sidebar>
+<main id="main" class="main">
+
+<div class="clock">
+  <h2>Heure actuelle :</h2>
+  <p>{{ currentTime }}</p>
+</div>
+
+<div class="container mt-4">
+  <div class="row">
+    <!-- Carte : Nombre total d'employés -->
+    <div class="col-md-3">
+      <div class="card bg-info text-white">
+        <div class="card-body">
+          <h5 class="card-title">Employees</h5>
+          <p class="card-text">{{ totalEmployees }}</p>
+        </div>
+      </div>
+    </div>
+
+<div class="col-md-3">
+      <div class="card bg-warning text-dark">
+        <div class="card-body">
+          <h5 class="card-title">RH</h5>
+          <p class="card-text">{{ userCountByRole['ROLE_RH'] || 0 }}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Carte : Nombre de Managers -->
+    <div class="col-md-3">
+      <div class="card bg-primary text-white">
+        <div class="card-body">
+          <h5 class="card-title">Managers</h5>
+          <p class="card-text">{{ userCountByRole['ROLE_MANAGER'] || 0 }}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Carte : Nombre d'Employés -->
+    <div class="col-md-3">
+      <div class="card bg-success text-white">
+        <div class="card-body">
+          <h5 class="card-title">Employees</h5>
+          <p class="card-text">{{ userCountByRole['ROLE_EMPLOYEE'] || 0 }}</p>
+        </div>
+      </div>
+    </div>
+
+   
+
+    <!-- Carte : Nombre de PM -->
+    <div class="col-md-3">
+      <div class="card bg-info text-white">
+        <div class="card-body">
+          <h5 class="card-title">PM</h5>
+          <p class="card-text">{{ userCountByRole['ROLE_PM'] || 0 }}</p>
+        </div>
+      </div>
+    </div>
+
+   
+  </div>
+    <!-- Autres cartes de statistiques -->
+    <!-- ... -->
+  </div>
+<div class="container">
+  <h2>Statistiques des Employés</h2>
+  <div class="row">
+    <div class="col-md-6">
+      <div class="card bg-success text-white">
+        <div class="card-body">
+          <h5 class="card-title">Employés Actifs</h5>
+          <p class="card-text">{{ activeEmployees.length }}</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="card bg-danger text-white">
+        <div class="card-body">
+          <h5 class="card-title">Employés Inactifs</h5>
+          <p class="card-text">{{ inactiveEmployees.length }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container">
+  <h2>Statistiques des embauches par période</h2>
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Période</th>
+        <th>Nombre d'employés</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let stat of employeeStats">
+        <td>{{ stat.period }}</td>
+        <td>{{ stat.count }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div class="container">
+  <h2>Nombre d'employés par département</h2>
+  <canvas id="departmentChart" width="400" height="200"></canvas>
+</div>
+</main>

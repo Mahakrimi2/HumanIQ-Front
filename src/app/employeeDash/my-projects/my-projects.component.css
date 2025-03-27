@@ -1,0 +1,132 @@
+.container {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.page-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.project-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.project-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+    transition: background-color 0.3s ease;
+}
+
+.project-item:hover {
+    background-color: #f0f0f0;
+}
+
+.project-info {
+    flex: 1;
+}
+
+.project-title {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    margin: 0 0 5px 0;
+}
+
+.project-description {
+    font-size: 14px;
+    color: #666;
+    margin: 0 0 5px 0;
+}
+
+.project-status {
+    font-size: 14px;
+    color: #555;
+    margin: 0;
+}
+
+.project-date {
+    font-size: 12px;
+    color: #888;
+    margin: 0;
+}
+
+.project-actions {
+    margin-left: 20px;
+}
+
+.btn {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+.btn-details {
+    background-color: #007bff;
+    color: #ffffff;
+}
+
+.btn-details:hover {
+    background-color: #0056b3;
+}
+
+.error-message {
+    color: #e74c3c;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.no-projects-message {
+    text-align: center;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    color: #666;
+}
+
+/* Styles pour les statuts */
+.project-status {
+    font-size: 14px;
+    font-weight: bold;
+    padding: 4px 8px;
+    border-radius: 12px;
+    display: inline-block;
+}
+
+.status-in-progress {
+    background-color: #3498db;
+    /* Bleu pour "En cours" */
+    color: #ffffff;
+}
+
+.status-completed {
+    background-color: #2ecc71;
+    /* Vert pour "Terminé" */
+    color: #ffffff;
+}
+
+.status-pending {
+    background-color: #f1c40f;
+    /* Jaune pour "En attente" */
+    color: #ffffff;
+}
+
+.status-default {
+    background-color: #95a5a6;
+    /* Gris par défaut */
+    color: #ffffff;
+}
