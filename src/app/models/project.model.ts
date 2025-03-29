@@ -8,5 +8,6 @@ export interface Project {
   endDate: string;
   status: string;
   employees?: any[];
-  projectManager?:User;
+  projectManager?: User;
+  priority:string
 }

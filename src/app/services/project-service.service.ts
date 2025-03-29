@@ -90,13 +90,22 @@ export class ProjectServiceService {
     return this.http.get<any[]>(`${this.apiUrl}/status`, { headers });
   }
 
+  getProjectsByPriority(): Observable<any[]> {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+    });
+    return this.http.get<any[]>(`${this.apiUrl}/priority`, { headers });
+  }
+
   getProjectsByEmployeeId(username: string): Observable<Project[]> {
-     const token = localStorage.getItem('token');
-     const headers = new HttpHeaders({
-       Authorization: `Bearer ${token}`,
-     });
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+    });
     return this.http.get<Project[]>(
-      `http://localhost:8082/api/employee/${username}/projects`,{headers}
+      `http://localhost:8082/api/employee/${username}/projects`,
+      { headers }
     );
   }
 }

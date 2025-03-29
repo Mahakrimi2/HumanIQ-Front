@@ -374,3 +374,31 @@
     /* Jaune pour PENDING */
     color: black;
 }
+
+
+
+/* Styles pour les badges de priorité */
+.priority-badge {
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.high-priority {
+    background-color: #fee2e2;
+    color: #dc2626;
+}
+
+.medium-priority {
+    background-color: #fef3c7;
+    color: #d97706;
+}
+
+.low-priority {
+    background-color: #dcfce7;
+    color: #16a34a;
+}

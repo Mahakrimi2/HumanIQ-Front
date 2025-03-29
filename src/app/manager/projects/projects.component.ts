@@ -34,9 +34,10 @@ export class ProjectsComponent implements OnInit {
   editProjectForm: FormGroup;
   selectedProject: Project | null = null;
   ProjectsNames: string[] = [];
+  ProjectsPriority: string[] = [];
   searchControl = new FormControl('');
-  filteredEmployees: any[] = []; // Employés filtrés
-  selectedEmployees: any[] = []; // Employés sélectionnés
+  filteredEmployees: any[] = [];
+  selectedEmployees: any[] = [];
 
   onEmployeeSelect(event: Event): void {
     const selectElement = event.target as HTMLSelectElement;
@@ -48,24 +49,23 @@ export class ProjectsComponent implements OnInit {
       );
 
       if (selectedEmployee && !this.isSelected(selectedEmployee)) {
-        this.selectedEmployees.push(selectedEmployee); // Ajoute l'employé à la liste des sélectionnés
-        this.updateAssignedEmployeesFormControl(); // Met à jour le contrôle du formulaire
+        this.selectedEmployees.push(selectedEmployee);
+        this.updateAssignedEmployeesFormControl();
       }
 
-      selectElement.value = ''; // Réinitialise la liste déroulante
+      selectElement.value = '';
     }
   }
 
-  // Vérifie si un employé est déjà sélectionné
   isSelected(employee: any): boolean {
     return this.selectedEmployees.some((e) => e.id === employee.id);
   }
 
   toggleEmployeeSelection(employee: any): void {
     if (this.isSelected(employee)) {
-      this.removeEmployee(employee); // Retire l'employé s'il est déjà sélectionné
+      this.removeEmployee(employee);
     } else {
-      this.selectEmployee(employee); // Ajoute l'employé s'il n'est pas sélectionné
+      this.selectEmployee(employee);
     }
   }
 
@@ -74,7 +74,6 @@ export class ProjectsComponent implements OnInit {
     this.updateAssignedEmployeesFormControl();
   }
 
-  // Retire un employé de la liste des sélectionnés
   removeEmployee(employee: any): void {
     this.selectedEmployees = this.selectedEmployees.filter(
       (e) => e.id !== employee.id
@@ -82,7 +81,6 @@ export class ProjectsComponent implements OnInit {
     this.updateAssignedEmployeesFormControl();
   }
 
-  // Met à jour le contrôle "assignedEmployees" du formulaire
   updateAssignedEmployeesFormControl(): void {
     const assignedEmployeeIds = this.selectedEmployees.map((e) => e.id);
     this.addProjectWizardForm
@@ -96,12 +94,12 @@ export class ProjectsComponent implements OnInit {
     private fb: FormBuilder
   ) {
     this.addProjectWizardForm = this.fb.group({
-      // Step 1 fields
       name: ['', Validators.required],
       description: ['', Validators.required],
       startDate: ['', Validators.required],
       endDate: ['', Validators.required],
       status: ['', Validators.required],
+      priority: ['', Validators.required],
       projectManager: ['', Validators.required],
       assignedEmployees: [[], Validators.required],
     });
@@ -112,7 +110,8 @@ export class ProjectsComponent implements OnInit {
       startDate: ['', Validators.required],
       endDate: ['', Validators.required],
       status: ['', Validators.required],
-    
+      priority: ['', Validators.required],
+     
     });
   }
 
@@ -120,6 +119,7 @@ export class ProjectsComponent implements OnInit {
     this.loadProjects();
     this.loadEmployees();
     this.loadProjectStatus();
+    this.loadProjectPriority();
   }
 
   loadProjects(): void {
@@ -144,6 +144,19 @@ export class ProjectsComponent implements OnInit {
     );
   }
 
+  loadProjectPriority(): void {
+    this.projectService.getProjectsByPriority().subscribe(
+      (data: any[]) => {
+        this.ProjectsPriority = data;
+        console.log('====================================');
+        console.log(data);
+        console.log('====================================');
+      },
+      (error) => {
+        console.error('Error loading project priority', error);
+      }
+    );
+  }
   loadEmployees(): void {
     this.userService.getAllUsers().subscribe(
       (data) => {
@@ -174,17 +187,16 @@ export class ProjectsComponent implements OnInit {
     if (this.addProjectWizardForm.valid) {
       const formValues = this.addProjectWizardForm.value;
 
-      // Vérifiez que formValues.assignedEmployees est défini
       const employeeIds = formValues.assignedEmployees || [];
       const projectManagerId = formValues.projectManager;
 
-      // Créer un objet Project à partir des valeurs du formulaire
       const project: Project = {
         name: formValues.name,
         description: formValues.description,
         startDate: formValues.startDate,
         endDate: formValues.endDate,
         status: formValues.status,
+        priority: formValues.priority,
       };
 
       this.projectService
@@ -268,6 +280,7 @@ export class ProjectsComponent implements OnInit {
       startDate: project.startDate,
       endDate: project.endDate,
       status: project.status,
+      priority: project.priority,
     });
     this.showEditProjectModal = true;
   }
@@ -282,13 +295,12 @@ export class ProjectsComponent implements OnInit {
     if (this.editProjectForm.valid && this.selectedProject) {
       const formValues = this.editProjectForm.value;
 
-      // Créer un objet Project avec uniquement les champs à mettre à jour
       const updatedProject = {
-        ...formValues, // Appliquer les nouvelles valeurs du formulaire
-        id: this.selectedProject.id, // Conserver l'ID du projet
+        ...formValues,
+        id: this.selectedProject.id,
       };
 
-      console.log('Data being sent to the backend:', updatedProject); // Log les données envoyées
+      console.log('Data being sent to the backend:', updatedProject);
 
       this.projectService
         .updateProject(updatedProject.id, updatedProject)
