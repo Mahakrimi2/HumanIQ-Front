@@ -60,19 +60,23 @@
                 </div>
               </div>
 
-              <div class="row mb-3" *ngIf="showCertificate">
-                <label for="file" class="col-sm-2 col-form-label">Certificate</label>
-                <div class="col-sm-10">
-                  <input type="file" class="form-control" (change)="onFileChange($event)" formControlName="file">
-                </div>
-              </div>
-
-    
-              <div class="row mb-3">
-                <div class="col-sm-10 offset-sm-2">
-                  <button type="submit" class="btn btn-primary" [disabled]="holidayRequestForm.invalid">Submit</button>
-                </div>
-              </div>
+             <div class="row mb-3" *ngIf="showCertificate">
+  <label for="file" class="col-sm-2 col-form-label">Certificate</label>
+  <div class="col-sm-10">
+    <input type="file" class="form-control" (change)="onFileChange($event)" formControlName="file" required>
+    <div *ngIf="showCertificate && holidayRequestForm.get('file')?.invalid && holidayRequestForm.get('file')?.touched" class="text-danger">
+      Medical certificate is required for sick leave.
+    </div>
+  </div>
+</div>
+    <div class="row mb-3">
+  <div class="col-sm-10 offset-sm-2">
+    <button type="submit" class="btn btn-primary" 
+            [disabled]="holidayRequestForm.invalid || (showCertificate && !holidayRequestForm.get('file')?.value)">
+      Submit
+    </button>
+  </div>
+</div>
             </form>
           </div>
         </div>

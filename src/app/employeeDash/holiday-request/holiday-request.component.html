@@ -1,44 +1,65 @@
 <app-navbar></app-navbar>
 <app-sidebar></app-sidebar>
+
 <main id="main" class="main">
-<div class="container-fluid">
-  <div class="row">
-    <div class="col-lg-10">
-      <h2>My Leave Requests</h2>
-      <div class="row">
-        <!-- Card for each leave request -->
-        <div *ngFor="let request of leaveRequests" class="col-md-4 mb-4">
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title">{{ request.type }}</h5>
-              <p class="card-text">
-                <strong>Start Date:</strong> {{ request.startDate | date }}<br>
-                <strong>Duration:</strong> {{ request.duration }} days<br>
-                <strong>Status:</strong>
-                <span [ngClass]="{
-                  'badge bg-warning': request.status === 'PENDING',
-                  'badge bg-success': request.status === 'ACCEPTED',
-                  'badge bg-danger': request.status === 'REJECTED'
-                }">
-                  {{ request.status }}
-                </span>
-              </p>
-              <p class="card-text">
-                <strong>Reason:</strong> {{ request.reason }}
-              </p>
- <a *ngIf="!request.isPdf" class="btn btn-primary" target="_blank" [href]="request.fileUrl" alt="Profil">See File</a>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="card shadow-sm border-0">
+          <div class="card-body">
+            <h2 class="card-title mb-4">My Leave Requests</h2>
+            
+            <div class="row">
+              <div *ngFor="let request of leaveRequests" class="col-md-4 mb-4">
+                <div class="card h-100 border-0 shadow-sm-hover">
+                  <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                      <h5 class="card-title mb-0 text-primary">{{ request.type }}</h5>
+                      <span class="badge rounded-pill py-1 px-2" [ngClass]="{
+                        'bg-warning text-dark': request.status === 'PENDING',
+                        'bg-success': request.status === 'ACCEPTED',
+                        'bg-danger': request.status === 'REJECTED'
+                      }">
+                        {{ request.status }}
+                      </span>
+                    </div>
 
-  <!-- Affichage du PDF directement dans la page -->
-<a *ngIf="request.isPdf" class="btn btn-primary"
-        [href]="request.fileUrl" target="_blank"
-      > See File
-            </a>
+                    <div class="mb-3">
+                      <div class="d-flex align-items-center mb-2">
+                        <i class="bi bi-calendar-date me-2 text-muted"></i>
+                        <small class="text-muted">Start: {{ request.startDate | date:'mediumDate' }}</small>
+                      </div>
+                      <div class="d-flex align-items-center mb-2">
+                        <i class="bi bi-clock me-2 text-muted"></i>
+                        <small class="text-muted">Duration: {{ request.duration }} days</small>
+                      </div>
+                      <div class="d-flex align-items-start">
+                        <i class="bi bi-chat-left-text me-2 text-muted mt-1"></i>
+                        <small class="text-muted">Reason: {{ request.reason }}</small>
+                      </div>
+                    </div>
 
+                    <div class="d-flex justify-content-end">
+                      <a *ngIf="!request.isPdf" 
+                         class="btn btn-sm btn-outline-primary d-flex align-items-center" 
+                         target="_blank" 
+                         [href]="request.fileUrl">
+                        <i class="bi bi-file-earmark-text me-1"></i> View Image
+                      </a>
+                      <a *ngIf="request.isPdf" 
+                         class="btn btn-sm btn-outline-primary d-flex align-items-center" 
+                         [href]="request.fileUrl" 
+                         target="_blank">
+                        <i class="bi bi-file-earmark-pdf me-1"></i> View PDF
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-</div>
 </main>

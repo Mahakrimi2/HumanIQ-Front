@@ -10,8 +10,8 @@ import Swal from 'sweetalert2';
 })
 export class LeaveRequestComponent {
 
-  leaveRequests: Holiday[] = []; // Liste des demandes de congé
-  holidayStatuses: string[] = []; // Statuts possibles
+  leaveRequests: Holiday[] = []; 
+  holidayStatuses: string[] = [];
   selectedRequest: Holiday | null = null; // Demande sélectionnée pour le modal
   newStatus: string = ''; // Nouveau statut sélectionné
 

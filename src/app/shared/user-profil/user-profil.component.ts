@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AvatarService } from 'src/app/avatar.service';
 import { ChangePasswordRequest } from 'src/app/models/ChangePasswordRequest.model';
 import { User } from 'src/app/models/user.model';
 import { UserService } from 'src/app/services/user.service';
@@ -12,10 +13,10 @@ import Swal from 'sweetalert2';
 export class UserProfilComponent implements OnInit {
   copyobj() {
     this.edituser.id = this.user.id;
-    this.edituser.fullname = this.user.fullname
-    this.edituser.position = this.user.position
-    this.edituser.telNumber = this.user.telNumber
-    this.edituser.address=this.user.address
+    this.edituser.fullname = this.user.fullname;
+    this.edituser.position = this.user.position;
+    this.edituser.telNumber = this.user.telNumber;
+    this.edituser.address = this.user.address;
   }
   changePasswordRequest: ChangePasswordRequest = {
     oldPassword: '',
@@ -35,7 +36,10 @@ export class UserProfilComponent implements OnInit {
   selectedFile: File | null = null;
   ProfilImageUrl: any;
 
-  constructor(private userService: UserService) {}
+  constructor(
+    private userService: UserService,
+    private avatarService: AvatarService
+  ) {}
   ngOnInit(): void {
     this.uploadProfileImage();
     this.loadUserProfile();
@@ -43,6 +47,7 @@ export class UserProfilComponent implements OnInit {
 
   onFileSelected(event: any): void {
     this.selectedFile = event.target.files[0];
+
     this.uploadProfileImage();
   }
   uploadProfileImage(): void {
@@ -65,44 +70,26 @@ export class UserProfilComponent implements OnInit {
       });
   }
 
-  /*
-  removeProfileImage(): void {
-    if (!this.user) return;
-
-    this.userService.removeProfileImage(this.user.id).subscribe({
-      next: () => {
-        this.user!.profileImagePath = 'assets/img/anonyme.jpg'; // Image par défaut
-        alert('Profile image removed successfully!');
-      },
-      error: (err) => console.error('Failed to remove profile image', err),
-    });
+  getAvatarInfo() {
+    return this.avatarService.generateAvatar(this.user?.fullname || '');
   }
-*/
 
   loadUserProfile(): void {
     this.userService.getCurrentUserProfile().subscribe({
       next: (data) => {
-        console.log(data);
+        this.user = data;
 
-        // Ajouter l'URL de base au chemin de l'image
-
-        //   this.userService.getProfileImage(data.profileImagePath).subscribe(data=>{
-        //     console.log("image insére avec succes", data);
-        //     this.ProfilImageUrl = data;
-        //   }, (error)=>{
-        //     console.error("error",error);
-        //  });
-        if (data && data.profileImagePath) {
+        if (
+          data.profileImagePath &&
+          !data.profileImagePath.includes('anonyme')
+        ) {
           this.ProfilImageUrl =
             'http://localhost:8082/api/rh/users/profileImage/' +
             data.profileImagePath;
-          this.user = data;
         } else {
-          this.ProfilImageUrl = 'assets/img/anonyme.jpg';
-          this.user = data;
+          this.ProfilImageUrl = null; // Forcera l'affichage de l'avatar
         }
       },
-
       error: (err) => console.error('Failed to load user profile', err),
     });
   }
@@ -149,9 +136,7 @@ export class UserProfilComponent implements OnInit {
   onDeleteProfileImage() {
     this.userService.deleteProfileImage(this.user.id).subscribe(
       (response) => {
-        console.log(response); // Affiche "Profile image deleted successfully"
-        this.user.profileImagePath = ''; // Supprimer le chemin de l'image
-        this.ProfilImageUrl = 'assets/img/anonyme.jpeg';
+        this.ProfilImageUrl = null; // Réinitialise pour afficher l'avatar
         Swal.fire({
           icon: 'success',
           title: 'Success!',
@@ -170,7 +155,6 @@ export class UserProfilComponent implements OnInit {
       }
     );
   }
-
   onSubmit() {
     if (this.changePasswordRequest.newPassword !== this.confirmNewPassword) {
       Swal.fire({

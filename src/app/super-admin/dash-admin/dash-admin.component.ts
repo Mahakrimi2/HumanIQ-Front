@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { User } from 'src/app/models/user.model';
 import { DepartmentService } from 'src/app/services/department.service';
 import { UserService } from 'src/app/services/user.service';
-import { Chart, registerables } from 'chart.js';
+import { Chart, ChartConfiguration, ChartType, registerables } from 'chart.js';
+import { ProjectServiceService } from 'src/app/services/project-service.service';
 
 @Component({
   selector: 'app-dash-admin',
@@ -14,12 +15,20 @@ export class DashAdminComponent implements OnInit {
   totalDep: number = 0;
   chart: any;
   userCountByRole: { [key: string]: number } = {};
-  activeEmployees: any[] = []; // Employés actifs
-  inactiveEmployees: any[] = []; // Employés inactifs
+  activeEmployees: any[] = [];
+  inactiveEmployees: any[] = [];
+  highPriorityCount = 0;
+  mediumPriorityCount = 0;
+  lowPriorityCount = 0;
+  totalProjects = 0;
+  priorityStats: any[] = [];
+  priorityChart!: Chart;
   departments: { name: string; employeeCount: number }[] = [];
   employeeStats: { period: string; count: number }[] = [];
-    currentTime: string = ''; // Variable pour stocker l'heure actuelle
-  private intervalId: any; 
+  currentTime: string = '';
+  private intervalId: any;
+  @ViewChild('priorityChart', { static: true })
+  private chartRef: any;
   ngOnInit(): void {
     this.loadUserCountByRole();
     this.loadDepartments();
@@ -27,11 +36,13 @@ export class DashAdminComponent implements OnInit {
     this.loadHireDate();
     this.loadData();
     this.intervalId = setInterval(() => this.updateTime(), 1000);
+    this.loadPriorityStats();
   }
 
   constructor(
     private userService: UserService,
-    private depService: DepartmentService
+    private depService: DepartmentService,
+    private projectService: ProjectServiceService
   ) {
     Chart.register(...registerables);
   }
@@ -74,11 +85,12 @@ export class DashAdminComponent implements OnInit {
     this.userService.getUsers().subscribe(
       (users) => {
         console.log('Données brutes des utilisateurs :', users);
+        this.totalEmployees = users.length;
 
         this.activeEmployees = [];
         this.inactiveEmployees = [];
 
-        users.forEach((user:any) => {
+        users.forEach((user: any) => {
           if (user.isDisabled === undefined) {
             user.isDisabled = false;
           }
@@ -177,31 +189,117 @@ export class DashAdminComponent implements OnInit {
     );
   }
 
+  loadPriorityStats(): void {
+    this.projectService.getAllProjects().subscribe((projects) => {
+      console.log(projects);
+      
+      this.totalProjects = projects.length;
+
+     
+      this.highPriorityCount = projects.filter(
+        (p) => p.priority === 'HIGH'
+      ).length;
+     
+      
+      this.mediumPriorityCount = projects.filter(
+        (p) => p.priority === 'MEDIUM'
+      ).length;
+      this.lowPriorityCount = projects.filter(
+        (p) => p.priority === 'LOW'
+      ).length;
+
+      this.priorityStats = [
+        {
+          priority: 'HIGH',
+          count: this.highPriorityCount,
+          percentage: Math.round(
+            (this.highPriorityCount / this.totalProjects) * 100
+          ),
+          class: 'high-priority',
+        },
+        {
+          priority: 'MEDIUM',
+          count: this.mediumPriorityCount,
+          percentage: Math.round(
+            (this.mediumPriorityCount / this.totalProjects) * 100
+          ),
+          class: 'medium-priority',
+        },
+        {
+          priority: 'LOW',
+          count: this.lowPriorityCount,
+          percentage: Math.round(
+            (this.lowPriorityCount / this.totalProjects) * 100
+          ),
+          class: 'low-priority',
+        },
+      ];
+
+      
+      this.initPriorityChart();
+    });
+  }
+  initPriorityChart(): void {
+    const config: ChartConfiguration = {
+      type: 'doughnut' as ChartType,
+      data: {
+        labels: ['High Priority', 'Medium Priority', 'Low Priority'],
+        datasets: [{
+          data: [this.highPriorityCount, this.mediumPriorityCount, this.lowPriorityCount],
+          backgroundColor: [
+            '#dc2626',
+            '#d97706',
+            '#16a34a'
+          ],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            position: 'right',
+          },
+          tooltip: {
+            callbacks: {
+              label: (context) => {
+                const label = context.label || '';
+                const value = context.raw as number;
+                const percentage = Math.round((value / this.totalProjects) * 100);
+                return `${label}: ${value} (${percentage}%)`;
+              }
+            }
+          }
+        }
+      }
+    };
+    
+    this.priorityChart = new Chart(this.chartRef.nativeElement, config);
+  }
+
+
   renderChart(departments: string[], employeeCounts: number[]): void {
     const ctx = document.getElementById('departmentChart') as HTMLCanvasElement;
 
-    // Vérifier si l'élément canvas existe
     if (!ctx) {
       console.error("L'élément 'departmentChart' n'existe pas dans le DOM.");
       return;
     }
 
-    // Détruire le graphique existant s'il y en a un
     if (this.chart) {
       this.chart.destroy();
     }
 
-    // Créer un nouveau graphique
     this.chart = new Chart(ctx, {
       type: 'line',
       data: {
-        labels: departments.map((a: any) => a.name), // Noms des départements
+        labels: departments.map((a: any) => a.name),
         datasets: [
           {
             label: "Nombre d'employés par département",
-            data: employeeCounts, // Nombre d'utilisateurs
+            data: employeeCounts,
             borderColor: 'rgba(75, 192, 192, 1)', // Couleur de la courbe
-            backgroundColor: 'rgba(75, 192, 192, 0.2)', // Couleur de remplissage
+            backgroundColor: 'rgba(75, 192, 192, 0.2)',
             fill: true, // Remplir sous la courbe
             tension: 0.4, // Courbure de la ligne
           },
@@ -233,4 +331,6 @@ export class DashAdminComponent implements OnInit {
       },
     });
   }
+
+  
 }

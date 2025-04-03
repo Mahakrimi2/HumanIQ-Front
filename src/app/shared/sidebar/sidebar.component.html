@@ -258,6 +258,21 @@
   </ul>
 </li>
 
+
+
+<li class="nav-item" *ngIf="isSuperAdmin">
+  <a class="nav-link collapsed" data-bs-target="#p-nav" data-bs-toggle="collapse" href="#">
+    <i class="bi bi-person-fill"></i><span>Pointage</span><i class="bi bi-chevron-down ms-auto"></i>
+  </a>
+  <ul id="p-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+    <li>
+      <a routerLink="/superAdmin/pointage">
+        <i class="bi bi-person-fill"></i><span>Pointage</span>
+      </a>
+    </li>
+  </ul>
+</li>
+
  <li class="nav-item" *ngIf="isEmployee">
   <a class="nav-link collapsed" data-bs-target="#cal-nav" data-bs-toggle="collapse" href="#">
     <i class="bi bi-person-fill"></i><span>Calender</span><i class="bi bi-chevron-down ms-auto"></i>
@@ -265,6 +280,19 @@
   <ul id="cal-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
     <li *ngIf="isEmployee">
       <a routerLink="/employee/calender">
+        <i class="bi bi-person-fill"></i><span>Calender</span>
+      </a>
+    </li>
+  </ul>
+</li>
+
+ <li class="nav-item" *ngIf="isManager">
+  <a class="nav-link collapsed" data-bs-target="#cal-nav" data-bs-toggle="collapse" href="#">
+    <i class="bi bi-person-fill"></i><span>Calender</span><i class="bi bi-chevron-down ms-auto"></i>
+  </a>
+  <ul id="cal-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+    <li *ngIf="isManager">
+      <a routerLink="/manager/calendar">
         <i class="bi bi-person-fill"></i><span>Calender</span>
       </a>
     </li>
@@ -302,7 +330,7 @@
     <i class="bi bi-calendar-check-fill"></i><span>Pointage & Presence</span><i class="bi bi-chevron-down ms-auto"></i>
   </a>
   <ul id="cal-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
-    <li  *ngIf="isRH">
+    <li  *ngIf="isSuperAdmin">
       <a routerLink="/superAdmin/pointage-list">
         <i class="bi bi-person-fill"></i><span>Pointage list</span>
       </a>

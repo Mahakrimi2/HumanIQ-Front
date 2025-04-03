@@ -28,48 +28,70 @@
   />
 
             </div>
-            <table class="table datatable">
-              <thead>
-                <tr>
-                  <th>Contract Type</th>
-                  <th>Description</th>
-                  <th>Start Date</th>
-                  <th>End Date</th>
-                  <th>Working Hours/week</th>
-                  <th>Is Signed</th>
-                  <th>Benefits</th>
-                  <th>Salary</th>
-                  <th>Status</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let contract of filteredContracts">
-                  <td>{{ contract.contractType }}</td>
-                  <td>{{ contract.description }}</td>
-                  <td>{{ contract.startDate | date }}</td>
-                  <td>{{ contract.endDate | date }}</td>
-                  <td>{{ contract.workingHours }}</td>
-                  <td>{{ contract.Signed ? 'Yes' : 'No' }}</td>
+           <div class="table-responsive">
+              <table class="table table-hover align-middle">
+                <thead class="table-light">
+                  <tr>
+                    <th class="py-3">Type</th>
+                    <th class="py-3">Description</th>
+                    <th class="py-3">Start Date</th>
+                    <th class="py-3">End Date</th>
+                    <th class="py-3 text-center">Hours/Month</th>
+                    <th class="py-3">Benefits</th>
+                    <th class="py-3 text-end">Salary</th>
+                    <th class="py-3 text-center">Status</th>
+                    <th class="py-3 text-center">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+               <tr *ngFor="let contract of filteredContracts" class="py-2">
+                    <td class="py-2">
+                      <span class="fw-medium">{{ contract.contractType }}</span>
+                    </td>
+                    <td class="py-2 text-truncate" style="max-width: 200px;" title="{{ contract.description }}">
+                      {{ contract.description }}
+                    </td>
+                    <td class="py-2">{{ contract.startDate | date:'shortDate' }}</td>
+                    <td class="py-2">{{ contract.endDate | date:'shortDate' }}</td>
+                    <td class="py-2 text-center">{{ contract.workingHours }}</td>
+      <td class="py-2">       
+   <span *ngIf="contract.benefits.length>5; else showAll">
+    {{ contract.benefits | slice:0:50 }}...
+    <a (click)="openPopup(contract.benefits)" 
+       style="color: blue; text-decoration: underline; cursor: pointer;">
+      Learn More
+    </a>
+  </span>
+  
+  <!-- Si texte court -->
+  <ng-template #showAll>
+    {{ contract.benefits }}
+  </ng-template>
+  
+  <!-- Popup (s'affiche quand showPopup=true) -->
+  <div *ngIf="showPopup" class="popup-overlay">
+    <div class="popup-box">
+      <button (click)="closePopup()" class="close-btn">×</button>
+      <div class="popup-content">
+        {{ popupText }}
+      </div>
+    </div>
+  </div>
+  </td>   
+              <td class="py-2 text-end">{{ contract.salary | number }} DT</td>
                   <td>
-        <span *ngIf="contract.benefits; else noBenefits">
-          {{ contract.benefits | slice:0:50 }} <!-- Affiche les 50 premiers caractères -->
-          <span *ngIf="contract.benefits.length > 50">...</span>
-          <a
-            href="#"
-            (click)="showFullBenefits(contract.benefits); $event.preventDefault()"
-            class="text-primary ms-1"
-            style="cursor: pointer;"
-          >
-            Learn More
-          </a>
-        </span>
-        <ng-template #noBenefits>No benefits available</ng-template>
-      </td>
-                  <td>{{ contract.salary }}</td>
-                  <td>{{ contract.status }}</td>
+  <span class="status-badge" [ngClass]="{
+    'active': contract.status === 'active',
+    'pending': contract.status === 'PENDING',
+    'expired': contract.status === 'EXPIRED',
+    'terminated': contract.status === 'TERMINATED',
+    'suspended': contract.status === 'SUSPENDED',
+    'cancelled': contract.status === 'CANCELLED'
+  }">
+    {{ contract.status }}
+  </span>
+</td>
                 <td>
-<!-- Icône pour éditer le contrat -->
 <i
   class="fa-solid fa-pen-to-square text-primary"
   style="cursor: pointer;"
@@ -78,14 +100,14 @@
   (click)="loadContractForEdit(contract)"
 ></i>
 
-<!-- Icône pour supprimer le contrat -->
+
 <i
   class="fa-solid fa-trash text-danger ms-2"
   style="cursor: pointer;"
   (click)="deleteContract(contract.id)"
 ></i>
 
-<!-- Icône pour télécharger/imprimer le contrat -->
+
 <i
   class="fa-solid fa-print text-info ms-2"
   style="cursor: pointer;"
@@ -97,17 +119,24 @@
               </tbody>
             </table>
 
-            <div class="modal" *ngIf="isBenefitsModalOpen">
-  <div class="modal-content">
-    <span class="close-btn" (click)="closeBenefitsModal()">&times;</span>
-    <h2>Benefits</h2>
-    <p>{{ fullBenefits }}</p>
+           <!-- Modal pour afficher les avantages complets -->
+<div class="modal fade" #benefitsModal tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Full Benefits</h5>
+        <button type="button" class="btn-close" (click)="hideModal()"></button>
+      </div>
+      <div class="modal-body">
+        {{ fullBenefits }}
+      </div>
+    </div>
   </div>
 </div>
-
           </div>
         </div>
       </div>
+    </div>
     </div>
   </section>
 

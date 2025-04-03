@@ -78,7 +78,11 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "RHSystem:build"
+            "browserTarget": "RHSystem:build",
+            "ssl": true,
+            "sslKey": "./ssl/key.pem",
+            "sslCert": "./ssl/cert.pem",
+            "host": "localhost"
           }
         },
         "test": {

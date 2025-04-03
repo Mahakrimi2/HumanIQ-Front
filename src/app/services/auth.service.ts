@@ -70,12 +70,63 @@ export class AuthService {
   getToken(): string | null {
     return localStorage.getItem('token');
   }
-
-  resetPassword(username: string): Observable<string> {
-    return this.http.post<string>(
-      `${this.apiUrl}/reset-password?username=${username}`,
-      {}
-    );
+  updatePassword(token: string, newPassword: string): Observable<any> {
+    return this.http
+      .post<any>(`http://localhost:8082/api/password/reset`, null, {
+        params: {
+          token: token,
+          newPassword: newPassword,
+        },
+      })
+      .pipe(
+        catchError((error) => {
+          console.error('Erreur lors de la réinitialisation:', error);
+          return throwError(
+            () =>
+              new Error(
+                error.error?.message ||
+                  'Erreur lors de la réinitialisation du mot de passe.'
+              )
+          );
+        })
+      );
+  }
+  // resetPassword(username: string): Observable<string> {
+  //   return this.http
+  //     .post<string>(`http://localhost:8082/api/password/forgot`, {
+  //       username,
+  //     })
+  //     .pipe(
+  //       catchError((error) => {
+  //         console.error(
+  //           'Erreur lors de la demande de réinitialisation:',
+  //           error
+  //         );
+  //         return throwError(
+  //           () => new Error('Impossible de traiter la demande.')
+  //         );
+  //       })
+  //     );
+  // }
+  // auth.service.ts
+  resetPassword(username: string): Observable<any> {
+    // Envoyer le username comme corps de la requête (JSON)
+    return this.http
+      .post<any>(`http://localhost:8082/api/password/forgot`, { username })
+      .pipe(
+        catchError((error) => {
+          console.error(
+            'Erreur lors de la demande de réinitialisation:',
+            error
+          );
+          return throwError(
+            () =>
+              new Error(
+                error.error?.message || 'Impossible de traiter la demande.'
+              )
+          );
+        })
+      );
   }
 
   getUserInfo(): Observable<AuthModel> {
@@ -135,7 +186,7 @@ export class AuthService {
 
   setUserId(userId: number): void {
     this.userId = userId;
-    localStorage.setItem('userId', userId.toString()); 
+    localStorage.setItem('userId', userId.toString());
   }
 
   getUsername(): string | null {
@@ -146,7 +197,7 @@ export class AuthService {
         return decodedToken.sub;
       }
     }
-    return null; 
+    return null;
   }
   // logout(): void {
   //   this.userId = null;

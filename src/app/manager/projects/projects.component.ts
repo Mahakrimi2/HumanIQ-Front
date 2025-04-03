@@ -5,6 +5,7 @@ import { Project } from 'src/app/models/project.model';
 import { User } from 'src/app/models/user.model';
 import { ProjectServiceService } from 'src/app/services/project-service.service';
 import { UserService } from 'src/app/services/user.service';
+import { TrelloService } from 'src/app/trello-servicz.service';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -91,7 +92,8 @@ export class ProjectsComponent implements OnInit {
   constructor(
     private projectService: ProjectServiceService,
     private userService: UserService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private trelloService:TrelloService
   ) {
     this.addProjectWizardForm = this.fb.group({
       name: ['', Validators.required],
@@ -111,11 +113,26 @@ export class ProjectsComponent implements OnInit {
       endDate: ['', Validators.required],
       status: ['', Validators.required],
       priority: ['', Validators.required],
-     
     });
   }
 
   ngOnInit(): void {
+    this.trelloService
+      .addMemberToBoard('UwZB1ACH', 'email@exemple.com', 'normal')
+      .subscribe({
+        next: (response) => console.log('Membre ajouté avec succès:', response),
+        error: (error) => console.error('Erreur:', error),
+      });
+  this.trelloService.getBoards().subscribe({
+    next: (boards) => {
+      console.log('Liste des boards:', boards);
+      boards.forEach((board) =>
+        console.log(`ID: ${board.id}, Nom: ${board.name}`)
+      );
+    },
+    error: (error) => console.error('Erreur:', error),
+  });
+
     this.loadProjects();
     this.loadEmployees();
     this.loadProjectStatus();
@@ -137,6 +154,9 @@ export class ProjectsComponent implements OnInit {
     this.projectService.getProjectsByStatus().subscribe(
       (data: any[]) => {
         this.ProjectsNames = data;
+        console.log('====================================');
+        console.log(data);
+        console.log('====================================');
       },
       (error) => {
         console.error('Error loading project status', error);
@@ -211,6 +231,12 @@ export class ProjectsComponent implements OnInit {
               confirmButtonText: 'OK',
             });
             this.loadProjects();
+             this.trelloService
+               .createBoard(project.name)
+               .subscribe((response) => {
+                 console.log('Trello Board Created:', response);
+                 alert('Trello Board successfully created!');
+               });
           },
           (error) => {
             console.error('Full error response:', error); // Log the full error
@@ -329,4 +355,6 @@ export class ProjectsComponent implements OnInit {
         );
     }
   }
+
+
 }

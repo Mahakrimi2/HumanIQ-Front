@@ -116,4 +116,12 @@ export class PointageService {
     console.error(errorMessage);
     return throwError(errorMessage);
   }
+
+   getHolidayStatus(): Observable<string[]> {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+    });
+    return this.http.get<string[]>(`${this.apiUrl}/statuses`, { headers });
+  }
 }

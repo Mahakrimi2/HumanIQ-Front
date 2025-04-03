@@ -2,44 +2,63 @@
     padding: 100px;
 }
 
-/* Styles pour les cartes */
-.card {
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+/* Main Container */
+.card.shadow-sm {
+    border-radius: 12px;
+    overflow: hidden;
 }
 
-.card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-}
-
+/* Card Title */
 .card-title {
-    font-size: 1.25rem;
     font-weight: 600;
-    color: #333;
+    color: #2c3e50;
+    font-size: 1.5rem;
+    border-bottom: 1px solid #f0f0f0;
+    padding-bottom: 0.75rem;
 }
 
-.card-text {
-    font-size: 0.9rem;
-    color: #555;
+/* Request Cards */
+.card.shadow-sm-hover {
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(0, 0, 0, 0.05);
 }
 
+.card.shadow-sm-hover:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+}
+
+/* Badges */
 .badge {
-    font-size: 0.8rem;
-    padding: 0.5rem 0.75rem;
-    border-radius: 4px;
+    font-weight: 500;
+    font-size: 0.75rem;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
 }
 
-.bg-warning {
-    background-color: #ffc107 !important;
+/* Icons */
+.bi {
+    font-size: 1rem;
 }
 
-.bg-success {
-    background-color: #28a745 !important;
+/* Buttons */
+.btn-outline-primary {
+    border-width: 1px;
+    transition: all 0.2s;
 }
 
-.bg-danger {
-    background-color: #dc3545 !important;
+.btn-outline-primary:hover {
+    background-color: #0454a5;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .card-title {
+        font-size: 1.3rem;
+    }
+
+    .col-md-4 {
+        padding-bottom: 1rem;
+    }
 }

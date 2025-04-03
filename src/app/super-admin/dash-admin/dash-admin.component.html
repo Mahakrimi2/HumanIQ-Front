@@ -1,110 +1,216 @@
 <app-navbar></app-navbar>
 <app-sidebar></app-sidebar>
+
 <main id="main" class="main">
-
-<div class="clock">
-  <h2>Heure actuelle :</h2>
-  <p>{{ currentTime }}</p>
-</div>
-
-<div class="container mt-4">
-  <div class="row">
-    <!-- Carte : Nombre total d'employés -->
-    <div class="col-md-3">
-      <div class="card bg-info text-white">
-        <div class="card-body">
-          <h5 class="card-title">Employees</h5>
-          <p class="card-text">{{ totalEmployees }}</p>
+  <div class="dashboard-container">
+    
+    <!-- Header Section with Clock -->
+    <div class="dashboard-header">
+      <div class="header-content">
+        <h1 class="dashboard-title">Admin Dashboard</h1>
+        <div class="clock-widget">
+          <div class="clock-icon">
+            <i class="fa-regular fa-clock"></i>
+          </div>
+          <div class="clock-content">
+            <p class="clock-label">Current Time</p>
+            <p class="clock-time">{{ currentTime }}</p>
+          </div>
         </div>
       </div>
     </div>
 
-<div class="col-md-3">
-      <div class="card bg-warning text-dark">
-        <div class="card-body">
-          <h5 class="card-title">RH</h5>
-          <p class="card-text">{{ userCountByRole['ROLE_RH'] || 0 }}</p>
+    <!-- User Statistics Cards -->
+    <section class="stats-section">
+      <h2 class="section-title">User Statistics</h2>
+      
+      <div class="stats-grid">
+        <!-- Total Employees -->
+        <div class="stat-card total-employees">
+          <div class="stat-icon">
+            <i class="fa-solid fa-users"></i>
+          </div>
+          <div class="stat-content">
+            <h3>Total Employees</h3>
+            <p class="stat-value">{{ totalEmployees }}</p>
+          </div>
+        </div>
+
+        <!-- RH -->
+        <div class="stat-card rh-card">
+          <div class="stat-icon">
+            <i class="fa-solid fa-user-tie"></i>
+          </div>
+          <div class="stat-content">
+            <h3>HR Staff</h3>
+            <p class="stat-value">{{ userCountByRole['ROLE_RH'] || 0 }}</p>
+          </div>
+        </div>
+
+        <!-- Managers -->
+        <div class="stat-card managers-card">
+          <div class="stat-icon">
+            <i class="fa-solid fa-user-gear"></i>
+          </div>
+          <div class="stat-content">
+            <h3>Managers</h3>
+            <p class="stat-value">{{ userCountByRole['ROLE_MANAGER'] || 0 }}</p>
+          </div>
+        </div>
+
+        <!-- Employees -->
+        <div class="stat-card employees-card">
+          <div class="stat-icon">
+            <i class="fa-solid fa-user"></i>
+          </div>
+          <div class="stat-content">
+            <h3>Employees</h3>
+            <p class="stat-value">{{ userCountByRole['ROLE_EMPLOYEE'] || 0 }}</p>
+          </div>
+        </div>
+
+        <!-- PM -->
+        <div class="stat-card pm-card">
+          <div class="stat-icon">
+            <i class="fa-solid fa-diagram-project"></i>
+          </div>
+          <div class="stat-content">
+            <h3>Project Managers</h3>
+            <p class="stat-value">{{ userCountByRole['ROLE_PM'] || 0 }}</p>
+          </div>
+        </div>
+
+        <!-- Departments -->
+        <div class="stat-card departments-card">
+          <div class="stat-icon">
+            <i class="fa-solid fa-building"></i>
+          </div>
+          <div class="stat-content">
+            <h3>Departments</h3>
+            <p class="stat-value">{{ totalDep }}</p>
+          </div>
         </div>
       </div>
-    </div>
+    </section>
 
-    <!-- Carte : Nombre de Managers -->
-    <div class="col-md-3">
-      <div class="card bg-primary text-white">
-        <div class="card-body">
-          <h5 class="card-title">Managers</h5>
-          <p class="card-text">{{ userCountByRole['ROLE_MANAGER'] || 0 }}</p>
+    <!-- Employee Status Section -->
+    <section class="status-section">
+      <h2 class="section-title">Employee Status</h2>
+      
+      <div class="status-grid">
+        <div class="status-card active-card">
+          <div class="status-content">
+            <h3>Active Employees</h3>
+            <p class="status-value">{{ activeEmployees.length }}</p>
+            <div class="status-trend up">
+              <i class="fa-solid fa-arrow-up"></i>
+              <span>5% from last month</span>
+            </div>
+          </div>
+          <div class="status-chart">
+            <!-- Mini chart would go here -->
+          </div>
+        </div>
+
+        <div class="status-card inactive-card">
+          <div class="status-content">
+            <h3>Inactive Employees</h3>
+            <p class="status-value">{{ inactiveEmployees.length }}</p>
+            <div class="status-trend down">
+              <i class="fa-solid fa-arrow-down"></i>
+              <span>2% from last month</span>
+            </div>
+          </div>
+          <div class="status-chart">
+            <!-- Mini chart would go here -->
+          </div>
         </div>
       </div>
-    </div>
+    </section>
 
-    <!-- Carte : Nombre d'Employés -->
-    <div class="col-md-3">
-      <div class="card bg-success text-white">
-        <div class="card-body">
-          <h5 class="card-title">Employees</h5>
-          <p class="card-text">{{ userCountByRole['ROLE_EMPLOYEE'] || 0 }}</p>
+    <!-- Project Priority Section -->
+    <section class="priority-section">
+      <h2 class="section-title">Project Priority Statistics</h2>
+      
+      <div class="priority-stats">
+        <div class="priority-cards">
+          <!-- High Priority -->
+          <div class="priority-card high-priority">
+            <div class="priority-content">
+              <h3>High Priority</h3>
+              <p class="priority-value">{{ highPriorityCount }}</p>
+              <p class="priority-percentage">
+                {{ (highPriorityCount / totalProjects * 100).toFixed(1) }}% of total
+              </p>
+            </div>
+            <div class="priority-icon">
+              <i class="fa-solid fa-triangle-exclamation"></i>
+            </div>
+          </div>
+
+          <!-- Medium Priority -->
+          <div class="priority-card medium-priority">
+            <div class="priority-content">
+              <h3>Medium Priority</h3>
+              <p class="priority-value">{{ mediumPriorityCount }}</p>
+              <p class="priority-percentage">
+                {{ (mediumPriorityCount / totalProjects * 100).toFixed(1) }}% of total
+              </p>
+            </div>
+            <div class="priority-icon">
+              <i class="fa-solid fa-equals"></i>
+            </div>
+          </div>
+
+          <!-- Low Priority -->
+          <div class="priority-card low-priority">
+            <div class="priority-content">
+              <h3>Low Priority</h3>
+              <p class="priority-value">{{ lowPriorityCount }}</p>
+              <p class="priority-percentage">
+                {{ (lowPriorityCount / totalProjects * 100).toFixed(1) }}% of total
+              </p>
+            </div>
+            <div class="priority-icon">
+              <i class="fa-solid fa-arrow-down"></i>
+            </div>
+          </div>
+        </div>
+
+        <div class="priority-chart-container">
+          <canvas id="priorityChart"></canvas>
         </div>
       </div>
-    </div>
+    </section>
 
-   
-
-    <!-- Carte : Nombre de PM -->
-    <div class="col-md-3">
-      <div class="card bg-info text-white">
-        <div class="card-body">
-          <h5 class="card-title">PM</h5>
-          <p class="card-text">{{ userCountByRole['ROLE_PM'] || 0 }}</p>
-        </div>
+    <!-- Charts Section -->
+    <section class="charts-section">
+      <div class="chart-container">
+        <h3 class="chart-title">Employees by Department</h3>
+        <canvas id="departmentChart"></canvas>
       </div>
-    </div>
-
-   
+      
+      <div class="table-container">
+        <h3 class="chart-title">Hiring Statistics</h3>
+        <table class="styled-table">
+          <thead>
+            <tr>
+              <th>Period</th>
+              <th>Number of Hires</th>
+              <th>Trend</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let stat of employeeStats">
+              <td>{{ stat.period }}</td>
+              <td>{{ stat.count }}</td>
+              <td>
+                <i class="fa-solid fa-arrow-up trend-up"></i>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
   </div>
-    <!-- Autres cartes de statistiques -->
-    <!-- ... -->
-  </div>
-<div class="container">
-  <h2>Statistiques des Employés</h2>
-  <div class="row">
-    <div class="col-md-6">
-      <div class="card bg-success text-white">
-        <div class="card-body">
-          <h5 class="card-title">Employés Actifs</h5>
-          <p class="card-text">{{ activeEmployees.length }}</p>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-6">
-      <div class="card bg-danger text-white">
-        <div class="card-body">
-          <h5 class="card-title">Employés Inactifs</h5>
-          <p class="card-text">{{ inactiveEmployees.length }}</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-<div class="container">
-  <h2>Statistiques des embauches par période</h2>
-  <table class="table table-bordered">
-    <thead>
-      <tr>
-        <th>Période</th>
-        <th>Nombre d'employés</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let stat of employeeStats">
-        <td>{{ stat.period }}</td>
-        <td>{{ stat.count }}</td>
-      </tr>
-    </tbody>
-  </table>
-</div>
-<div class="container">
-  <h2>Nombre d'employés par département</h2>
-  <canvas id="departmentChart" width="400" height="200"></canvas>
-</div>
 </main>

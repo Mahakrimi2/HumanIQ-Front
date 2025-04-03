@@ -33,9 +33,7 @@ export class DepartmentComponent implements OnInit {
   selectedDepartmentName: string = '';
 
   Onselecteddep(event: Event) {
-     this.selecteid = (event.target as HTMLSelectElement).value;
-
-    
+    this.selecteid = (event.target as HTMLSelectElement).value;
   }
 
   constructor(
@@ -47,6 +45,7 @@ export class DepartmentComponent implements OnInit {
     });
     this.updateDepartmentForm = this.fb.group({
       name: ['', Validators.required],
+      id:[]
     });
   }
 
@@ -108,9 +107,12 @@ export class DepartmentComponent implements OnInit {
 
   openEditDepartmentModal(department: Department): void {
     this.selectedDepartment = department;
+    console.log('====================================');
+    console.log(department);
+    console.log('====================================');
     this.updateDepartmentForm.patchValue({
       name: department.name,
-      head: department.responsableDep?.id || null, // Utiliser l'ID du responsable existant
+      id: department.id || null, 
     });
 
     this.showEditDepartmentModal = true;
@@ -152,15 +154,15 @@ export class DepartmentComponent implements OnInit {
 
     console.log(
       'Data being sent to backend:',
-    this.updateDepartmentForm.value.name.id,
       this.selecteuserid,
+      this.updateDepartmentForm.value.id,
       this.selecteid
     );
 
     this.departmentService
       .updateDepartment(
-        this.updateDepartmentForm.value.name.id,
-        this.updateDepartmentForm.value.name.name,
+        this.updateDepartmentForm.value.id,
+        this.updateDepartmentForm.value.name,
         this.selecteuserid
       )
       .subscribe(
@@ -171,6 +173,9 @@ export class DepartmentComponent implements OnInit {
           this.loadDepartments();
         },
         (error) => {
+          console.log('====================================');
+          console.log(error);
+          console.log('====================================');
           Swal.fire('Error', 'Failed to update department', 'error');
         }
       );
@@ -191,6 +196,9 @@ export class DepartmentComponent implements OnInit {
             this.loadDepartments(); // Recharger la liste après suppression
           },
           (error) => {
+            console.log('====================================');
+            console.log(error);
+            console.log('====================================');
             Swal.fire('Error', 'Failed to delete department', 'error');
           }
         );

@@ -14,7 +14,6 @@ import { UserService } from 'src/app/services/user.service';
   styleUrls: ['./navbar.component.css'],
 })
 export class NavbarComponent implements OnInit {
- 
   userRole: string | null = null;
   pendingCount: number = 0;
   eventCount: number = 0;
@@ -61,7 +60,7 @@ export class NavbarComponent implements OnInit {
 
     this.userRole = this.authService.getRole();
     console.log("Rôle de l'utilisateur:", this.userRole);
-    
+
     this.loadPendingRequests();
     this.loadEvents();
   }
@@ -79,7 +78,9 @@ export class NavbarComponent implements OnInit {
   get isManager(): boolean {
     return this.userRole === 'ROLE_MANAGER';
   }
-
+  get isSuperAdmin(): boolean {
+    return this.userRole === 'ROLE_SUPERADMIN';
+  }
   loadUserProfile(): void {
     this.userService.getCurrentUserProfile().subscribe({
       next: (data) => {
@@ -134,4 +135,4 @@ export class NavbarComponent implements OnInit {
   private updateTotalNotifications() {
     this.totalNotifications = this.pendingCount + this.eventCount;
   }
- }
+}

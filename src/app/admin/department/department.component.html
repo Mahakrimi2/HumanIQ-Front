@@ -115,7 +115,7 @@
           <form [formGroup]="addDepartmentForm" (ngSubmit)="onAddDepartmentSubmit()">
             <div class="form-group mb-3">
                <select id="name" class="form-control" formControlName="name" required>
-              <option *ngFor="let department of departmentNames" [value]="department.name" aria-placeholder="select a department">{{ department.name }}</option>
+              <option *ngFor="let department of departmentNames" [value]="department" aria-placeholder="select a department">{{ department }}</option>
             </select>
             </div>
             <div class="form-group mb-3">
@@ -154,7 +154,7 @@
             
            <select id="name" class="form-control" formControlName="name" (change)="Onselecteddep($event)" required>
   <option *ngFor="let department of departmentNames" [ngValue]="department">
-    {{ department.name }}
+    {{ department }}
   </option>
 </select>
 

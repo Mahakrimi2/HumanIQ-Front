@@ -16,6 +16,7 @@ import Swal from 'sweetalert2';
 export class ListContractsComponent implements OnInit {
   filteredContracts: Contract[] = [];
   searchText: string = '';
+  activeModal: any;
   isBenefitsModalOpen: boolean = false;
   fullBenefits: string = '';
   filterContracts(event: any): void {
@@ -134,6 +135,9 @@ export class ListContractsComponent implements OnInit {
         .subscribe(
           () => {
             this.loadContracts();
+            this.activeModal.close();
+            this.activeModal.close();
+            
             this.modalService.dismissAll();
             this.resetForm();
             Swal.fire({

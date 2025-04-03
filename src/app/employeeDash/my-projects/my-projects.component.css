@@ -1,132 +1,206 @@
+/* Main Container */
 .container {
-    padding: 20px;
-    max-width: 1200px;
-    margin: 0 auto;
+    max-width: 1400px;
+    padding: 2rem 1.5rem;
 }
 
-.page-title {
-    font-size: 24px;
-    font-weight: bold;
-    color: #333;
-    margin-bottom: 20px;
-}
-
-.project-list {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.project-item {
+/* Dashboard Header */
+.dashboard-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 15px;
-    border: 1px solid #e0e0e0;
-    border-radius: 4px;
-    background-color: #f9f9f9;
-    transition: background-color 0.3s ease;
+    margin-bottom: 2rem;
 }
 
-.project-item:hover {
-    background-color: #f0f0f0;
+.dashboard-title {
+    font-size: 1.75rem;
+    font-weight: 600;
+    color: #2d3748;
+    margin: 0;
 }
 
-.project-info {
+.projects-count {
+    background-color: #edf2f7;
+    color: #4a5568;
+    padding: 0.35rem 0.75rem;
+    border-radius: 1rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+/* Projects Grid */
+.projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1.5rem;
+}
+
+/* Project Card */
+.project-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.02);
+    padding: 1.5rem;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid #e2e8f0;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.project-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.03);
+    border-color: #cbd5e0;
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+}
+
+.project-name {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #1a202c;
+    margin: 0;
     flex: 1;
 }
 
-.project-title {
-    font-size: 18px;
-    font-weight: bold;
-    color: #333;
-    margin: 0 0 5px 0;
-}
-
 .project-description {
-    font-size: 14px;
-    color: #666;
-    margin: 0 0 5px 0;
+    color: #4a5568;
+    font-size: 0.9375rem;
+    line-height: 1.5;
+    margin-bottom: 1.5rem;
+    flex-grow: 1;
 }
 
-.project-status {
-    font-size: 14px;
-    color: #555;
-    margin: 0;
+.project-dates {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
 }
 
-.project-date {
-    font-size: 12px;
-    color: #888;
-    margin: 0;
+.date-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #718096;
+    font-size: 0.875rem;
 }
 
-.project-actions {
-    margin-left: 20px;
+.date-item i {
+    color: #a0aec0;
 }
 
+.card-actions {
+    margin-top: auto;
+}
+
+/* Buttons */
 .btn {
-    padding: 8px 16px;
-    border: none;
-    border-radius: 4px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    font-weight: 500;
+    border-radius: 8px;
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
     cursor: pointer;
-    font-size: 14px;
-    transition: background-color 0.3s ease;
+    transition: all 0.2s;
 }
 
-.btn-details {
-    background-color: #007bff;
-    color: #ffffff;
+.btn-task-view {
+    background-color: #4299e1;
+    color: white;
+    border: none;
 }
 
-.btn-details:hover {
-    background-color: #0056b3;
+.btn-task-view:hover {
+    background-color: #3182ce;
 }
 
-.error-message {
-    color: #e74c3c;
-    font-weight: bold;
-    margin-bottom: 20px;
-}
-
-.no-projects-message {
-    text-align: center;
-    padding: 20px;
-    background-color: #f8f9fa;
-    border: 1px solid #e0e0e0;
-    border-radius: 4px;
-    color: #666;
-}
-
-/* Styles pour les statuts */
-.project-status {
-    font-size: 14px;
-    font-weight: bold;
-    padding: 4px 8px;
-    border-radius: 12px;
-    display: inline-block;
+/* Status Badges */
+.project-status-badge {
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    text-transform: uppercase;
+    letter-spacing: 0.025em;
 }
 
 .status-in-progress {
-    background-color: #3498db;
-    /* Bleu pour "En cours" */
-    color: #ffffff;
+    background-color: #bee3f8;
+    color: #2b6cb0;
 }
 
 .status-completed {
-    background-color: #2ecc71;
-    /* Vert pour "Terminé" */
-    color: #ffffff;
+    background-color: #c6f6d5;
+    color: #276749;
 }
 
 .status-pending {
-    background-color: #f1c40f;
-    /* Jaune pour "En attente" */
-    color: #ffffff;
+    background-color: #feebc8;
+    color: #975a16;
 }
 
 .status-default {
-    background-color: #95a5a6;
-    /* Gris par défaut */
-    color: #ffffff;
+    background-color: #e2e8f0;
+    color: #4a5568;
+}
+
+/* Error Message */
+.alert-error {
+    background-color: #fff5f5;
+    color: #c53030;
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    border-left: 4px solid #f56565;
+}
+
+/* Empty State */
+.empty-state {
+    text-align: center;
+    padding: 3rem 2rem;
+    background-color: #f8fafc;
+    border-radius: 12px;
+    border: 1px dashed #cbd5e0;
+}
+
+.empty-state i {
+    font-size: 2.5rem;
+    color: #a0aec0;
+    margin-bottom: 1rem;
+}
+
+.empty-state h3 {
+    color: #2d3748;
+    margin-bottom: 0.5rem;
+}
+
+.empty-state p {
+    color: #718096;
+    margin: 0;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .dashboard-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+
+    .projects-grid {
+        grid-template-columns: 1fr;
+    }
 }

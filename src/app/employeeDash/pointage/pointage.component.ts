@@ -15,7 +15,6 @@ import { pointage } from 'src/app/models/pointage.model';
   templateUrl: './pointage.component.html',
   styleUrls: ['./pointage.component.css'],
   animations: [
-    
     trigger('buttonAnimation', [
       state(
         'normal',
@@ -55,7 +54,24 @@ export class PointageComponent implements OnInit {
   isReturnPointed = false;
   isDeparturePointed = false;
   currentUsername: string = '';
-
+  private notificationTimes = [
+    {
+      hour: 9,
+      type: 'arrival',
+      message: "N'oubliez pas de pointer votre arrivée!",
+    },
+    { hour: 13, type: 'pause', message: "C'est l'heure de la pause déjeuner!" },
+    {
+      hour: 14,
+      type: 'return',
+      message: "C'est l'heure de reprendre le travail!",
+    },
+    {
+      hour: 17,
+      type: 'departure',
+      message: "N'oubliez pas de pointer votre départ!",
+    },
+  ];
   constructor(
     private pointageService: PointageService,
     private authService: AuthService
@@ -64,7 +80,7 @@ export class PointageComponent implements OnInit {
   ngOnInit(): void {
     const savedDate = localStorage.getItem('lastPointageDate');
     const today = new Date().toISOString().split('T')[0];
-  
+
     if (savedDate !== today) {
       this.resetAllVariables();
       localStorage.setItem('lastPointageDate', today);
@@ -76,7 +92,7 @@ export class PointageComponent implements OnInit {
     if (username) {
       this.currentUsername = username;
     } else {
-      console.error('Nom d\'utilisateur non trouvé.');
+      console.error("Nom d'utilisateur non trouvé.");
     }
   }
   resetAllVariables(): void {
@@ -95,19 +111,36 @@ export class PointageComponent implements OnInit {
     localStorage.removeItem('isReturnPointed');
     localStorage.removeItem('isDeparturePointed');
   }
-  
+
   loadButtonStates(): void {
-    this.isArrivalPointed = JSON.parse(localStorage.getItem('isArrivalPointed') || 'false');
-    this.isPausePointed = JSON.parse(localStorage.getItem('isPausePointed') || 'false');
-    this.isReturnPointed = JSON.parse(localStorage.getItem('isReturnPointed') || 'false');
-    this.isDeparturePointed = JSON.parse(localStorage.getItem('isDeparturePointed') || 'false');
+    this.isArrivalPointed = JSON.parse(
+      localStorage.getItem('isArrivalPointed') || 'false'
+    );
+    this.isPausePointed = JSON.parse(
+      localStorage.getItem('isPausePointed') || 'false'
+    );
+    this.isReturnPointed = JSON.parse(
+      localStorage.getItem('isReturnPointed') || 'false'
+    );
+    this.isDeparturePointed = JSON.parse(
+      localStorage.getItem('isDeparturePointed') || 'false'
+    );
   }
 
   saveButtonStates(): void {
-    localStorage.setItem('isArrivalPointed', JSON.stringify(this.isArrivalPointed));
+    localStorage.setItem(
+      'isArrivalPointed',
+      JSON.stringify(this.isArrivalPointed)
+    );
     localStorage.setItem('isPausePointed', JSON.stringify(this.isPausePointed));
-    localStorage.setItem('isReturnPointed', JSON.stringify(this.isReturnPointed));
-    localStorage.setItem('isDeparturePointed', JSON.stringify(this.isDeparturePointed));
+    localStorage.setItem(
+      'isReturnPointed',
+      JSON.stringify(this.isReturnPointed)
+    );
+    localStorage.setItem(
+      'isDeparturePointed',
+      JSON.stringify(this.isDeparturePointed)
+    );
   }
 
   getPointagebyid(): void {
@@ -120,7 +153,6 @@ export class PointageComponent implements OnInit {
         this.departureTime = data.departureTime ?? null;
         this.getpointage = data;
         console.log(data);
-        
       },
       (error) => {
         console.error('Erreur lors du chargement des pointages:', error);
@@ -167,15 +199,17 @@ export class PointageComponent implements OnInit {
       pauseEndTime: this.pauseEndTime,
       departureTime: this.departureTime,
     };
-    this.pointageService.updatePointage(this.currentPointageId, pointageData).subscribe(
-      (response) => {
-        console.log('Pointage mis à jour:', response);
-        this.getPointagebyid();
-      },
-      (error) => {
-        console.error('Erreur lors de la mise à jour du pointage:', error);
-      }
-    );
+    this.pointageService
+      .updatePointage(this.currentPointageId, pointageData)
+      .subscribe(
+        (response) => {
+          console.log('Pointage mis à jour:', response);
+          this.getPointagebyid();
+        },
+        (error) => {
+          console.error('Erreur lors de la mise à jour du pointage:', error);
+        }
+      );
   }
 
   savePointage(): void {
@@ -185,16 +219,18 @@ export class PointageComponent implements OnInit {
       pauseEndTime: null,
       departureTime: null,
     };
-    this.pointageService.createPointage(this.currentUsername, pointageData).subscribe(
-      (response) => {
-        console.log('Pointage enregistré:', response);
-        localStorage.setItem('idpointage', String(response.id));
-        this.currentPointageId = Number(localStorage.getItem("idpointage"));
-        this.getPointagebyid();
-      },
-      (error) => {
-        console.error('Erreur lors de l\'enregistrement du pointage:', error);
-      }
-    );
+    this.pointageService
+      .createPointage(this.currentUsername, pointageData)
+      .subscribe(
+        (response) => {
+          console.log('Pointage enregistré:', response);
+          localStorage.setItem('idpointage', String(response.id));
+          this.currentPointageId = Number(localStorage.getItem('idpointage'));
+          this.getPointagebyid();
+        },
+        (error) => {
+          console.error("Erreur lors de l'enregistrement du pointage:", error);
+        }
+      );
   }
 }

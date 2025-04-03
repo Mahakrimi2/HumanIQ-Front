@@ -1,0 +1,90 @@
+<app-navbar></app-navbar>
+<app-sidebar></app-sidebar>
+<main id="main" class="main">
+<<app-navbar></app-navbar>
+<app-sidebar></app-sidebar>
+
+<div class="pointage-container">
+  <div class="header">
+    <h2>Daily Time Tracking</h2>
+    <p>Welcome, {{currentUsername}}</p>
+  </div>
+
+  <!-- Boutons de pointage -->
+  <div class="pointage-buttons">
+    <button
+      (click)="pointArrival()"
+      [disabled]="isArrivalPointed"
+      class="btn-arrival"
+    >
+      <i class="fas fa-sign-in-alt" pointageStatus.hasArrival></i>
+      <span>Check In</span>
+    </button>
+    <button
+      (click)="pointPause()"
+      [disabled]="!isArrivalPointed || isPausePointed"
+      class="btn-pause"
+    >
+      <i class="fas fa-coffee"></i>
+      <span>Start Break</span>
+    </button>
+    <button
+      (click)="pointReturn()"
+      [disabled]="!isPausePointed || isReturnPointed"
+      class="btn-return"
+    >
+      <i class="fas fa-undo"></i>
+      <span>End Break</span>
+    </button>
+    <button
+      (click)="pointDeparture()"
+      [disabled]="!isArrivalPointed || isDeparturePointed"
+      class="btn-departure"
+    >
+      <i class="fas fa-sign-out-alt"></i>
+      <span>Check Out</span>
+    </button>
+  </div>
+
+  <!-- Statut du pointage -->
+  <div class="pointage-status">
+    <div class="status-card">
+      <i class="fas fa-clock"></i>
+      <div>
+        <p class="label">Check In</p>
+        <p class="time">{{ arrivalTime ? (arrivalTime | date: 'HH:mm') : '--:--' }}</p>
+      </div>
+    </div>
+    <div class="status-card">
+      <i class="fas fa-coffee"></i>
+      <div>
+        <p class="label">Break Start</p>
+        <p class="time">{{ pauseStartTime ? (pauseStartTime | date: 'HH:mm') : '--:--' }}</p>
+      </div>
+    </div>
+    <div class="status-card">
+      <i class="fas fa-undo"></i>
+      <div>
+        <p class="label">Break End</p>
+        <p class="time">{{ pauseEndTime ? (pauseEndTime | date: 'HH:mm') : '--:--' }}</p>
+      </div>
+    </div>
+    <div class="status-card">
+      <i class="fas fa-clock"></i>
+      <div>
+        <p class="label">Check Out</p>
+        <p class="time">{{ departureTime ? (departureTime | date: 'HH:mm') : '--:--' }}</p>
+      </div>
+    </div>
+  </div>
+
+
+
+  <!-- Notifications contextuelles -->
+  <div class="notifications" *ngIf="isArrivalPointed && !isDeparturePointed">
+    <i class="fas fa-bell"></i>
+    <p>Don't forget to check out before leaving!</p>
+  </div>
+</div>
+
+

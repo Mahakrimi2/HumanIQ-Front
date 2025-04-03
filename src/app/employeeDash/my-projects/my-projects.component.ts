@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Project } from 'src/app/models/project.model';
 import { AuthService } from 'src/app/services/auth.service';
 import { ProjectServiceService } from 'src/app/services/project-service.service';
+import { TrelloService } from 'src/app/trello-servicz.service';
 
 @Component({
   selector: 'app-my-projects',
@@ -13,9 +14,16 @@ export class MyProjectsComponent implements OnInit {
   employeeId: number = 39;
   username: string | null = null;
   errorMessage: string | null = null;
+  showTrelloAuth = false;
+  currentTrelloData: {
+    projectId: number;
+    lists: any[];
+  } | null = null;
+  loadingTrello = false;
   constructor(
     private projectService: ProjectServiceService,
-    private authService: AuthService
+    private authService: AuthService,
+    private trelloService: TrelloService
   ) {}
 
   ngOnInit(): void {
@@ -50,4 +58,6 @@ export class MyProjectsComponent implements OnInit {
         return 'status-default';
     }
   }
+
+  
 }

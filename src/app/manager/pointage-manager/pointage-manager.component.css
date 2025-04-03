@@ -1,0 +1,50 @@
+.notification-alert {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: #fff;
+    border-left: 4px solid #4CAF50;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 15px 20px;
+    border-radius: 4px;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    animation: slideIn 0.3s ease-out;
+}
+
+.notification-content {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.notification-alert i.fa-bell {
+    color: #4CAF50;
+    font-size: 1.2rem;
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    color: #888;
+    cursor: pointer;
+    margin-left: 15px;
+    padding: 0;
+}
+
+.close-btn:hover {
+    color: #555;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}

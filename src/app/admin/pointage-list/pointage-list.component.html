@@ -2,53 +2,82 @@
 <app-sidebar></app-sidebar>
 
 <main id="main" class="main">
-  <div class="pagetitle">
-    <h1>Attendance List</h1> <!-- Changed "Pointages List" to "Attendance List" -->
+  <div class="pagetitle d-flex justify-content-between align-items-center">
+    <h1>Attendance Management</h1>
+  
   </div>
 
   <section class="section">
     <div class="row">
       <div class="col-lg-12">
-        <div class="card">
+        <div class="card shadow-sm">
           <div class="card-body">
-            <table class="table datatable">
-              <thead>
-                <tr>
-                  <th>Employee</th> <!-- Changed "Employé" to "Employee" -->
-                  <th>Arrival Time</th> <!-- Changed "Heure d'arrivée" to "Arrival Time" -->
-                  <th>Departure Time</th> <!-- Changed "Heure de départ" to "Departure Time" -->
-<th>workingtime</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let pointage of pointages">
-                  <td>{{ pointage.user?.fullname || "N/A" }}</td>
-                  <td>{{ pointage.arrivalTime }}</td>
-                  <td>{{ pointage.departureTime }}</td>
-                 <!-- <td>
-  <span [ngClass]="{
-    'status-present': pointage.status === 'PRESENT',
-    'status-absent': pointage.status === 'ABSCENT'
-  }">
-    {{ pointage.status }}
-  </span>
-</td> -->
-                  <td>{{ pointage.workingTime }}</td>
-                  <td>
-                    <button class="btn btn-warning" (click)="2">
-                      <i class="fa-solid fa-pen-to-square text-white"></i>
-                      Edit <!-- Changed "Modifier" to "Edit" -->
-                    </button>
-                    <i
-                      class="fa-solid fa-trash text-danger ms-2"
-                      style="cursor: pointer"
-                      (click)="5"
-                    ></i>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+            <div class="table-responsive">
+              <table class="table table-hover align-middle">
+                <thead class="table-light">
+                  <tr>
+                    <th class="ps-3">Employee</th>
+                    <th>Arrival Time</th>
+                    <th>Departure Time</th>
+                    <th class="text-center">Duration</th>
+                    <th class="text-center">Status</th>
+                    <th class="pe-3 text-end">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let pointage of pointages" class="py-2">
+                    <td class="ps-3 align-middle fw-medium">
+                      <div class="d-flex align-items-center">
+                        <div class="avatar-sm me-3">
+                          <div class="avatar-title bg-light rounded-circle">
+                            <img [src]="pointage.user.profileImagePath" alt="image" width="50px" height="50px" class="rounded-circle" />
+                          </div>
+                        </div>
+                        <div>
+                          <h6 class="mb-0">{{ pointage.user?.fullname || 'N/A' }}</h6>
+                          <small class="text-muted">{{ pointage.user?.position || '' }}</small>
+                        </div>
+                      </div>
+                    </td>
+                    <td class="align-middle">
+                      <div class="d-flex flex-column">
+                        <span class="fw-medium">{{ pointage.arrivalTime | date:'shortTime' }}</span>
+                        <small class="text-muted">{{ pointage.arrivalTime | date:'mediumDate' }}</small>
+                      </div>
+                    </td>
+                    <td class="align-middle">
+                      <div class="d-flex flex-column">
+                        <span class="fw-medium">{{ pointage.departureTime ? (pointage.departureTime | date:'shortTime') : '--:--' }}</span>
+                        <small class="text-muted">{{ pointage.departureTime ? (pointage.departureTime | date:'mediumDate') : '' }}</small>
+                      </div>
+                    </td>
+                    <td class="align-middle text-center">
+                      <span class="badge bg-light text-dark border">
+                        {{ pointage.workingTime || 'N/A' }}
+                      </span>
+                    </td>
+                    <td class="align-middle text-center">
+                      <span class="status-badge" [ngClass]="{
+                        'status-present': pointage.status === 'PRESENT',
+                        'status-absent': pointage.status === 'ABSCENT',
+                        'status-pending': !pointage.status
+                      }">
+                        <i [class]="pointage.status!"></i>
+                        {{ pointage.status || 'PENDING' }}
+                      </span>
+                    </td>
+                    <td class="pe-3 align-middle text-end">
+                      <div class="d-inline-flex gap-2">
+                       
+                        <button class="btn btn-sm btn-outline-danger" (click)="deletePointage(pointage.id)">
+                          <i class="bi bi-trash"></i>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>

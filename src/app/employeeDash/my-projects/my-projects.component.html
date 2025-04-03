@@ -3,34 +3,51 @@
 
 <main id="main" class="main">
   <div class="container">
-    <div class="employee-projects">
-      <h2 class="page-title">My Current projects </h2>
-
-      <!-- Afficher un message d'erreur s'il y en a un -->
-      <div *ngIf="errorMessage" class="error-message">
-        {{ errorMessage }}
+    <div class="projects-dashboard">
+      <div class="dashboard-header">
+        <h2 class="dashboard-title">My Current Projects</h2>
+        <span class="projects-count">{{ projects.length }} project(s)</span>
       </div>
 
-      <!-- Liste des projets -->
-      <div *ngIf="projects.length > 0; else noProjects" class="project-list">
-        <div *ngFor="let project of projects" class="project-item">
-          <div class="project-info">
-            <h3 class="project-title">{{ project.name }}</h3>
-            <p class="project-description">{{ project.description }}</p> <p class="project-status" [ngClass]="getStatusClass(project.status)">
-    Statut: {{ project.status }}
-  </p>
-            <p class="project-date">Début: {{ project.startDate }} | Fin: {{ project.endDate }}</p>
+      <div *ngIf="errorMessage" class="alert alert-error">
+        <i class="bi bi-exclamation-circle-fill"></i> {{ errorMessage }}
+      </div>
+
+      <div *ngIf="projects.length > 0; else noProjects" class="projects-grid">
+        <div *ngFor="let project of projects" class="project-card">
+          <div class="card-header">
+            <h3 class="project-name">{{ project.name }}</h3>
+            <span class="project-status-badge" [ngClass]="getStatusClass(project.status)">
+              {{ project.status }}
+            </span>
           </div>
-          <div class="project-actions">
-            <button class="btn btn-details">see my tasks</button>
+          
+          <p class="project-description">{{ project.description }}</p>
+          
+          <div class="project-dates">
+            <div class="date-item">
+              <i class="bi bi-calendar-event"></i>
+              <span>Start: {{ project.startDate | date:'mediumDate' }}</span>
+            </div>
+            <div class="date-item">
+              <i class="bi bi-calendar-check"></i>
+              <span>End: {{ project.endDate | date:'mediumDate' }}</span>
+            </div>
+          </div>
+          
+          <div class="card-actions">
+            <button class="btn btn-task-view">
+              <i class="bi bi-list-task"></i> View Tasks
+            </button>
           </div>
         </div>
       </div>
 
-      <!-- Message si aucun projet n'est assigné -->
       <ng-template #noProjects>
-        <div class="no-projects-message">
-          <p>Aucun projet assigné à cet employé.</p>
+        <div class="empty-state">
+          <i class="bi bi-folder-x"></i>
+          <h3>No Projects Assigned</h3>
+          <p>You currently don't have any projects assigned to you.</p>
         </div>
       </ng-template>
     </div>

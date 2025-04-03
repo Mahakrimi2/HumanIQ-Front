@@ -55,9 +55,9 @@ export class DepartmentService {
       Authorization: `Bearer ${token}`,
     });
     return this.http.put<Department>(
-      `${this.apiUrl}/departments/${id}?department=${department}&iduser=${iduser},`,
-      {},
-      { headers }
+      `${this.apiUrl}/departments/${id}?iduser=${iduser}`,
+      {department},
+      { headers, responseType: 'json' }
     );
   }
 
@@ -67,7 +67,7 @@ export class DepartmentService {
       Authorization: `Bearer ${token}`,
     });
     return this.http.delete<void>(`${this.apiUrl}/department/${id}`, {
-      headers,
+      headers,responseType:"text"   as "json"
     });
   }
 

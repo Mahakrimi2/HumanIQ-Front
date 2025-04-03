@@ -13,8 +13,6 @@ import { ExportPdfService } from 'src/app/services/export-pdf.service';
 })
 export class ContractsComponent implements OnInit {
   contracts: Contract[] = [];
-
-
   username: string | null = null;
   constructor(
     private contractService: ContractService,
@@ -38,7 +36,6 @@ export class ContractsComponent implements OnInit {
       (data) => {
         this.contracts = data;
         console.log(data);
-        
       },
       (error) => {
         console.error('Error fetching contracts:', error);
@@ -48,7 +45,24 @@ export class ContractsComponent implements OnInit {
 
   downloadContract(contractId: number): void {
     console.log(contractId);
-    
+
     this.expPdf.downloadContractPdf(contractId);
+  }
+
+  getStatusColor(status: string): string {
+    switch (status) {
+      case 'ACTIVE':
+        return '#28a745';
+      case 'PENDING':
+        return '#ffc107';
+      case 'EXPIRED':
+        return '#6c757d';
+      case 'SUSPENDED':
+        return '#dc3545';
+      case 'CANCELLED':
+        return '#6c757d';
+      default:
+        return '#6c757d';
+    }
   }
 }

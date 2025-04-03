@@ -11,55 +11,50 @@
       <div class="col-lg-12">
         <div class="card">
           <div class="card-body">
-            <table class="table datatable">
-              <thead>
-                <tr>
-                  <th>Type</th>
-                  <th>Leave from</th>
-                  <th>Duration</th>
-                  <th>Status</th>
-                  <th>User</th>
-                  <th>leave_balance</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let request of leaveRequests">
-                  <td>{{ request.type }}</td>
-                  <td>{{ request.startDate | date }}</td>
-                   
-                  <td>{{ request.duration }} days</td>
-                  <td>
-                    <span
-                      [ngClass]="{
-                        'status-pending': request.status === 'PENDING',
-                        'status-accepted': request.status === 'ACCEPTED',
-                        'status-cancelled': request.status === 'CANCELLED'
-                      }"
-                    >
-                      {{ request.status }}
-                    </span>
-                  </td>
-                  <td>{{ request.user?.fullname || "N/A" }}</td>
-                  <td>{{ request.user?.leave_balance || "N/A" }}</td>
-
-                  <td>
-                    <button
-                      class="btn btn-warning"
-                      (click)="openStatusModal(request)"
-                    >
-                      <i class="fa-solid fa-pen-to-square text-white"></i>
-                      Change Status
-                    </button>
-                    <i
-                      class="fa-solid fa-trash text-danger ms-2"
-                      style="cursor: pointer"
-                      (click)="deleteRequest(request.id!)"
-                    ></i>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+            <div class="table-responsive">
+              <table class="table table-hover align-middle">
+                <thead class="table-light">
+                  <tr>
+                    <th class="ps-3 py-3">Type</th>
+                    <th class="py-3">Leave from</th>
+                    <th class="py-3 text-center">Duration</th>
+                    <th class="py-3">Status</th>
+                    <th class="py-3">User</th>
+                    <th class="py-3 text-center">Leave Balance</th>
+                    <th class="pe-3 py-3 text-end">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let request of leaveRequests">
+                    <td class="ps-3 py-2 align-middle">{{ request.type }}</td>
+                    <td class="py-2 align-middle">{{ request.startDate | date }}</td>
+                    <td class="py-2 align-middle text-center">{{ request.duration }} days</td>
+                    <td class="py-2 align-middle">
+                      <span class="status-badge" [ngClass]="{
+                        'pending': request.status === 'PENDING',
+                        'accepted': request.status === 'ACCEPTED',
+                        'cancelled': request.status === 'CANCELLED'
+                      }">
+                        {{ request.status }}
+                      </span>
+                    </td>
+                    <td class="py-2 align-middle">{{ request.user?.fullname || "N/A" }}</td>
+                    <td class="py-2 align-middle text-center">{{ request.user?.leave_balance || "N/A" }}</td>
+                    <td class="pe-3 py-2 align-middle text-end">
+                      <div class="d-inline-flex gap-2">
+                        <button class="btn btn-sm btn-warning" (click)="openStatusModal(request)">
+                          <i class="fa-solid fa-pen-to-square text-white me-1"></i>
+                          Status
+                        </button>
+                        <button class="btn btn-sm btn-outline-danger" (click)="deleteRequest(request.id!)">
+                          <i class="fa-solid fa-trash"></i>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>
@@ -70,8 +65,8 @@
 <!-- Modal pour changer le statut -->
 <div id="statusModal" class="modal fade" tabindex="-1">
   <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
+    <div class="modal-content shadow-lg rounded-4 border-0">
+      <div class="modal-header bg-gradient-to-r from-primary to-secondary text-black">
         <h5 class="modal-title">Change Leave Request Status</h5>
         <button
           type="button"
@@ -79,32 +74,41 @@
           (click)="closeStatusModal()"
         ></button>
       </div>
-      <div class="modal-body">
-        <p><strong>Current Status:</strong> {{ selectedRequest?.status }}</p>
-        <p>
-          <strong>New Status:</strong>
-        </p>
+      <div class="modal-body p-4">
+        <div class="mb-4">
+          <p class="fw-bold mb-1">Current Status:</p>
+          <span class="status-badge" [ngClass]="{
+            'pending': selectedRequest?.status === 'PENDING',
+            'accepted': selectedRequest?.status === 'ACCEPTED',
+            'cancelled': selectedRequest?.status === 'CANCELLED'
+          }">
+            {{ selectedRequest?.status }}
+          </span>
+        </div>
 
-        <div class="custom-select">
-          <select [(ngModel)]="newStatus">
+        <div class="mb-4">
+          <label for="statusSelect" class="form-label fw-bold">New Status</label>
+          <select 
+            id="statusSelect"
+            class="form-select form-select-lg shadow-sm"
+            [(ngModel)]="newStatus">
             <option *ngFor="let status of holidayStatuses" [value]="status">
               {{ status }}
             </option>
           </select>
-          <span class="custom-arrow">▼</span>
         </div>
       </div>
-      <div class="modal-footer">
+      <div class="modal-footer bg-light">
         <button
           type="button"
-          class="btn btn-secondary"
+          class="btn btn-outline-secondary rounded-3 px-4"
           (click)="closeStatusModal()"
         >
           Close
         </button>
         <button
           type="button"
-          class="btn btn-primary"
+          class="btn btn-success rounded-3 px-4"
           (click)="saveStatusChange()"
         >
           Save Changes

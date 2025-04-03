@@ -52,12 +52,12 @@ export class HolidayRequestComponent implements OnInit {
 
           return {
             ...data,
-            isPdf: data.ficher?.toLowerCase().endsWith('.pdf'), // Vérifie l'extension
+            isPdf: data.ficher?.toLowerCase().endsWith('.pdf'),
             fileUrl: fileUrl,
           };
         });
 
-        console.log(this.leaveRequests); // Vérifie si l'URL est correcte
+        console.log(this.leaveRequests);
       },
       (error) => {
         console.error(
@@ -67,8 +67,10 @@ export class HolidayRequestComponent implements OnInit {
       }
     );
   }
+  
 
   viewDetails(request: Holiday) {
     console.log('Détails de la demande:', request);
   }
+  
 }

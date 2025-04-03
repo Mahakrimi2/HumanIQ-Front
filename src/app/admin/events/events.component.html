@@ -6,13 +6,10 @@
     <h2>Event List</h2>
     
   
-
-    <div class="mb-3">
-      <button class="btn btn-primary" (click)="openCreateEventModal()">
-        Create New Event
-      </button>
-    </div>
-
+<button class="btn btn-primary" (click)="openCreateEventModal()">
+  <i class="bi bi-plus-circle me-2"></i>
+  Create New Event
+</button>
     <div class="row">
       <div *ngFor="let event of events" class="col-md-6 mb-4">
         <div class="card">

@@ -12,7 +12,7 @@ export class ForgetPwdComponent {
   forgotPasswordForm!: FormGroup;
   successMessage: string | null = null;
   errorMessage: string | null = null;
-
+  isSubmitted = false;
   constructor(
     private router: Router,
     private fb: FormBuilder,
@@ -23,26 +23,34 @@ export class ForgetPwdComponent {
     });
   }
 
+  get f() {
+    return this.forgotPasswordForm.controls;
+  }
+
   goToLogin() {
     this.router.navigate(['/auth/Login']);
   }
 
   onSubmit() {
+    this.isSubmitted = true;
+  
     if (this.forgotPasswordForm.invalid) {
+      this.errorMessage = 'Please enter a valid email address';
       return;
     }
 
-    const username = this.forgotPasswordForm.value.username;
+    this.errorMessage = null;
+    const email = this.forgotPasswordForm.value.username;
 
-    this.authService.resetPassword(username).subscribe({
-      next: (response) => {
-        this.successMessage = response;
-        this.errorMessage = null;
+    this.authService.resetPassword(email).subscribe({
+      next: () => {
+        this.successMessage = 'A password reset link has been sent to your email';
+        this.forgotPasswordForm.reset();
+        this.isSubmitted = false;
       },
-      error: () => {
-        this.errorMessage = 'Échec de la réinitialisation du mot de passe.';
-        this.successMessage = null;
-      },
+      error: (err) => {
+        this.errorMessage = err.message || 'An error occurred';
+      }
     });
   }
 }
