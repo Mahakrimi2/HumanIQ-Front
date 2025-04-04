@@ -112,6 +112,30 @@ export class EmployeesListComponent implements OnInit {
     );
   }
 
+  getFirstInitial(fullname: string): string {
+    return fullname?.charAt(0)?.toUpperCase() || '?';
+  }
+
+  getAvatarColor(fullname: string): string {
+    // Palette de couleurs foncées
+    const darkColors = [
+      '#2c3e50', // Noir bleuté très foncé
+      '#34495e', // Noir bleuté foncé
+      '#2c3e50', // Bleu nuit
+      '#1a237e', // Bleu indigo foncé
+      '#0d47a1', // Bleu marine
+      '#263238', // Gris anthracite
+      '#212121', // Noir profond
+      '#311b92', // Violet très foncé
+    ];
+
+    const charCode = fullname?.charCodeAt(0) || 0;
+    return darkColors[charCode % darkColors.length];
+  }
+  isDefaultImage(profileImagePath: string): boolean {
+    return !profileImagePath || profileImagePath.includes('anonyme');
+  }
+
   filterUsers(event: any): void {
     const searchText = event.target.value.toLowerCase().trim();
     console.log('Search Text:', searchText);
@@ -162,8 +186,10 @@ export class EmployeesListComponent implements OnInit {
         this.users = data.map((user: any) => ({
           ...user,
           profileImageUrl:
-            'http://localhost:8082/api/rh/users/profileImage/' +
-            user.profileImagePath,
+            user.profileImagePath && !user.profileImagePath.includes('anonyme')
+              ? 'http://localhost:8082/api/rh/users/profileImage/' +
+                user.profileImagePath
+              : null,
         }));
         this.filteredUsers = [...this.users]; // Initialiser les utilisateurs filtrés
         console.log('====================================');
@@ -176,19 +202,21 @@ export class EmployeesListComponent implements OnInit {
     });
   }
   onRoleChange(event: any) {
-    const selectedRoles = this.addUserForm.value.roles || []; 
+    const selectedRoles = this.addUserForm.value.roles || [];
     const roleName = event.target.value;
 
     if (event.target.selected) {
       selectedRoles.push({ name: roleName });
     } else {
-      const index = selectedRoles.findIndex((role:any) => role.name === roleName);
+      const index = selectedRoles.findIndex(
+        (role: any) => role.name === roleName
+      );
       if (index !== -1) {
-        selectedRoles.splice(index, 1); 
+        selectedRoles.splice(index, 1);
       }
     }
 
-    this.addUserForm.patchValue({ roles: selectedRoles }); 
+    this.addUserForm.patchValue({ roles: selectedRoles });
   }
   loadRoles(): void {
     this.userService.getroles().subscribe({

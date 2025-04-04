@@ -39,7 +39,7 @@ export class UserProfilComponent implements OnInit {
   constructor(
     private userService: UserService,
     private avatarService: AvatarService
-  ) {}
+  ) { }
   ngOnInit(): void {
     this.uploadProfileImage();
     this.loadUserProfile();
@@ -87,7 +87,7 @@ export class UserProfilComponent implements OnInit {
             'http://localhost:8082/api/rh/users/profileImage/' +
             data.profileImagePath;
         } else {
-          this.ProfilImageUrl = null; // Forcera l'affichage de l'avatar
+          this.generateAndSaveAvatar(); // Forcera l'affichage de l'avatar
         }
       },
       error: (err) => console.error('Failed to load user profile', err),
@@ -186,5 +186,38 @@ export class UserProfilComponent implements OnInit {
         });
       }
     );
+  }
+  getAvatarColor(): string {
+    return this.avatarService.getAvatarColor(this.user?.fullname || '');
+  }
+  generateAndSaveAvatar(): void {
+    const avatarInfo = this.avatarService.generateAvatar(this.user?.fullname || '');
+  
+    const canvas = document.createElement('canvas');
+    canvas.width = 200;
+    canvas.height = 200;
+    const ctx = canvas.getContext('2d');
+
+    if (ctx) {
+      // Utilisez la couleur du service
+      ctx.fillStyle = avatarInfo.color;
+      ctx.beginPath();
+      ctx.arc(100, 100, 100, 0, Math.PI * 2);
+      ctx.fill();
+  
+      ctx.font = 'bold 80px Arial';
+      ctx.fillStyle = '#FFFFFF';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(avatarInfo.initial, 100, 100);
+  
+      canvas.toBlob(blob => {
+        if (blob) {
+          const avatarFile = new File([blob], 'avatar.png', { type: 'image/png' });
+          this.selectedFile = avatarFile;
+          this.uploadProfileImage();
+        }
+      }, 'image/png');
+    }
   }
 }

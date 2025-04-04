@@ -215,3 +215,27 @@
         margin-bottom: 1rem;
     }
 }
+
+
+/* Dans vos fichiers CSS respectifs */
+.avatar-circle {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    font-size: 20px;
+    margin: 0 auto;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Pour le profil (taille plus grande) */
+.profile-image,
+.profile-avatar {
+    width: 120px;
+    height: 120px;
+    font-size: 48px;
+}

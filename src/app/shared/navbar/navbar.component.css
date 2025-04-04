@@ -115,23 +115,41 @@
     background-color: rgba(106, 17, 203, 0.1);
 }
 
-/* Indicateur de connexion */
-.status-indicator {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
+/* Indicateur de statut */
+.status-badge {
     position: absolute;
     bottom: 0;
     right: 0;
-    border: 2px solid #fff;
-    /* Bordure blanche pour le cercle */
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: 2px solid white;
 }
 
-.status-indicator.bg-success {
+.status-badge.online {
     background-color: #28a745;
-    /* Couleur verte */
+    /* Vert */
+    animation: pulse 1.5s infinite;
 }
 
+.status-badge.offline {
+    background-color: #dc3545;
+    /* Rouge */
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.2);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
 /* Photo de profil */
 .nav-profile img {
     width: 40px;

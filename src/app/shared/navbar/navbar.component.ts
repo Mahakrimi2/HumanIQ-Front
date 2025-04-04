@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { AuthModel } from 'src/app/models/auth.model';
 import { Event } from 'src/app/models/event.model';
 import { Holiday } from 'src/app/models/holiday.model';
@@ -13,14 +13,17 @@ import { UserService } from 'src/app/services/user.service';
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css'],
 })
-export class NavbarComponent implements OnInit {
+export class NavbarComponent implements OnInit, OnDestroy {
   userRole: string | null = null;
   pendingCount: number = 0;
   eventCount: number = 0;
+  isOnline: boolean = navigator.onLine;
+  private onlineStatusCheck: any;
   totalNotifications: number = 0;
   pendingRequests: Holiday[] = [];
   showNotifications: boolean = false;
   eventNotifications: Event[] = [];
+
   @Output() toggleSidebar = new EventEmitter<void>();
   currentUserId: number | undefined;
 
@@ -63,7 +66,36 @@ export class NavbarComponent implements OnInit {
 
     this.loadPendingRequests();
     this.loadEvents();
+    this.setupOnlineStatusListener();
   }
+  ngOnDestroy(): void {
+    // Nettoyage
+    if (this.onlineStatusCheck) {
+      clearInterval(this.onlineStatusCheck);
+    }
+    window.removeEventListener('online', this.updateOnlineStatus);
+    window.removeEventListener('offline', this.updateOnlineStatus);
+  }
+
+  private setupOnlineStatusListener(): void {
+    // Écoute des événements navigateur
+    window.addEventListener('online', this.updateOnlineStatus);
+    window.addEventListener('offline', this.updateOnlineStatus);
+
+    // Vérification périodique (optionnelle)
+    this.onlineStatusCheck = setInterval(() => {
+      this.isOnline = navigator.onLine;
+    }, 5000);
+  }
+  private updateOnlineStatus = (): void => {
+    this.isOnline = navigator.onLine;
+    // Option : afficher une notification
+    if (this.isOnline) {
+      console.log('Vous êtes maintenant en ligne');
+    } else {
+      console.warn('Vous êtes hors ligne');
+    }
+  };
 
   unreadMessagesCount: number = 0;
 

@@ -161,7 +161,7 @@ export class TrelloService {
    */
   addMemberToBoard(
     boardId: string,
-    email: string,
+    username: string,
     type: 'normal' | 'admin' | 'observer' = 'normal'
   ): Observable<any> {
     const token = this.getToken();
@@ -171,10 +171,15 @@ export class TrelloService {
       );
     }
 
+    // Vérifiez que l'email est valide
+    if (!this.isValidEmail(username)) {
+      return throwError(() => new Error(`Email invalide: ${username}`));
+    }
+
     const params = new HttpParams()
       .set('key', this.apiKey)
       .set('token', token.trim())
-      .set('email', email)
+      .set('email', username)
       .set('type', type);
 
     return this.http
@@ -182,10 +187,43 @@ export class TrelloService {
       .pipe(
         catchError((error) => {
           console.error("Erreur lors de l'ajout du membre:", error);
+          if (error.status === 403) {
+            return throwError(
+              () =>
+                new Error(
+                  `Permission refusée. Vérifiez que : 
+          1. Votre token a les bonnes permissions
+          2. L'email ${username} existe dans Trello
+          3. Vous êtes admin du board`
+                )
+            );
+          }
           return throwError(
             () => new Error("Impossible d'ajouter le membre au board.")
           );
         })
       );
+  }
+  private isValidEmail(email: string): boolean {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(email);
+  }
+
+  deleteBoard(boardId: string): Observable<any> {
+    const token = this.getToken();
+    if (!token) {
+      return throwError(() => new Error('Token Trello manquant'));
+    }
+
+    const params = new HttpParams()
+      .set('key', this.apiKey)
+      .set('token', token.trim());
+
+    return this.http.delete<any>(`${this.apiUrl}/boards/${boardId}`, { params }).pipe(
+      catchError(error => {
+        console.error('Erreur suppression board:', error);
+        return throwError(() => new Error('Échec de la suppression du board'));
+      })
+    );
   }
 }

@@ -179,14 +179,22 @@
 
       <!-- Profil -->
      <li class="nav-item dropdown pe-3">
-  <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-    <!-- Photo de profil -->
-    <img [src]="ProfilImageUrl" alt="Profile" class="rounded-circle">
-    <!-- Indicateur de connexion -->
-    <span class="status-indicator bg-success"></span>
-    <!-- Nom de l'utilisateur -->
-    <span class="d-none d-md-block dropdown-toggle ps-2">{{ user.username }}</span>
-  </a>
+ <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+  <!-- Conteneur avatar -->
+  <div class="position-relative">
+    <!-- Image de profil -->
+    <img [src]="ProfilImageUrl || 'assets/img/anonyme.jpg'" 
+         alt="Profile" 
+         class="rounded-circle" 
+         style="width: 40px; height: 40px; object-fit: cover;">
+    
+    <!-- Indicateur de statut -->
+    <span class="status-badge" [ngClass]="isOnline ? 'online' : 'offline'"></span>
+  </div>
+  
+  <!-- Nom utilisateur -->
+  <span class="d-none d-md-block ps-2">{{ user.fullname }}</span>
+</a>
   <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
     <li class="dropdown-header">
       <h6>{{ user.username }}</h6>
