@@ -118,15 +118,14 @@ export class ProjectsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.trelloService
-      .addMemberToBoard('UwZB1ACH', 'email@exemple.com', 'normal')
-      .subscribe({
-        next: (response) => console.log('Membre ajouté avec succès:', response),
-        error: (error) => console.error('Erreur:', error),
-      });
+    // this.trelloService
+    //   .addMemberToBoard('UwZB1ACH', 'email@exemple.com', 'normal')
+    //   .subscribe({
+    //     next: (response) => console.log('Membre ajouté avec succès:', response),
+    //     error: (error) => console.error('Erreur:', error),
+    //   });
     this.trelloService.getBoards().subscribe({
       next: (boards) => {
-        console.log('Liste des boards:', boards);
         boards.forEach((board) =>
           console.log(`ID: ${board.id}, Nom: ${board.name}`)
         );
@@ -180,9 +179,7 @@ export class ProjectsComponent implements OnInit {
     this.projectService.getProjectsByPriority().subscribe(
       (data: any[]) => {
         this.ProjectsPriority = data;
-        console.log('====================================');
-        console.log(data);
-        console.log('====================================');
+     
       },
       (error) => {
         console.error('Error loading project priority', error);
@@ -247,6 +244,23 @@ export class ProjectsComponent implements OnInit {
               .createBoard(project.name)
               .subscribe((response) => {
                 console.log('Trello Board Created:', response);
+                   this.projectService.getAllProjects().subscribe(
+              (projects) => {
+                // Récupérer les boards Trello
+                       this.trelloService.getBoards().subscribe((trelloBoards) => {
+                         // Filtrer les projets qui ont un board Trello du même nom
+                         this.projectsWithTrelloBoards = projects.filter((project) =>
+                           trelloBoards.some((board) => board.name === project.name)
+                         );
+                         this.projectsWithTrelloBoards?.forEach((projectWithBoard: any) => {
+                           if (projectWithBoard.name === project.name) {
+                             this.assignTeamToTrelloBoard(projectWithBoard);
+                           }
+                         });
+                       }   )      
+                });
+
+              
                 alert('Trello Board successfully created!');
               });
           },
@@ -373,34 +387,36 @@ export class ProjectsComponent implements OnInit {
   this.trelloService.getBoards().subscribe({
     next: (boards) => {
       const board = boards.find(b => b.name === project.name);
-      if (!board) {
-        console.warn('Aucun board Trello trouvé pour ce projet');
-        return;
-      }
-
+      // if (!board) {
+      //   console.log('====================================');
+      //   console.log("mochkla");
+      //   console.log('====================================');
+      // }
+console.log(project);
+  boards.forEach((board) => console.log(`ID: ${board.id}, Nom: ${board.name}`));
       // 2. Ajouter le chef de projet comme admin (s'il a un email)
-      if (project.projectManager?.email) {
-        this.trelloService.addMemberToBoard(
-          board.id, 
-          project.projectManager.email, 
-          'admin'
-        ).subscribe({
-          next: () => console.log('Chef de projet ajouté comme admin'),
-          error: (err) => console.error('Erreur chef projet:', err)
-        });
+      if (project.projectManager) {
+        this.trelloService
+          .addMemberToBoard(board.id, project.projectManager.username,'normal')
+          .subscribe({
+            next: () => console.log('Chef de projet ajouté comme admin'),
+            error: (err) => console.error('Erreur chef projet:', err),
+          });
       }
 
       // 3. Ajouter les autres membres
       project.employees?.forEach(employee => {
-        if (employee.email && employee.email !== project.projectManager?.email) {
-          this.trelloService.addMemberToBoard(
-            board.id,
-            employee.email,
-            'normal'
-          ).subscribe({
-            next: () => console.log(`${employee.fullname} ajouté`),
-            error: (err) => console.error(`Erreur ${employee.email}:`, err)
-          });
+        if (
+          employee.username &&
+          employee.username !== project.projectManager?.username
+        ) {
+          this.trelloService
+            .addMemberToBoard(board.id, employee.username, 'normal')
+            .subscribe({
+              next: () => console.log(`${employee.fullname} ajouté`),
+              error: (err) =>
+                console.error(`Erreur ${employee.username}:`, err),
+            });
         }
       });
     },

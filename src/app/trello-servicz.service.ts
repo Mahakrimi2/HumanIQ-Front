@@ -172,9 +172,7 @@ export class TrelloService {
     }
 
     // Vérifiez que l'email est valide
-    if (!this.isValidEmail(username)) {
-      return throwError(() => new Error(`Email invalide: ${username}`));
-    }
+
 
     const params = new HttpParams()
       .set('key', this.apiKey)

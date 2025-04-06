@@ -1,8 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import { CalendarOptions } from '@fullcalendar/core';
 import { pointage } from 'src/app/models/pointage.model';
+import { User } from 'src/app/models/user.model';
 import { PointageService } from 'src/app/services/pointage-service.service';
+import { UserService } from 'src/app/services/user.service';
 import Swal from 'sweetalert2';
-
+import dayGridPlugin from '@fullcalendar/daygrid';
+import interactionPlugin from '@fullcalendar/interaction';
 @Component({
   selector: 'app-pointage-list',
   templateUrl: './pointage-list.component.html',
@@ -16,13 +20,47 @@ export class PointageListComponent implements OnInit {
   PointageStatus: string[] = [];
   today = new Date().toISOString().split('T')[0];
 
-  constructor(private pointageService: PointageService) {}
+  constructor(
+    private pointageService: PointageService,
+    private userService: UserService
+  ) {}
 
   ngOnInit(): void {
-    this.loadPointages();
+    // this.loadPointages();
+    this.loadUsers()
     this.loadHolidayStatuses();
   }
-
+  calendarOptions: CalendarOptions = {
+    initialView: 'dayGridMonth',
+    editable: true,
+    selectable: true,
+    events: [],
+    plugins: [interactionPlugin, dayGridPlugin],
+  };
+  selecteuserid: any;
+  Onselected(event: any) {
+    this.selecteuserid = (event.target as HTMLSelectElement).value;
+    this.pointageService
+      .getPointagesByUser(this.selecteuserid)
+      .subscribe((data) => {
+        //this.pointages = data;
+        this.calendarOptions.events = data.flatMap((pointage) => [
+          {
+            title: 'Arrivée',
+            start: pointage.arrivalTime,
+            color: '#00ff00',
+          },
+          {
+            title: 'Départ',
+            start: pointage.departureTime,
+            color: '#ff0000',
+          },
+        ]);
+      });
+    console.log('====================================');
+    console.log(this.selecteuserid);
+    console.log('====================================');
+  }
   loadPointages(): void {
     this.pointageService.getAllPointages().subscribe(
       (data: any) => {
@@ -107,7 +145,15 @@ export class PointageListComponent implements OnInit {
     }
     return 'ABSCENT';
   }
-
+  users: any[] = [];
+  loadUsers(): void {
+    this.userService.getAllUsers().subscribe({
+      next: (data: User[]) => {
+        this.users = data;
+      },
+      error: (err: any) => console.error('Failed to load users:', err),
+    });
+  }
   deletePointage(id: number): void {
     Swal.fire({
       title: 'Are you sure?',
@@ -135,5 +181,4 @@ export class PointageListComponent implements OnInit {
       }
     });
   }
-  
 }
