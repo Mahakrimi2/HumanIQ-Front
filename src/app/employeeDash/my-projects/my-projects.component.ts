@@ -37,6 +37,7 @@ export class MyProjectsComponent implements OnInit {
     } else {
       console.error('Username not found. Please log in.');
     }
+    
   }
 
   loadProjects(username: string): void {
@@ -64,16 +65,32 @@ export class MyProjectsComponent implements OnInit {
   }
 
   viewTrelloBoard(projectName: string): void {
-  
-    console.log("tessst");
-    
-    this.showTrelloAuthDialog(projectName);
 
-   
-   
+    this.trelloService.getBoards().subscribe({
+      next: (boards) => {
+         console.log('====================================');
+         console.log(boards);
+         console.log('====================================');
+        const board = boards.find(b => b.name === projectName);
+        if (board) {
+          console.log(board);
+          
+          this.showTrelloAuthDialog(board.id,projectName);
+        } else {
+          Swal.fire('Error', `No Trello board found for project "${projectName}"`, 'error');
+        }
+      },
+    
+    });
   }
 
-  private showTrelloAuthDialog(projectName: string): void {
+    
+
+   
+   
+  
+
+  private showTrelloAuthDialog(boardId: string,projectName: string): void {
     Swal.fire({
       title: 'Connect to Trello Required',
       text: `You need to connect your Trello account to view tasks for "${projectName}"`,
@@ -85,7 +102,7 @@ export class MyProjectsComponent implements OnInit {
       if (result.isConfirmed) {
         // Stocker le nom du projet pour redirection après auth
         localStorage.setItem('trello_redirect_project', projectName);
-        window.location.href = 'https://trello.com/b/77b1Err2/' + projectName;
+        window.location.href = `https://trello.com/b/${boardId}/${projectName}`;
       }
     });
   }
