@@ -15,7 +15,7 @@ import { saveAs as fileSaverSaveAs } from 'file-saver';
 })
 export class EmployeesListAdminComponent implements OnInit {
   filteredUsers: any[] = [];
-  searchText: string = '';
+
   departments: any[] = [];
   paginatedUsers: any[] = [];
   currentPage: number = 1;
@@ -27,6 +27,11 @@ export class EmployeesListAdminComponent implements OnInit {
   editUserForm!: FormGroup;
   roles: any[] | undefined;
   selectedDepartment: string = '';
+  searchText: string = '';
+  statusFilter: 'all' | 'active' | 'inactive' = 'all';
+
+  sortColumn: string = '';
+  sortDirection: 'asc' | 'desc' = 'asc';
   constructor(
     private fb: FormBuilder,
     private userService: UserService,
@@ -128,6 +133,89 @@ export class EmployeesListAdminComponent implements OnInit {
     this.updatePaginatedUsers();
 
     console.log('Filtered Users:', this.filteredUsers);
+  }
+  applyFilters(): void {
+    this.filteredUsers = [...this.users];
+
+    if (this.searchText) {
+      const searchText = this.searchText.toLowerCase().trim();
+      this.filteredUsers = this.filteredUsers.filter(
+        (user) =>
+          user.fullname?.toLowerCase().includes(searchText) ||
+          user.username?.toLowerCase().includes(searchText)
+      );
+    }
+
+    if (this.statusFilter !== 'all') {
+      this.filteredUsers = this.filteredUsers.filter((user) =>
+        this.statusFilter === 'active' ? !user.isDisabled : user.isDisabled
+      );
+    }
+
+    if (this.sortColumn) {
+      this.sortUsers();
+    }
+
+    this.updatePagination();
+  }
+
+  private sortUsers(): void {
+    this.filteredUsers.sort((a, b) => {
+      const valueA = a[this.sortColumn as keyof User];
+      const valueB = b[this.sortColumn as keyof User];
+
+      if (this.sortColumn === 'isDisabled') {
+        return this.sortDirection === 'asc'
+          ? a.isDisabled === b.isDisabled
+            ? 0
+            : a.isDisabled
+            ? 1
+            : -1
+          : a.isDisabled === b.isDisabled
+          ? 0
+          : a.isDisabled
+          ? -1
+          : 1;
+      }
+
+      if (valueA < valueB) return this.sortDirection === 'asc' ? -1 : 1;
+      if (valueA > valueB) return this.sortDirection === 'asc' ? 1 : -1;
+      return 0;
+    });
+  }
+
+  onSearchChange(): void {
+    this.currentPage = 1;
+    this.applyFilters();
+  }
+
+  onStatusFilterChange(): void {
+    this.currentPage = 1;
+    this.applyFilters();
+  }
+
+  onSort(column: string): void {
+    if (this.sortColumn === column) {
+      this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
+    } else {
+      this.sortColumn = column;
+      this.sortDirection = 'asc';
+    }
+    this.applyFilters();
+  }
+
+  getSortIcon(column: string): string {
+    if (this.sortColumn !== column) return 'fa-sort';
+    return this.sortDirection === 'asc' ? 'fa-sort-up' : 'fa-sort-down';
+  }
+
+  private updatePagination(): void {
+    this.totalItems = this.filteredUsers.length;
+    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+    this.paginatedUsers = this.filteredUsers.slice(
+      startIndex,
+      startIndex + this.itemsPerPage
+    );
   }
   ProfilImageUrl: any;
 
@@ -256,8 +344,106 @@ export class EmployeesListAdminComponent implements OnInit {
 
   onPageChange(page: number): void {
     this.currentPage = page;
-    this.updatePaginatedUsers();
+    //this.updatePaginatedUsers();
+      this.updatePagination();
   }
+   disableUser(id: number): void {
+      Swal.fire({
+        title: 'Are you sure?',
+        text: 'Do you really want to disable this account? This action can be reverted later.',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, disable it!',
+        cancelButtonText: 'No, cancel!',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.userService.disactivateUser(id).subscribe({
+            next: () => {
+              const user = this.users.find((u) => u.id === id);
+              if (user) {
+                user.isDisabled = true;
+              }
+              Swal.fire('Disabled!', 'The account has been disabled.', 'success');
+              this.loadUsers();
+            },
+            error: (err: any) => {
+              console.error('Failed to disable user:', err);
+              Swal.fire('Error', 'Failed to disable the account', 'error');
+            },
+          });
+        }
+      });
+    }
+  
+    confirmDelete(id: number): void {
+      Swal.fire({
+        title: 'Delete Permanently?',
+        text: 'This will permanently delete the user and all their data. This cannot be undone!',
+        icon: 'error',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, delete',
+        cancelButtonText: 'Cancel',
+        confirmButtonColor: '#dc3545',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.userService.deleteUser(id).subscribe({
+            next: () => {
+              this.loadUsers();
+              Swal.fire(
+                'Deleted!',
+                'User has been permanently deleted.',
+                'success'
+              );
+            },
+            error: (err) => {
+              console.error('Delete failed:', err);
+              Swal.fire('Error', 'Failed to delete user', 'error');
+            },
+          });
+        }
+      });
+    }
+    enableUser(userId: number): void {
+      Swal.fire({
+        title: 'Activate User Account',
+        text: 'Are you sure you want to activate this account?',
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, activate',
+        cancelButtonText: 'Cancel',
+        confirmButtonColor: '#28a745',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.userService.enableUser(userId).subscribe({
+            next: () => {
+              Swal.fire({
+                title: 'Activated!',
+                text: 'The account has been successfully activated.',
+                icon: 'success',
+                confirmButtonColor: '#28a745',
+              });
+              this.loadUsers();
+              const user = this.users.find((u) => u.id === userId);
+              if (user) {
+                user.isDisabled = false;
+              }
+            },
+            error: (error) => {
+              console.error('Activation failed:', error);
+              Swal.fire({
+                title: 'Activation Failed',
+                text:
+                  error.message ||
+                  'Could not activate the account. Please try again.',
+                icon: 'error',
+                confirmButtonColor: '#dc3545',
+              });
+            },
+          });
+        }
+      });
+    }
+  
   deleteUser(id: number): void {
     Swal.fire({
       title: 'Are you sure?',

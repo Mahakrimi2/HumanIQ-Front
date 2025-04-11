@@ -289,7 +289,6 @@ export class EmployeesListComponent implements OnInit {
         console.log('====================================');
         this.totalItems = this.filteredUsers.length;
         this.updatePaginatedUsers();
-       
       },
 
       error: (err: any) => console.error('Failed to load users:', err),
@@ -299,17 +298,13 @@ export class EmployeesListComponent implements OnInit {
   onRoleChange(event: any) {
     const selectedRoles = this.addUserForm.value.roles || [];
     const roleName = event.target.value;
-
-    if (event.target.selected) {
+    console.log('====================================');
+    console.log(roleName);
+    console.log('====================================');
+    if (roleName) {
       selectedRoles.push({ name: roleName });
-    } else {
-      const index = selectedRoles.findIndex(
-        (role: any) => role.name === roleName
-      );
-      if (index !== -1) {
-        selectedRoles.splice(index, 1);
-      }
     }
+    console.log(selectedRoles);
 
     this.addUserForm.patchValue({ roles: selectedRoles });
   }
@@ -317,7 +312,6 @@ export class EmployeesListComponent implements OnInit {
     this.userService.getroles().subscribe({
       next: (roles: string[]) => {
         this.roles = roles;
-        console.log('Roles loaded:', roles);
       },
       error: (error) => {
         console.error('Error loading roles:', error);
@@ -330,9 +324,7 @@ export class EmployeesListComponent implements OnInit {
 
   Onselected(event: any) {
     this.selectedid = (event.target as HTMLSelectElement).value;
-    console.log('====================================');
     console.log(this.selectedid);
-    console.log('====================================');
   }
   loadDepartments(): void {
     this.departmentService.getAllDepartments().subscribe({
@@ -463,21 +455,17 @@ export class EmployeesListComponent implements OnInit {
       Swal.fire('Error', 'Please fill all required fields correctly.', 'error');
       return;
     }
-    console.log('====================================');
     console.log(this.selectedid);
-    console.log('====================================');
-
+ 
     const newUser = this.addUserForm.value;
-    console.log('====================================');
     console.log(newUser);
-    console.log('====================================');
     this.auth.register(newUser, this.selectedid).subscribe({
       next: (data: User) => {
         this.loadUsers();
-
+ 
         Swal.fire('Success', 'User added successfully!', 'success');
         this.addUserForm.reset();
-        this.closeModal('addUserModal');
+        this.closeModal;
       },
       error: (err: any) => {
         console.error('Failed to add user:', err);
@@ -486,33 +474,26 @@ export class EmployeesListComponent implements OnInit {
     });
   }
 
-  saveChanges(): void {
-    if (this.editUserForm.valid && this.selectedUser) {
-      const updatedUser = { ...this.selectedUser, ...this.editUserForm.value };
-      console.log('====================================');
-      console.log(this.selectedUser.id, this.editUserForm.value);
-      console.log('====================================');
-      this.userService
-        .updateUser(this.selectedUser.id, this.editUserForm.value)
-        .subscribe({
-          next: (data: User) => {
-            const index = this.users.findIndex((u) => u.id === data.id);
-            if (index !== -1) {
-              this.users[index] = data;
-            }
-            Swal.fire('Success', 'User updated successfully!', 'success');
-            this.closeModal('editUserModal');
-            this.loadUsers();
-          },
-          error: (err: any) => {
-            console.error('Failed to update user:', err);
-            Swal.fire('Error', 'Failed to update user', 'error');
-          },
-        });
-    } else {
-      Swal.fire('Error', 'Please fill all required fields correctly.', 'error');
-    }
-  }
+   saveChanges(): void {
+     if (this.editUserForm.valid && this.selectedUser) {
+       console.log(this.editUserForm.value);
+       this.userService
+         .updateUser(this.selectedUser.id, this.editUserForm.value)
+         .subscribe({
+           next: (data: User) => {
+             Swal.fire('Success', 'User updated successfully!', 'success');
+             this.closeModal('editUserModal');
+             this.loadUsers();
+           },
+           error: (err: any) => {
+             console.error('Failed to update user:', err);
+             Swal.fire('Error', 'Failed to update user', 'error');
+           },
+         });
+     } else {
+       Swal.fire('Error', 'Please fill all required fields correctly.', 'error');
+     }
+   }
 
   openModal(modalId: string, user?: User): void {
     const modalOptions = {
