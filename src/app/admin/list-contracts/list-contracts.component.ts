@@ -17,6 +17,10 @@ export class ListContractsComponent implements OnInit {
   filteredContracts: Contract[] = [];
   searchText: string = '';
   activeModal: any;
+
+  selectedContract: Contract | null = null;
+  addContract: any;
+
   isBenefitsModalOpen: boolean = false;
   fullBenefits: string = '';
   filterContracts(event: any): void {
@@ -36,9 +40,6 @@ export class ListContractsComponent implements OnInit {
     }
   }
 
-  selectedContract: Contract | null = null;
-  addContract: any;
-
   loadContractForEdit(_t32: Contract) {
     console.log(_t32);
 
@@ -56,7 +57,7 @@ export class ListContractsComponent implements OnInit {
     benefits: '',
     salary: 0,
     signed: false,
-    status: 'active',
+    status: '',
     archived: false,
   };
 
@@ -93,6 +94,7 @@ export class ListContractsComponent implements OnInit {
   loadUsers(): void {
     this.userService.getAllUsers().subscribe(
       (data) => (this.users = data),
+
       (error) => console.error('Error fetching users', error)
     );
   }
@@ -136,8 +138,7 @@ export class ListContractsComponent implements OnInit {
           () => {
             this.loadContracts();
             this.activeModal.close();
-            this.activeModal.close();
-            
+
             this.modalService.dismissAll();
             this.resetForm();
             Swal.fire({
@@ -177,7 +178,7 @@ export class ListContractsComponent implements OnInit {
       benefits: '',
       salary: 0,
       signed: false,
-      status: 'active',
+      status: '',
     };
   }
 

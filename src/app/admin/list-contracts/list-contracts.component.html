@@ -17,17 +17,16 @@
       <div class="col-lg-12">
         <div class="card">
           <div class="card-body">
-               <div class="mb-3">
-  <input
-    type="text"
-    class="form-control"
-    placeholder="Search by Contract Type"
-    [(ngModel)]="searchText"
-    (keyup)="filterContracts($event)"
-    aria-label="Search"
-  />
-
-            </div>
+              <div class="mb-3">
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Search by Contract Type"
+                  [(ngModel)]="searchText"
+                  (keyup)="filterContracts($event)"
+                  aria-label="Search"
+                />
+              </div>
            <div class="table-responsive">
               <table class="table table-hover align-middle">
                 <thead class="table-light">
@@ -54,14 +53,14 @@
                     <td class="py-2">{{ contract.startDate | date:'shortDate' }}</td>
                     <td class="py-2">{{ contract.endDate | date:'shortDate' }}</td>
                     <td class="py-2 text-center">{{ contract.workingHours }}</td>
-      <td class="py-2">       
-   <span *ngIf="contract.benefits.length>5; else showAll">
-    {{ contract.benefits | slice:0:50 }}...
-    <a (click)="openPopup(contract.benefits)" 
-       style="color: blue; text-decoration: underline; cursor: pointer;">
-      Learn More
-    </a>
-  </span>
+                        <td class="py-2">       
+                    <span *ngIf="contract.benefits.length>5; else showAll">
+                      {{ contract.benefits | slice:0:50 }}...
+                      <a (click)="openPopup(contract.benefits)" 
+                        style="color: blue; text-decoration: underline; cursor: pointer;">
+                        Learn More
+                      </a>
+                    </span>
   
   <!-- Si texte court -->
   <ng-template #showAll>
@@ -114,7 +113,6 @@
   (click)="downloadContract(contract.id)"
 ></i>
 </td>
-
                 </tr>
               </tbody>
             </table>
@@ -143,7 +141,7 @@
 
 
   
-<div class="modal fade" id="addContractModal" tabindex="-1" aria-labelledby="addContractModalLabel" aria-hidden="true">
+<div class="modal" id="addContractModal" tabindex="-1" aria-labelledby="addContractModalLabel" >
   <div class="modal-dialog modal-dialog-centered modal-lg">
     <div class="modal-content shadow-lg rounded-4 border-0">
       <!-- En-tête du modal -->

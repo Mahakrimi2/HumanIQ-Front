@@ -135,7 +135,7 @@ export class TrelloService {
    * This method should be called after redirection back to your app.
    */
   redirectToAuthPage(): void {
-    const authUrl = `https://trello.com/1/authorize?response_type=token&key=${this.apiKey}&scope=read,write&expiration=never&name=YourAppName&return_url=${window.location.origin}`;
+    const authUrl = `https://trello.com/1/authorize?response_type=token&key=${this.apiKey}&scope=read,write&expiration=never&name=YourAppName`;
     window.location.href = authUrl;
   }
 
@@ -202,10 +202,7 @@ export class TrelloService {
         })
       );
   }
-  private isValidEmail(email: string): boolean {
-    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return re.test(email);
-  }
+
 
   deleteBoard(boardId: string): Observable<any> {
     const token = this.getToken();

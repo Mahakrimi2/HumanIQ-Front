@@ -40,3 +40,286 @@
     color: #dc3545;
     border: 1px solid #f5c6cb;
 }
+#addUserModal .modal-content {
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+}
+
+/* En-tête du modal */
+#addUserModal .modal-header {
+    background: rgb(224, 221, 221);
+    color: white;
+    padding: 1.5rem;
+    border-bottom: none;
+    position: relative;
+}
+
+#addUserModal .modal-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+#addUserModal .btn-close {
+    filter: invert(1);
+    opacity: 0.8;
+    transition: opacity 0.2s;
+}
+
+#addUserModal .btn-close:hover {
+    opacity: 1;
+}
+
+/* Corps du modal */
+#addUserModal .modal-body {
+    padding: 2rem;
+}
+
+/* Champs de formulaire */
+#addUserModal .form-control,
+#addUserModal .form-select {
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+    box-shadow: none;
+}
+
+#addUserModal .form-control:focus,
+#addUserModal .form-select:focus {
+    border-color: #4a90e2;
+    box-shadow: 0 0 0 0.2rem rgba(74, 144, 226, 0.2);
+}
+
+#addUserModal .form-label {
+    font-weight: 500;
+    color: #555;
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+}
+
+/* Messages d'erreur */
+#addUserModal .invalid-feedback {
+    font-size: 0.85rem;
+    margin-top: 0.25rem;
+}
+
+#addUserModal .is-invalid {
+    border-color: #dc3545;
+}
+
+#addUserModal .is-invalid:focus {
+    box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+}
+
+/* Pied de page du modal */
+#addUserModal .modal-footer {
+    background-color: #f8f9fa;
+    padding: 1.5rem;
+    border-top: 1px solid #eee;
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+}
+
+/* Boutons */
+#addUserModal .btn {
+    padding: 0.6rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 500;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+    min-width: 120px;
+    text-align: center;
+}
+
+#addUserModal .btn-outline-secondary {
+    border-color: #6c757d;
+    color: #6c757d;
+}
+
+#addUserModal .btn-outline-secondary:hover {
+    background-color: #6c757d;
+    color: white;
+}
+
+#addUserModal .btn-success {
+    background-color: #28a745;
+    border-color: #28a745;
+}
+
+#addUserModal .btn-success:hover {
+    background-color: #218838;
+    border-color: #1e7e34;
+}
+
+#addUserModal .btn-success:disabled {
+    background-color: #a5d6b0;
+    border-color: #a5d6b0;
+    cursor: not-allowed;
+}
+
+.avatar-circle {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    font-size: 20px;
+    margin: 0 auto;
+}
+
+.modal-body {
+    padding: 20px;
+}
+
+.modal-footer {
+    border-top: none;
+    padding: 20px;
+    background-color: #f8f9fa;
+    /* Fond léger */
+    border-radius: 0 0 8px 8px;
+}
+
+/* Style pour les boutons */
+.btn-outline-secondary {
+    border-color: #6c757d;
+    color: #6c757d;
+    transition: all 0.3s ease;
+}
+
+.btn-outline-secondary:hover {
+    background-color: #6c757d;
+    color: white;
+}
+
+.btn-success {
+    background-color: #28a745;
+    border-color: #28a745;
+    transition: all 0.3s ease;
+}
+
+.btn-success:hover {
+    background-color: #218838;
+    border-color: #1e7e34;
+}
+
+/* Style pour les champs de formulaire */
+.form-control {
+    border: 1px solid #ced4da;
+    border-radius: 8px;
+    padding: 10px;
+    transition: border-color 0.3s ease;
+}
+
+.form-control:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+/* Style pour les labels */
+.form-label {
+    font-weight: 500;
+    color: #495057;
+}
+
+.status-badge {
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: inline-block;
+    min-width: 80px;
+    text-align: center;
+}
+
+.active {
+    background-color: #e6f7ee;
+    color: #28a745;
+    border: 1px solid #c3e6cb;
+}
+
+.inactive {
+    background-color: #fdecea;
+    color: #dc3545;
+    border: 1px solid #f5c6cb;
+}
+
+/* Style de base */
+.actions-cell {
+    padding: 0.5rem;
+    width: 220px;
+    /* Largeur fixe pour éviter le débordement */
+}
+
+/* Boutons d'action */
+.btn-action {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    transition: all 0.3s ease;
+    background: transparent;
+}
+
+.btn-action i {
+    font-size: 0.9rem;
+}
+
+/* Effets au survol */
+.btn-action:hover {
+    transform: scale(1.1);
+}
+
+/* Styles spécifiques */
+.btn-edit {
+    color: #4a6bdf;
+    background-color: rgba(74, 107, 223, 0.1);
+}
+
+.btn-edit:hover {
+    background-color: rgba(74, 107, 223, 0.2);
+}
+
+.btn-enable {
+    color: #28a745;
+    background-color: rgba(40, 167, 69, 0.1);
+}
+
+.btn-enable:hover {
+    background-color: rgba(40, 167, 69, 0.2);
+}
+
+.btn-disable {
+    color: #ffc107;
+    background-color: rgba(255, 193, 7, 0.1);
+}
+
+.btn-disable:hover {
+    background-color: rgba(255, 193, 7, 0.2);
+}
+
+.btn-delete {
+    color: #dc3545;
+    background-color: rgba(220, 53, 69, 0.1);
+}
+
+.btn-delete:hover {
+    background-color: rgba(220, 53, 69, 0.2);
+}
+
+/* Espacement */
+.gap-2>*+* {
+    margin-left: 0.5rem;
+}

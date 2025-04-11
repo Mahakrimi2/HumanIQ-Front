@@ -22,6 +22,7 @@ export class CompanyAdminComponent implements OnInit {
   };
 
   isModalOpen: boolean = false;
+  
 
   constructor(private companyService: CompanyServiceService) {}
 

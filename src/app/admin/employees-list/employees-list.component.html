@@ -15,6 +15,25 @@
       </div>
     </div>
   </div>
+  <div class="mb-3 row">
+  <div class="col-md-3">
+    <select class="form-select" 
+            [(ngModel)]="statusFilter" 
+            (change)="applyFilters()">
+      <option value="all">All </option>
+      <option value="active">Active Only</option>
+      <option value="inactive">Inactive Only</option>
+    </select>
+  </div>
+  <div class="col-md-9">
+    <input type="text"
+           class="form-control"
+           placeholder="Search by Full Name or Email"
+           [(ngModel)]="searchText"
+           (keyup)="applyFilters()"
+           aria-label="Search">
+  </div>
+</div>
   <section class="section">
     <div class="row">
       <div class="col-lg-12">
@@ -84,16 +103,38 @@
     {{ user.isDisabled ? "Inactive" : "Active" }}
   </span>
 </td>
-                  <td>
-                   <i class="fa-solid fa-pen-to-square text-primary me-2" 
-     style="cursor: pointer" 
-     (click)="openModal('editUserModal', user)"></i>
-                    <i
-                      class="fa-solid fa-trash text-danger ms-2"
-                      style="cursor: pointer"
-                      (click)="deleteUser(user.id)"
-                    ></i>
-                  </td>
+ <td class="actions-cell">
+  <div class="d-flex align-items-center gap-2">
+    <!-- Édition -->
+    <button class="btn btn-action btn-edit"
+            (click)="openModal('editUserModal', user)"
+            matTooltip="Edit">
+      <i class="fa-solid fa-pen"></i>
+    </button>
+    
+    <!-- Toggle Status -->
+    <button *ngIf="!user.isDisabled" 
+            class="btn btn-action btn-disable"
+            (click)="disableUser(user.id)"
+            matTooltip="Disable">
+      <i class="fa-solid fa-user-lock"></i>
+    </button>
+    
+    <button *ngIf="user.isDisabled"
+            class="btn btn-action btn-enable"
+            (click)="enableUser(user.id)"
+            matTooltip="Enable">
+      <i class="fa-solid fa-unlock"></i>
+    </button>
+    
+    <!-- Suppression -->
+    <button class="btn btn-action btn-delete"
+            (click)="confirmDelete(user.id)"
+            matTooltip="Delete">
+      <i class="fa-solid fa-trash-alt"></i>
+    </button>
+  </div>
+</td>
                 </tr>
               </tbody>
             </table>

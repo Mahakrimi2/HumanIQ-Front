@@ -178,7 +178,41 @@
         </div>
 
         <div class="priority-chart-container">
-          <canvas id="priorityChart"></canvas>
+        <section class="weather-section">
+  <h2 class="section-title">Current Weather</h2>
+  
+  <div class="weather-card" *ngIf="weatherData && !weatherError">
+    <div class="weather-header">
+      <h3>{{ weatherData.name }}, {{ weatherData.sys.country }}</h3>
+      <p>{{ weatherData.weather[0].description | titlecase }}</p>
+    </div>
+    
+    <div class="weather-content">
+      <div class="weather-icon">
+        <img [src]="'https://openweathermap.org/img/wn/' + weatherData.weather[0].icon + '@2x.png'" 
+             [alt]="weatherData.weather[0].description">
+      </div>
+      
+      <div class="weather-stats">
+        <div class="temperature">
+          <span class="temp-value">{{ weatherData.main.temp | number:'1.0-0' }}</span>
+          <span class="temp-unit">°C</span>
+        </div>
+        
+        <div class="weather-details">
+          <p><i class="fa-solid fa-droplet"></i> Humidity: {{ weatherData.main.humidity }}%</p>
+          <p><i class="fa-solid fa-wind"></i> Wind: {{ weatherData.wind.speed }} km/h</p>
+          <p><i class="fa-solid fa-temperature-low"></i> Feels Like: {{ weatherData.main.feels_like | number:'1.0-0' }}°C</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="weather-error" *ngIf="weatherError">
+    <p>{{ weatherError }}</p>
+  </div>
+</section>
+
         </div>
       </div>
     </section>
@@ -213,4 +247,6 @@
       </div>
     </section>
   </div>
+
+  
 </main>

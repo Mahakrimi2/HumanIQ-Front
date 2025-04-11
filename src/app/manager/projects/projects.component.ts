@@ -383,7 +383,7 @@ export class ProjectsComponent implements OnInit {
   }
 
   assignTeamToTrelloBoard(project: Project): void {
-  // 1. Trouver le board correspondant au projet
+ 
   this.trelloService.getBoards().subscribe({
     next: (boards) => {
       const board = boards.find(b => b.name === project.name);

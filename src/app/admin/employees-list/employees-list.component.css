@@ -1,20 +1,123 @@
-/* Style pour le modal */
-.modal-content {
+#addUserModal .modal-content {
     border: none;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
 }
 
-.modal-header {
-    background-color: #007bff;
-    /* Couleur primaire */
+/* En-tête du modal */
+#addUserModal .modal-header {
+    background:rgb(224, 221, 221);
     color: white;
+    padding: 1.5rem;
     border-bottom: none;
-    border-radius: 8px 8px 0 0;
+    position: relative;
 }
 
-.modal-title {
+#addUserModal .modal-title {
     font-size: 1.5rem;
     font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+#addUserModal .btn-close {
+    filter: invert(1);
+    opacity: 0.8;
+    transition: opacity 0.2s;
+}
+
+#addUserModal .btn-close:hover {
+    opacity: 1;
+}
+
+/* Corps du modal */
+#addUserModal .modal-body {
+    padding: 2rem;
+}
+
+/* Champs de formulaire */
+#addUserModal .form-control,
+#addUserModal .form-select {
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+    box-shadow: none;
+}
+
+#addUserModal .form-control:focus,
+#addUserModal .form-select:focus {
+    border-color: #4a90e2;
+    box-shadow: 0 0 0 0.2rem rgba(74, 144, 226, 0.2);
+}
+
+#addUserModal .form-label {
+    font-weight: 500;
+    color: #555;
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+}
+
+/* Messages d'erreur */
+#addUserModal .invalid-feedback {
+    font-size: 0.85rem;
+    margin-top: 0.25rem;
+}
+
+#addUserModal .is-invalid {
+    border-color: #dc3545;
+}
+
+#addUserModal .is-invalid:focus {
+    box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+}
+
+/* Pied de page du modal */
+#addUserModal .modal-footer {
+    background-color: #f8f9fa;
+    padding: 1.5rem;
+    border-top: 1px solid #eee;
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+}
+
+/* Boutons */
+#addUserModal .btn {
+    padding: 0.6rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 500;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+    min-width: 120px;
+    text-align: center;
+}
+
+#addUserModal .btn-outline-secondary {
+    border-color: #6c757d;
+    color: #6c757d;
+}
+
+#addUserModal .btn-outline-secondary:hover {
+    background-color: #6c757d;
+    color: white;
+}
+
+#addUserModal .btn-success {
+    background-color: #28a745;
+    border-color: #28a745;
+}
+
+#addUserModal .btn-success:hover {
+    background-color: #218838;
+    border-color: #1e7e34;
+}
+
+#addUserModal .btn-success:disabled {
+    background-color: #a5d6b0;
+    border-color: #a5d6b0;
+    cursor: not-allowed;
 }
 .avatar-circle {
     width: 50px;
@@ -104,4 +207,75 @@
     background-color: #fdecea;
     color: #dc3545;
     border: 1px solid #f5c6cb;
+}
+
+/* Style de base */
+.actions-cell {
+    padding: 0.5rem;
+    width: 220px;
+    /* Largeur fixe pour éviter le débordement */
+}
+
+/* Boutons d'action */
+.btn-action {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    transition: all 0.3s ease;
+    background: transparent;
+}
+
+.btn-action i {
+    font-size: 0.9rem;
+}
+
+/* Effets au survol */
+.btn-action:hover {
+    transform: scale(1.1);
+}
+
+/* Styles spécifiques */
+.btn-edit {
+    color: #4a6bdf;
+    background-color: rgba(74, 107, 223, 0.1);
+}
+
+.btn-edit:hover {
+    background-color: rgba(74, 107, 223, 0.2);
+}
+
+.btn-enable {
+    color: #28a745;
+    background-color: rgba(40, 167, 69, 0.1);
+}
+
+.btn-enable:hover {
+    background-color: rgba(40, 167, 69, 0.2);
+}
+
+.btn-disable {
+    color: #ffc107;
+    background-color: rgba(255, 193, 7, 0.1);
+}
+
+.btn-disable:hover {
+    background-color: rgba(255, 193, 7, 0.2);
+}
+
+.btn-delete {
+    color: #dc3545;
+    background-color: rgba(220, 53, 69, 0.1);
+}
+
+.btn-delete:hover {
+    background-color: rgba(220, 53, 69, 0.2);
+}
+
+/* Espacement */
+.gap-2>*+* {
+    margin-left: 0.5rem;
 }

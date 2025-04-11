@@ -63,6 +63,7 @@ if (this.userRole === 'ROLE_SUPERADMIN') {
   this.router.navigate(['/manager/dashboard']);
 } else if (this.userRole === 'ROLE_RH') {
   this.router.navigate(['/admin/dashboard']);
+  
 } else if (this.userRole === 'ROLE_EMPLOYEE') {
   this.router.navigate(['/employee/dashboard']);
 } else {

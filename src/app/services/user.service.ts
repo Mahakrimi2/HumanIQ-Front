@@ -38,7 +38,7 @@ export class UserService {
       Authorization: `Bearer ${token}`,
     });
 
-    return this.http.get<User[]>(`${this.apiUrl}/users`, { headers });
+    return this.http.get<User[]>(`${this.apiUrl}/all-users`, { headers });
   }
 
   getUsers(): Observable<User[]> {
@@ -56,12 +56,33 @@ export class UserService {
     });
     return this.http.get<User>(`${this.apiUrl}/getbyemail/${id}`, { headers });
   }
+  disactivateUser(id: number): Observable<any> {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+    });
+    return this.http.delete<void>(`${this.apiUrl}/userDisactivate/${id}`, {
+      headers,
+    });
+  }
+
   deleteUser(id: number): Observable<any> {
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders({
       Authorization: `Bearer ${token}`,
     });
-    return this.http.delete<void>(`${this.apiUrl}/user/${id}`, { headers });
+    return this.http.delete<void>(`${this.apiUrl}/user/${id}`, {
+      headers,
+    });
+  }
+
+  enableUser(id: number): Observable<any> {
+   const token = localStorage.getItem('token');
+   const headers = new HttpHeaders({
+     Authorization: `Bearer ${token}`,
+   });
+
+    return this.http.put(`${this.apiUrl}/user/${id}/enable`,{}, { headers });
   }
   updateUser(id: number, updatedUser: User): Observable<User> {
     const token = localStorage.getItem('token');

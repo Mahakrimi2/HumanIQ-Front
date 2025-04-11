@@ -48,8 +48,16 @@
               <tbody>
                 <tr *ngFor="let user of paginatedUsers">
                   <td>
-                    <img [src]="user.profileImageUrl || '.../assets/img/anonyme.jpg'" alt="image" width="50px" height="50px" class="rounded-circle" />
-                  </td>
+  <ng-container *ngIf="!isDefaultImage(user.profileImagePath); else avatarBlock">
+    <img [src]="user.profileImageUrl" alt="Profile" width="50" height="50" class="rounded-circle">
+  </ng-container>
+  <ng-template #avatarBlock>
+    <div class="avatar-circle" 
+         [style.background-color]="getAvatarColor(user.fullname)">
+      {{ getFirstInitial(user.fullname) }}
+    </div>
+  </ng-template>
+</td>
                   <td>{{ user.fullname }}</td>
                   <td>
                     <i class="fas fa-envelope" style="margin-right: 10px; color: #e20404;"></i>{{ user.username }}
@@ -273,7 +281,7 @@
           </div>
           <div class="col-md-6">
   <label for="role" class="form-label">Role</label>
-  <select class="form-control form-control-lg shadow-sm" id="roles"  (change)="onRoleChange($event)"   required>
+  <select class="form-control form-control-lg shadow-sm" id="roles"  (change)="onRoleChangeupdate($event)"   required>
     <option value="" disabled selected>Select a role</option>
     <option *ngFor="let role of roles" [value]="role">{{role}}</option>
    

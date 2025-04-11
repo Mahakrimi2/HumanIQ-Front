@@ -368,3 +368,80 @@
         margin-top: 1rem;
     }
 }
+
+/* Weather Widget Styles */
+.weather-section {
+    margin-bottom: 2rem;
+}
+
+.weather-card {
+    background: linear-gradient(135deg, #72b6f0 0%, #4a8fd8 100%);
+    border-radius: 12px;
+    padding: 1.5rem;
+    color: white;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.weather-header h3 {
+    margin: 0;
+    font-size: 1.5rem;
+}
+
+.weather-header p {
+    margin: 0.25rem 0 0;
+    font-size: 1rem;
+    opacity: 0.9;
+}
+
+.weather-content {
+    display: flex;
+    align-items: center;
+    margin-top: 1rem;
+}
+
+.weather-icon img {
+    width: 80px;
+    height: 80px;
+    margin-right: 1.5rem;
+}
+
+.temperature {
+    display: flex;
+    align-items: flex-start;
+}
+
+.temp-value {
+    font-size: 3rem;
+    font-weight: bold;
+    line-height: 1;
+}
+
+.temp-unit {
+    font-size: 1.5rem;
+    margin-left: 0.25rem;
+}
+
+.weather-details {
+    margin-top: 0.5rem;
+}
+
+.weather-details p {
+    margin: 0.5rem 0;
+    display: flex;
+    align-items: center;
+    font-size: 0.9rem;
+}
+
+.weather-details i {
+    margin-right: 0.5rem;
+    width: 20px;
+    text-align: center;
+}
+
+.weather-error {
+    background: #ffebee;
+    color: #c62828;
+    padding: 1rem;
+    border-radius: 8px;
+    text-align: center;
+}

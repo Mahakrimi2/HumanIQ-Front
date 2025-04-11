@@ -28,7 +28,7 @@ export class ChatService {
 
     this.stompClient.onConnect = () => {
       console.log('Connected to WebSocket');
-      this.stompClient.subscribe('/topic/messages', (message:any) => {
+      this.stompClient.subscribe('/topic/messages', (message: any) => {
         console.log(message);
         const newMessage = JSON.parse(message.body);
         this.messages.next(newMessage);

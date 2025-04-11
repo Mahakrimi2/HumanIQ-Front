@@ -3,6 +3,7 @@ import { Project } from 'src/app/models/project.model';
 import { AuthService } from 'src/app/services/auth.service';
 import { ProjectServiceService } from 'src/app/services/project-service.service';
 import { TrelloService } from 'src/app/trello-servicz.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-my-projects',
@@ -24,7 +25,10 @@ export class MyProjectsComponent implements OnInit {
     private projectService: ProjectServiceService,
     private authService: AuthService,
     private trelloService: TrelloService
-  ) {}
+  ) {
+    
+
+  }
 
   ngOnInit(): void {
     this.username = this.authService.getUsername();
@@ -57,6 +61,33 @@ export class MyProjectsComponent implements OnInit {
       default:
         return 'status-default';
     }
+  }
+
+  viewTrelloBoard(projectName: string): void {
+  
+    console.log("tessst");
+    
+    this.showTrelloAuthDialog(projectName);
+
+   
+   
+  }
+
+  private showTrelloAuthDialog(projectName: string): void {
+    Swal.fire({
+      title: 'Connect to Trello Required',
+      text: `You need to connect your Trello account to view tasks for "${projectName}"`,
+      icon: 'info',
+      showCancelButton: true,
+      confirmButtonText: 'Connect Now',
+      cancelButtonText: 'Maybe Later',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // Stocker le nom du projet pour redirection après auth
+        localStorage.setItem('trello_redirect_project', projectName);
+        window.location.href = 'https://trello.com/b/77b1Err2/' + projectName;
+      }
+    });
   }
 
   

@@ -35,11 +35,10 @@
             </div>
           </div>
           
-          <div class="card-actions">
-            <button class="btn btn-task-view">
-              <i class="bi bi-list-task"></i> View Tasks
-            </button>
-          </div>
+        <button class="btn btn-task-view" (click)="viewTrelloBoard(project.name)">
+  <i class="bi bi-list-task"></i> View Tasks
+  <span *ngIf="loadingTrello" class="loading-trello"></span>
+</button>
         </div>
       </div>
 

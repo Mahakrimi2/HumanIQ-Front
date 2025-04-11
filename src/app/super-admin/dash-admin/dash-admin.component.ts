@@ -4,6 +4,7 @@ import { DepartmentService } from 'src/app/services/department.service';
 import { UserService } from 'src/app/services/user.service';
 import { Chart, ChartConfiguration, ChartType, registerables } from 'chart.js';
 import { ProjectServiceService } from 'src/app/services/project-service.service';
+import { WeatherService } from 'src/app/weather.service';
 
 @Component({
   selector: 'app-dash-admin',
@@ -20,6 +21,9 @@ export class DashAdminComponent implements OnInit {
   highPriorityCount = 0;
   mediumPriorityCount = 0;
   lowPriorityCount = 0;
+  weatherData: any;
+  city = 'Ariana'; // Ville par défaut
+  weatherError: string | null = null;
   totalProjects = 0;
   priorityStats: any[] = [];
   priorityChart!: Chart;
@@ -37,12 +41,14 @@ export class DashAdminComponent implements OnInit {
     this.loadData();
     this.intervalId = setInterval(() => this.updateTime(), 1000);
     this.loadPriorityStats();
+    this.loadWeather();
   }
 
   constructor(
     private userService: UserService,
     private depService: DepartmentService,
-    private projectService: ProjectServiceService
+    private projectService: ProjectServiceService,
+    private weatherService: WeatherService
   ) {
     Chart.register(...registerables);
   }
@@ -57,6 +63,18 @@ export class DashAdminComponent implements OnInit {
   updateTime(): void {
     const now = new Date();
     this.currentTime = now.toLocaleTimeString(); // Formater l'heure au format local
+  }
+  loadWeather(): void {
+    this.weatherService.getWeather(this.city).subscribe({
+      next: (data) => {
+        this.weatherData = data;
+        this.weatherError = null;
+      },
+      error: (err) => {
+        this.weatherError = 'Impossible de charger les données météo';
+        console.error('Erreur météo:', err);
+      },
+    });
   }
 
   loadDepartments(): void {
@@ -192,15 +210,13 @@ export class DashAdminComponent implements OnInit {
   loadPriorityStats(): void {
     this.projectService.getAllProjects().subscribe((projects) => {
       console.log(projects);
-      
+
       this.totalProjects = projects.length;
 
-     
       this.highPriorityCount = projects.filter(
         (p) => p.priority === 'HIGH'
       ).length;
-     
-      
+
       this.mediumPriorityCount = projects.filter(
         (p) => p.priority === 'MEDIUM'
       ).length;
@@ -235,7 +251,6 @@ export class DashAdminComponent implements OnInit {
         },
       ];
 
-      
       this.initPriorityChart();
     });
   }
@@ -244,15 +259,17 @@ export class DashAdminComponent implements OnInit {
       type: 'doughnut' as ChartType,
       data: {
         labels: ['High Priority', 'Medium Priority', 'Low Priority'],
-        datasets: [{
-          data: [this.highPriorityCount, this.mediumPriorityCount, this.lowPriorityCount],
-          backgroundColor: [
-            '#dc2626',
-            '#d97706',
-            '#16a34a'
-          ],
-          borderWidth: 1
-        }]
+        datasets: [
+          {
+            data: [
+              this.highPriorityCount,
+              this.mediumPriorityCount,
+              this.lowPriorityCount,
+            ],
+            backgroundColor: ['#dc2626', '#d97706', '#16a34a'],
+            borderWidth: 1,
+          },
+        ],
       },
       options: {
         responsive: true,
@@ -265,18 +282,19 @@ export class DashAdminComponent implements OnInit {
               label: (context) => {
                 const label = context.label || '';
                 const value = context.raw as number;
-                const percentage = Math.round((value / this.totalProjects) * 100);
+                const percentage = Math.round(
+                  (value / this.totalProjects) * 100
+                );
                 return `${label}: ${value} (${percentage}%)`;
-              }
-            }
-          }
-        }
-      }
+              },
+            },
+          },
+        },
+      },
     };
-    
+
     this.priorityChart = new Chart(this.chartRef.nativeElement, config);
   }
-
 
   renderChart(departments: string[], employeeCounts: number[]): void {
     const ctx = document.getElementById('departmentChart') as HTMLCanvasElement;
@@ -331,6 +349,4 @@ export class DashAdminComponent implements OnInit {
       },
     });
   }
-
-  
 }
