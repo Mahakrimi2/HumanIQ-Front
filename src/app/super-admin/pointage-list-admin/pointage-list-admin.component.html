@@ -2,56 +2,28 @@
 <app-sidebar></app-sidebar>
 
 <main id="main" class="main">
-  <div class="pagetitle">
-    <h1>Attendance List</h1> <!-- Changed "Pointages List" to "Attendance List" -->
+  <div class="pagetitle d-flex justify-content-between align-items-center">
+    <h1>Attendance Management</h1>
+  
   </div>
-
+     <div class="form-group mb-3">
+             <select id="head" class="form-control" (change)="Onselected($event)" required>
+              <option *ngFor="let user of users" [value]="user.username">{{ user.fullname }}</option>
+             </select>
+      </div>
   <section class="section">
     <div class="row">
       <div class="col-lg-12">
-        <div class="card">
-          <div class="card-body">
-            <table class="table datatable">
-              <thead>
-                <tr>
-                  <th>Employee</th> <!-- Changed "Employé" to "Employee" -->
-                  <th>Arrival Time</th> <!-- Changed "Heure d'arrivée" to "Arrival Time" -->
-                  <th>Departure Time</th> <!-- Changed "Heure de départ" to "Departure Time" -->
-<th>workingtime</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let pointage of pointages">
-                  <td>{{ pointage.user?.fullname || "N/A" }}</td>
-                  <td>{{ pointage.arrivalTime }}</td>
-                  <td>{{ pointage.departureTime }}</td>
-                 <!-- <td>
-  <span [ngClass]="{
-    'status-present': pointage.status === 'PRESENT',
-    'status-absent': pointage.status === 'ABSCENT'
-  }">
-    {{ pointage.status }}
-  </span>
-</td> -->
-                  <td>{{ pointage.workingTime }}</td>
-                  <td>
-                    <button class="btn btn-warning" (click)="2">
-                      <i class="fa-solid fa-pen-to-square text-white"></i>
-                      Edit <!-- Changed "Modifier" to "Edit" -->
-                    </button>
-                    <i
-                      class="fa-solid fa-trash text-danger ms-2"
-                      style="cursor: pointer"
-                      (click)="5"
-                    ></i>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
+      <div class="row">
+    <div class="col-lg-12">
+      <div class="row">
+        <full-calendar [options]="calendarOptions"></full-calendar>
+
       </div>
-    </div>
+      </div>
+      </div>
+      </div>
+      </div>
+    
   </section>
 </main>

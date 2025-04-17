@@ -143,7 +143,7 @@
 
 
   
-<div class="modal fade" id="addContractModal" tabindex="-1" aria-labelledby="addContractModalLabel" aria-hidden="true">
+<div class="modal" id="addContractModal" tabindex="-1" aria-labelledby="addContractModalLabel" >
   <div class="modal-dialog modal-dialog-centered modal-lg">
     <div class="modal-content shadow-lg rounded-4 border-0">
       <!-- En-tête du modal -->
@@ -151,7 +151,6 @@
         <h5 class="modal-title" id="addContractModalLabel">Add Contract</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-
       <!-- Corps du modal -->
       <div class="modal-body">
         <form>
@@ -159,7 +158,7 @@
             <!-- Colonne de gauche -->
             <div class="col-md-6">
               <!-- Champ : Type de contrat -->
-              <div class="mb-4">
+                <div class="mb-4">
                 <label for="contractType" class="form-label">Contract Type</label>
                 <select class="form-control form-control-lg shadow-sm" id="contractType" [(ngModel)]="newContract.contractType" name="contractType">
                   <option value="">Select Contract Type</option>
@@ -168,8 +167,6 @@
                   <option value="Freelance">Freelance</option>
                   <option value="Apprenticeship">Apprenticeship</option>
                   <option value="Internship">Internship</option>
-                  <option value="Part_time">Part-time</option>
-                  <option value="Seasonal">Seasonal</option>
                 </select>
               </div>
 
@@ -235,10 +232,7 @@
                 <select class="form-control form-control-lg shadow-sm" id="status" [(ngModel)]="newContract.status" name="status">
                   <option value="active">Active</option>
                   <option value="PENDING">PENDING</option>
-                  <option value="EXPIRED">EXPIRED</option>
                   <option value="TERMINATED">TERMINATED</option>
-                  <option value="SUSPENDED">SUSPENDED</option>
-                  <option value="CANCELLED">CANCELLED</option>
                 </select>
               </div>
             </div>
@@ -275,8 +269,6 @@
                   <option value="Freelance">Freelance</option>
                   <option value="Apprenticeship">Apprenticeship</option>
                   <option value="Internship">Internship</option>
-                  <option value="Part_time">Part-time</option>
-                  <option value="Seasonal">Seasonal</option>
                 </select>
               </div>
               <div class="col-md-6 mb-4">
@@ -322,12 +314,9 @@
             <div class="mb-4">
               <label for="editStatus" class="form-label">Status</label>
               <select class="form-control form-control-lg shadow-sm" id="editStatus" formControlName="status">
-                <option value="active">Active</option>
-                <option value="PENDING">PENDING</option>
-                <option value="EXPIRED">EXPIRED</option>
-                <option value="TERMINATED">TERMINATED</option>
-                <option value="SUSPENDED">SUSPENDED</option>
-                <option value="CANCELLED">CANCELLED</option>
+              <option value="active">Active</option>
+                  <option value="PENDING">PENDING</option>
+                  <option value="TERMINATED">TERMINATED</option>
               </select>
             </div>
           </form>

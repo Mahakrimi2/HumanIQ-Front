@@ -12,7 +12,7 @@ export class LeaveRequestComponent {
 
   leaveRequests: Holiday[] = []; 
   holidayStatuses: string[] = [];
-  selectedRequest: Holiday | null = null; // Demande sélectionnée pour le modal
+  selectedRequest: Holiday | null = null; 
   newStatus: string = ''; // Nouveau statut sélectionné
 
   constructor(private holidayService: HolidayService) {}

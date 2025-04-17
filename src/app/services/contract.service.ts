@@ -1,6 +1,6 @@
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpEvent, HttpHeaders, HttpParams, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, throwError } from 'rxjs';
+import { map, Observable, throwError } from 'rxjs';
 import { Contract } from '../models/contract.model';
 
 @Injectable({
@@ -104,6 +104,4 @@ export class ContractService {
       { headers }
     );
   }
-
- 
 }

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Project } from 'src/app/models/project.model';
 import { AuthService } from 'src/app/services/auth.service';
 import { ProjectServiceService } from 'src/app/services/project-service.service';
-import { TrelloService } from 'src/app/trello-servicz.service';
+import { TrelloService } from 'src/app/services/trello-servicz.service';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -25,10 +25,7 @@ export class MyProjectsComponent implements OnInit {
     private projectService: ProjectServiceService,
     private authService: AuthService,
     private trelloService: TrelloService
-  ) {
-    
-
-  }
+  ) {}
 
   ngOnInit(): void {
     this.username = this.authService.getUsername();
@@ -37,7 +34,6 @@ export class MyProjectsComponent implements OnInit {
     } else {
       console.error('Username not found. Please log in.');
     }
-    
   }
 
   loadProjects(username: string): void {
@@ -65,32 +61,28 @@ export class MyProjectsComponent implements OnInit {
   }
 
   viewTrelloBoard(projectName: string): void {
-
     this.trelloService.getBoards().subscribe({
       next: (boards) => {
-         console.log('====================================');
-         console.log(boards);
-         console.log('====================================');
-        const board = boards.find(b => b.name === projectName);
+        console.log('====================================');
+        console.log(boards);
+        console.log('====================================');
+        const board = boards.find((b) => b.name === projectName);
         if (board) {
           console.log(board);
-          
-          this.showTrelloAuthDialog(board.id,projectName);
+
+          this.showTrelloAuthDialog(board.id, projectName);
         } else {
-          Swal.fire('Error', `No Trello board found for project "${projectName}"`, 'error');
+          Swal.fire(
+            'Error',
+            `No Trello board found for project "${projectName}"`,
+            'error'
+          );
         }
       },
-    
     });
   }
 
-    
-
-   
-   
-  
-
-  private showTrelloAuthDialog(boardId: string,projectName: string): void {
+  private showTrelloAuthDialog(boardId: string, projectName: string): void {
     Swal.fire({
       title: 'Connect to Trello Required',
       text: `You need to connect your Trello account to view tasks for "${projectName}"`,
@@ -106,6 +98,4 @@ export class MyProjectsComponent implements OnInit {
       }
     });
   }
-
-  
 }

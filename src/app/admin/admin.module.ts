@@ -22,6 +22,8 @@ import { CalenderComponent } from './calender/calender.component';
 import { PointagerhComponent } from './pointagerh/pointagerh.component';
 import { DashbaordRhComponent } from './dashbaord-rh/dashbaord-rh.component';
 import { EventsComponent } from './events/events.component';
+import { OffreComponent } from './offre/offre.component';
+import { CvComponent } from './cv/cv.component';
 
 
 @NgModule({
@@ -39,6 +41,8 @@ import { EventsComponent } from './events/events.component';
     PointagerhComponent,
     DashbaordRhComponent,
     EventsComponent,
+    OffreComponent,
+    CvComponent,
   ],
   imports: [
     CommonModule,

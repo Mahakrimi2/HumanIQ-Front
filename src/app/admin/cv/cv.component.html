@@ -1,0 +1,76 @@
+<app-navbar></app-navbar>
+<app-sidebar></app-sidebar>
+
+<main id="main" class="main">
+  <div class="pagetitle">
+    <h1>Gestion des CVs</h1>
+  </div>
+
+  <div class="container mt-4">
+    <div class="card">
+      <div class="card-header">
+        <h3>Uploader un CV</h3>
+      </div>
+      <div class="card-body">
+        <div class="mb-3">
+          <label class="form-label">Sélectionner un fichier CV (PDF)</label>
+          <input type="file" class="form-control" (change)="onFileSelected($event)" accept=".pdf,.doc,.docx">
+        </div>
+        
+        <button class="btn btn-primary" (click)="onUpload()" [disabled]="!selectedFile">
+          Uploader le CV
+        </button>
+
+        <div *ngIf="uploadProgress !== null" class="mt-3">
+          <div class="progress">
+            <div class="progress-bar" [style.width.%]="uploadProgress" role="progressbar">
+              {{uploadProgress}}%
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="uploadSuccess" class="alert alert-success mt-3">
+          CV téléchargé avec succès!
+        </div>
+
+        <div *ngIf="uploadError" class="alert alert-danger mt-3">
+          Erreur lors du téléchargement du CV
+        </div>
+      </div>
+    </div>
+
+    <div class="card mt-4">
+      <div class="card-header">
+        <h3>CVs disponibles</h3>
+      </div>
+      <div class="card-body">
+        <div *ngIf="cvs.length === 0" class="alert alert-info">
+          Aucun CV disponible pour cette offre.
+        </div>
+
+        <div *ngIf="cvs.length > 0" class="table-responsive">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>Nom du fichier</th>
+              
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let cv of cvs">
+                <td>{{ cv.fileName }}</td>
+               
+                <td>
+                  <button class="btn btn-sm btn-primary" (click)="downloadCV(cv.id, cv.fileName)">
+                    <i class="bi bi-download"></i> Download
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>

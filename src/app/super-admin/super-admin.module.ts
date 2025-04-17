@@ -15,6 +15,7 @@ import { PointageListAdminComponent } from './pointage-list-admin/pointage-list-
 import { CompanyAdminComponent } from './company-admin/company-admin.component';
 import { DashAdminComponent } from './dash-admin/dash-admin.component';
 import { EventsComponent } from './events/events.component';
+import { FullCalendarModule } from '@fullcalendar/angular';
 
 
 @NgModule({
@@ -34,7 +35,7 @@ import { EventsComponent } from './events/events.component';
     SuperAdminRoutingModule,
         HttpClientModule,
         FormsModule,
-    
+        FullCalendarModule,
         NgbModule,
         ReactiveFormsModule,
         SharedModule

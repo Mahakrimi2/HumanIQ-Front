@@ -18,6 +18,8 @@ import { PointageListComponent } from './pointage-list/pointage-list.component';
 import { PointagerhComponent } from './pointagerh/pointagerh.component';
 import { DashbaordRhComponent } from './dashbaord-rh/dashbaord-rh.component';
 import { EventsComponent } from './events/events.component';
+import { OffreComponent } from './offre/offre.component';
+import { CvComponent } from './cv/cv.component';
 
 const routes: Routes = [
   {
@@ -33,10 +35,12 @@ const routes: Routes = [
       { path: 'pointage', component: PointagerhComponent },
       { path: 'list-events', component: EventsComponent },
       { path: 'list-contracts', component: ListContractsComponent },
-
+      { path: 'list-offers', component: OffreComponent },
+      { path: 'list-cv', component: CvComponent },
       { path: 'archived-contracts', component: ArchivedContractsComponent },
       { path: 'pointage-list', component: PointageListComponent },
       { path: 'DashRh', component: DashbaordRhComponent },
+
       {
         path: '',
         redirectTo: 'DashRh',

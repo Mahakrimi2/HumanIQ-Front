@@ -1,11 +1,16 @@
 import { animate, style, transition, trigger } from '@angular/animations';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { Project } from 'src/app/models/project.model';
 import { User } from 'src/app/models/user.model';
 import { ProjectServiceService } from 'src/app/services/project-service.service';
 import { UserService } from 'src/app/services/user.service';
-import { TrelloService } from 'src/app/trello-servicz.service';
+import { TrelloService } from 'src/app/services/trello-servicz.service';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -179,7 +184,6 @@ export class ProjectsComponent implements OnInit {
     this.projectService.getProjectsByPriority().subscribe(
       (data: any[]) => {
         this.ProjectsPriority = data;
-     
       },
       (error) => {
         console.error('Error loading project priority', error);
@@ -244,23 +248,23 @@ export class ProjectsComponent implements OnInit {
               .createBoard(project.name)
               .subscribe((response) => {
                 console.log('Trello Board Created:', response);
-                   this.projectService.getAllProjects().subscribe(
-              (projects) => {
-                // Récupérer les boards Trello
-                       this.trelloService.getBoards().subscribe((trelloBoards) => {
-                         // Filtrer les projets qui ont un board Trello du même nom
-                         this.projectsWithTrelloBoards = projects.filter((project) =>
-                           trelloBoards.some((board) => board.name === project.name)
-                         );
-                         this.projectsWithTrelloBoards?.forEach((projectWithBoard: any) => {
-                           if (projectWithBoard.name === project.name) {
-                             this.assignTeamToTrelloBoard(projectWithBoard);
-                           }
-                         });
-                       }   )      
+                this.projectService.getAllProjects().subscribe((projects) => {
+                  // Récupérer les boards Trello
+                  this.trelloService.getBoards().subscribe((trelloBoards) => {
+                    // Filtrer les projets qui ont un board Trello du même nom
+                    this.projectsWithTrelloBoards = projects.filter((project) =>
+                      trelloBoards.some((board) => board.name === project.name)
+                    );
+                    this.projectsWithTrelloBoards?.forEach(
+                      (projectWithBoard: any) => {
+                        if (projectWithBoard.name === project.name) {
+                          this.assignTeamToTrelloBoard(projectWithBoard);
+                        }
+                      }
+                    );
+                  });
                 });
 
-              
                 alert('Trello Board successfully created!');
               });
           },
@@ -383,44 +387,49 @@ export class ProjectsComponent implements OnInit {
   }
 
   assignTeamToTrelloBoard(project: Project): void {
- 
-  this.trelloService.getBoards().subscribe({
-    next: (boards) => {
-      const board = boards.find(b => b.name === project.name);
-      // if (!board) {
-      //   console.log('====================================');
-      //   console.log("mochkla");
-      //   console.log('====================================');
-      // }
-console.log(project);
-  boards.forEach((board) => console.log(`ID: ${board.id}, Nom: ${board.name}`));
-      // 2. Ajouter le chef de projet comme admin (s'il a un email)
-      if (project.projectManager) {
-        this.trelloService
-          .addMemberToBoard(board.id, project.projectManager.username,'normal')
-          .subscribe({
-            next: () => console.log('Chef de projet ajouté comme admin'),
-            error: (err) => console.error('Erreur chef projet:', err),
-          });
-      }
-
-      // 3. Ajouter les autres membres
-      project.employees?.forEach(employee => {
-        if (
-          employee.username &&
-          employee.username !== project.projectManager?.username
-        ) {
+    this.trelloService.getBoards().subscribe({
+      next: (boards) => {
+        const board = boards.find((b) => b.name === project.name);
+        // if (!board) {
+        //   console.log('====================================');
+        //   console.log("mochkla");
+        //   console.log('====================================');
+        // }
+        console.log(project);
+        boards.forEach((board) =>
+          console.log(`ID: ${board.id}, Nom: ${board.name}`)
+        );
+        // 2. Ajouter le chef de projet comme admin (s'il a un email)
+        if (project.projectManager) {
           this.trelloService
-            .addMemberToBoard(board.id, employee.username, 'normal')
+            .addMemberToBoard(
+              board.id,
+              project.projectManager.username,
+              'normal'
+            )
             .subscribe({
-              next: () => console.log(`${employee.fullname} ajouté`),
-              error: (err) =>
-                console.error(`Erreur ${employee.username}:`, err),
+              next: () => console.log('Chef de projet ajouté comme admin'),
+              error: (err) => console.error('Erreur chef projet:', err),
             });
         }
-      });
-    },
-    error: (err) => console.error('Erreur récupération boards:', err)
-  });
-}
+
+        // 3. Ajouter les autres membres
+        project.employees?.forEach((employee) => {
+          if (
+            employee.username &&
+            employee.username !== project.projectManager?.username
+          ) {
+            this.trelloService
+              .addMemberToBoard(board.id, employee.username, 'normal')
+              .subscribe({
+                next: () => console.log(`${employee.fullname} ajouté`),
+                error: (err) =>
+                  console.error(`Erreur ${employee.username}:`, err),
+              });
+          }
+        });
+      },
+      error: (err) => console.error('Erreur récupération boards:', err),
+    });
+  }
 }

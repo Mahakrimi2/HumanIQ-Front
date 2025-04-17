@@ -23,6 +23,16 @@
               <span *ngIf="event.endDateTime"> - {{ event.endDateTime | date:'shortTime' }}</span>
             </h6>
             <p class="card-text">{{ event.description }}</p>
+       <p class="card-text" *ngIf="event.location && event.type !== 'IN_PERSON'">
+  <strong>URL:</strong> 
+  <a href="{{ event.location }}" target="_blank" *ngIf="isValidUrl(event.location)">{{ event.location }}</a>
+  <span *ngIf="!isValidUrl(event.location)">{{ event.location }}</span>
+</p>
+
+<p class="card-text" *ngIf="event.location && event.type === 'IN_PERSON'">
+  <strong>Lieu:</strong> {{ event.location }}
+</p>
+      
             <p>
               <span class="badge" [ngClass]="{
                 'bg-primary': event.type === 'ONLINE',

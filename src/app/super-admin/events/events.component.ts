@@ -9,7 +9,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class EventsComponent implements OnInit {
   events: Event[] = [];
-  
 
   eventForm: FormGroup;
   showModal = false;
@@ -30,9 +29,8 @@ export class EventsComponent implements OnInit {
   }
 
   openCreateEventModal(): void {
-   
     this.showModal = true;
-       event?.stopPropagation();
+    event?.stopPropagation();
   }
 
   closeModal(): void {
@@ -43,11 +41,9 @@ export class EventsComponent implements OnInit {
     this.eventService.getEvents().subscribe(
       (events: any[]) => {
         this.events = events;
-      
       },
       (err: any) => {
         console.error('Error loading events', err);
-       
       }
     );
   }
@@ -55,7 +51,8 @@ export class EventsComponent implements OnInit {
   onSubmit(): void {
     if (this.eventForm.valid) {
       const formData = this.eventForm.value;
-      const eventData: any = {  // Changed type to CalendarEvent
+      const eventData: any = {
+        // Changed type to CalendarEvent
         title: formData.title,
         startDateTime: new Date(formData.startDateTime).toISOString(),
         endDateTime: formData.endDateTime
@@ -63,18 +60,27 @@ export class EventsComponent implements OnInit {
           : undefined,
         description: formData.description,
         location: formData.location,
-        type: formData.type
+        type: formData.type,
       };
 
       this.eventService.createEvent(eventData).subscribe({
-        next: (newEvent: any) => {  // Updated type
+        next: (newEvent: any) => {
+          // Updated type
           this.events.unshift(newEvent);
           this.closeModal();
         },
         error: (err: any) => {
           console.error('Error creating event', err);
-        }
+        },
       });
+    }
+  }
+  isValidUrl(url: string): boolean {
+    try {
+      new URL(url);
+      return true;
+    } catch (_) {
+      return false;
     }
   }
 }

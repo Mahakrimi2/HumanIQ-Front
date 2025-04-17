@@ -39,6 +39,27 @@
       </ul>
     </li>
 
+    
+
+    <li class="nav-item" *ngIf="isRH">
+      <a class="nav-link collapsed" data-bs-target="#p-nav" data-bs-toggle="collapse" href="#">
+        <i class="bi bi-people"></i><span>JobOffer</span><i class="bi bi-chevron-down ms-auto"></i>
+      </a>
+      <ul id="p-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+        <li>
+          <a routerLink="/admin/list-offers">
+           <span>JobOffers</span>
+          </a>
+        </li>
+
+         <li>
+          <a routerLink="/admin/list-cv">
+           <span>CVs</span>
+          </a>
+        </li>
+      </ul>
+    </li>
+
 
 
 

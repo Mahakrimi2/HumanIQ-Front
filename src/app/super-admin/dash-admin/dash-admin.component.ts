@@ -4,7 +4,7 @@ import { DepartmentService } from 'src/app/services/department.service';
 import { UserService } from 'src/app/services/user.service';
 import { Chart, ChartConfiguration, ChartType, registerables } from 'chart.js';
 import { ProjectServiceService } from 'src/app/services/project-service.service';
-import { WeatherService } from 'src/app/weather.service';
+import { WeatherService } from 'src/app/services/weather.service';
 
 @Component({
   selector: 'app-dash-admin',

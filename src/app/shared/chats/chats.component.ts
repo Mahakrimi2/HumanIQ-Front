@@ -106,6 +106,28 @@ export class ChatsComponent implements OnInit {
       },
     });
   }
+  getFirstInitial(fullname: string): string {
+    return fullname?.charAt(0)?.toUpperCase() || '?';
+  }
+
+  getAvatarColor(fullname: string): string {
+    const darkColors = [
+      '#2c3e50', // Noir bleuté très foncé
+      '#34495e', // Noir bleuté foncé
+      '#2c3e50', // Bleu nuit
+      '#1a237e', // Bleu indigo foncé
+      '#0d47a1', // Bleu marine
+      '#263238', // Gris anthracite
+      '#212121', // Noir profond
+      '#311b92', // Violet très foncé
+    ];
+
+    const charCode = fullname?.charCodeAt(0) || 0;
+    return darkColors[charCode % darkColors.length];
+  }
+  isDefaultImage(profileImagePath: string): boolean {
+    return !profileImagePath || profileImagePath.includes('anonyme');
+  }
 
   selectRoom(roomId: any, user: any) {
     this.selectedRoomId = roomId;

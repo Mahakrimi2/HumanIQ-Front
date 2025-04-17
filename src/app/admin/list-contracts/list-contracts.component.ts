@@ -17,16 +17,12 @@ export class ListContractsComponent implements OnInit {
   filteredContracts: Contract[] = [];
   searchText: string = '';
   activeModal: any;
-
-  selectedContract: Contract | null = null;
-  addContract: any;
-
   isBenefitsModalOpen: boolean = false;
   fullBenefits: string = '';
   filterContracts(event: any): void {
     const searchText = event.target.value.toLowerCase().trim();
     console.log('Search Text:', searchText);
-
+    
     if (!searchText) {
       this.filteredContracts = [...this.contracts];
     } else {
@@ -39,13 +35,16 @@ export class ListContractsComponent implements OnInit {
       });
     }
   }
-
+    
+  selectedContract: Contract | null = null;
+  addContract: any;
+    
   loadContractForEdit(_t32: Contract) {
     console.log(_t32);
-
+    
     this.editContractForm.patchValue(_t32);
   }
-
+    
   contracts: Contract[] = [];
   users: User[] = [];
   newContract: any = {
@@ -57,27 +56,27 @@ export class ListContractsComponent implements OnInit {
     benefits: '',
     salary: 0,
     signed: false,
-    status: '',
+    status: 'active',
     archived: false,
   };
-
+    
   iduser: any;
   editContractForm!: FormGroup<any>;
-
+    
   constructor(
     private contractService: ContractService,
     private modalService: NgbModal,
     private userService: UserService,
     private expdfService: ExportPdfService,
     private fb: FormBuilder
-  ) {}
-
+  ) { }
+    
   ngOnInit(): void {
     this.loadContracts();
     this.loadUsers();
     this.initEditForm();
   }
-
+    
   loadContracts() {
     this.contractService.getAllContractsbystatus().subscribe(
       (response: Contract[]) => {
@@ -90,15 +89,14 @@ export class ListContractsComponent implements OnInit {
       }
     );
   }
-
+    
   loadUsers(): void {
     this.userService.getAllUsers().subscribe(
       (data) => (this.users = data),
-
       (error) => console.error('Error fetching users', error)
     );
   }
-
+    
   initEditForm(): void {
     this.editContractForm = this.fb.group({
       id: [],
@@ -115,7 +113,7 @@ export class ListContractsComponent implements OnInit {
       archived: [null],
     });
   }
-
+    
   openAddContractModal(content: any): void {
     this.modalService.open(content, { size: 'lg' });
   }
@@ -123,7 +121,7 @@ export class ListContractsComponent implements OnInit {
     this.editContractForm.patchValue(contract);
     this.modalService.open(content, { size: 'lg' });
   }
-
+    
   saveChanges(): void {
     console.log('====================================');
     console.log(this.iduser);
@@ -138,7 +136,8 @@ export class ListContractsComponent implements OnInit {
           () => {
             this.loadContracts();
             this.activeModal.close();
-
+            this.activeModal.close();
+                
             this.modalService.dismissAll();
             this.resetForm();
             Swal.fire({
@@ -167,7 +166,7 @@ export class ListContractsComponent implements OnInit {
       });
     }
   }
-
+    
   resetForm(): void {
     this.newContract = {
       contractType: '',
@@ -178,10 +177,10 @@ export class ListContractsComponent implements OnInit {
       benefits: '',
       salary: 0,
       signed: false,
-      status: '',
+      status: 'active',
     };
   }
-
+    
   deleteContract(id: number): void {
     Swal.fire({
       title: 'Êtes-vous sûr ?',
@@ -254,7 +253,7 @@ export class ListContractsComponent implements OnInit {
       });
     }
   }
-
+    
   onContractSelect(event: any): void {
     this.iduser = event;
     console.log('Contrat sélectionné :', event);
@@ -262,16 +261,16 @@ export class ListContractsComponent implements OnInit {
   downloadContract(contractId: number): void {
     this.expdfService.downloadContractPdf(contractId);
   }
-
+    
   @ViewChild('benefitsModal') benefitsModal!: ElementRef;
-
+    
   showFullBenefits(benefits: string) {
     this.fullBenefits = benefits;
     this.benefitsModal.nativeElement.classList.add('show');
     this.benefitsModal.nativeElement.style.display = 'block';
     document.body.classList.add('modal-open');
   }
-
+    
   hideModal() {
     this.benefitsModal.nativeElement.classList.remove('show');
     this.benefitsModal.nativeElement.style.display = 'none';
@@ -279,16 +278,13 @@ export class ListContractsComponent implements OnInit {
   }
   showPopup = false;
   popupText = '';
-
+    
   openPopup(fullText: string) {
     this.popupText = fullText;
     this.showPopup = true;
   }
-
+    
   closePopup() {
     this.showPopup = false;
   }
 }
-
-
-
