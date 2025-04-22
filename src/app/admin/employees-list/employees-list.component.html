@@ -322,7 +322,7 @@
           </div>
           <div class="col-md-6">
   <label for="role" class="form-label">Role</label>
-  <select class="form-control form-control-lg shadow-sm" id="roles"  (change)="onRoleChange($event)"   required>
+  <select class="form-control form-control-lg shadow-sm" id="roles"  (change)="onRoleChangeupdate($event)"   required>
     <option value="" disabled selected>Select a role</option>
     <option *ngFor="let role of roles" [value]="role">{{role}}</option>
    
