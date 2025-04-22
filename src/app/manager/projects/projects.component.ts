@@ -106,18 +106,18 @@ export class ProjectsComponent implements OnInit {
       description: ['', Validators.required],
       startDate: ['', Validators.required],
       endDate: ['', Validators.required],
-      status: ['', Validators.required],
+      projectStatus: ['', Validators.required],
       priority: ['', Validators.required],
       projectManager: ['', Validators.required],
       assignedEmployees: [[], Validators.required],
     });
 
     this.editProjectForm = this.fb.group({
-      name: ['', Validators.required],
+      // name: ['', Validators.required],
       description: ['', Validators.required],
       startDate: ['', Validators.required],
       endDate: ['', Validators.required],
-      status: ['', Validators.required],
+      projectStatus: ['', Validators.required],
       priority: ['', Validators.required],
     });
   }
@@ -228,7 +228,7 @@ export class ProjectsComponent implements OnInit {
         description: formValues.description,
         startDate: formValues.startDate,
         endDate: formValues.endDate,
-        status: formValues.status,
+        projectStatus: formValues.projectStatus,
         priority: formValues.priority,
       };
 
@@ -331,11 +331,11 @@ export class ProjectsComponent implements OnInit {
   openEditProjectModal(project: Project): void {
     this.selectedProject = project;
     this.editProjectForm.patchValue({
-      name: project.name,
+      // name: project.name,
       description: project.description,
       startDate: project.startDate,
       endDate: project.endDate,
-      status: project.status,
+      projectStatus: project.projectStatus,
       priority: project.priority,
     });
     this.showEditProjectModal = true;

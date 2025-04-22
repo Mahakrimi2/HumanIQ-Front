@@ -50,7 +50,7 @@ export class EmployeesListComponent implements OnInit {
     this.loadDepartments();
     this.loadRoles();
   }
-
+  loading:boolean=false
   initAddUserForm(): void {
     this.addUserForm = this.fb.group({
       fullname: ['', Validators.required, Validators.minLength(3)],
@@ -469,12 +469,13 @@ export class EmployeesListComponent implements OnInit {
       return;
     }
     console.log(this.selectedid);
-
+this.loading=true
     const newUser = this.addUserForm.value;
     console.log(newUser);
     this.auth.register(newUser, this.selectedid).subscribe({
       next: (data: User) => {
         this.loadUsers();
+this.loading = false;
 
         Swal.fire('Success', 'User added successfully!', 'success');
         this.addUserForm.reset();
@@ -482,6 +483,8 @@ export class EmployeesListComponent implements OnInit {
       },
       error: (err: any) => {
         console.error('Failed to add user:', err);
+        this.loading = false;
+
         Swal.fire('Error', 'Failed to add user', 'error');
       },
     });

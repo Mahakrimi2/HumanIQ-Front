@@ -134,10 +134,7 @@ export class ListContractsComponent implements OnInit {
         .createContract(this.newContract, this.iduser)
         .subscribe(
           () => {
-            this.loadContracts();
-            this.activeModal.close();
-            this.activeModal.close();
-                
+            this.loadContracts()
             this.modalService.dismissAll();
             this.resetForm();
             Swal.fire({

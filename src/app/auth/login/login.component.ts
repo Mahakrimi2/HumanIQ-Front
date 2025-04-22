@@ -60,12 +60,12 @@ this.userRole = this.authService.getRole();
 if (this.userRole === 'ROLE_SUPERADMIN') {
   this.router.navigate(['/superAdmin/dashboard']);
 } else if (this.userRole === 'ROLE_MANAGER') {
-  this.router.navigate(['/manager/dashboard']);
+  this.router.navigate(['/manager/projects-list']);
 } else if (this.userRole === 'ROLE_RH') {
-  this.router.navigate(['/admin/dashboard']);
+  this.router.navigate(['/admin/list-employees']);
   
 } else if (this.userRole === 'ROLE_EMPLOYEE') {
-  this.router.navigate(['/employee/dashboard']);
+  this.router.navigate(['/employee/emp-pointage']);
 } else {
   // Redirection par défaut si le rôle n'est pas reconnu
   this.router.navigate(['/default/dashboard']);

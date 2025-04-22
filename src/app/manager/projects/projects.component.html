@@ -39,11 +39,11 @@
             </p>
           <p class="mb-1">
   <span class="badge status-badge" [ngClass]="{
-    'in-progress': project.status === 'IN_PROGRESS',
-    'completed': project.status === 'COMPLETED',
-    'cancelled': project.status === 'CANCELLED'
+    'in-progress': project.projectStatus === 'IN_PROGRESS',
+    'completed': project.projectStatus === 'COMPLETED',
+    'cancelled': project.projectStatus === 'CANCELLED'
   }">
-    {{ project.status }}
+    {{ project.projectStatus }}
   </span>
 </p>
 
@@ -128,7 +128,7 @@
             </div>
             <div class="form-group">
               <label for="status">Status</label>
-              <select id="status" class="form-control" formControlName="status">
+              <select id="status" class="form-control" formControlName="projectStatus">
                 <option *ngFor="let status of ProjectsNames" [value]="status">{{ status }}</option>
               </select>
             </div>
@@ -196,10 +196,10 @@
     </div>
     <div class="modal-content">
       <form [formGroup]="editProjectForm" (ngSubmit)="onEditProjectSubmit()">
-        <div class="form-group">
+        <!-- <div class="form-group">
           <label for="editName">Project Name</label>
           <input type="text" id="editName" class="form-control" formControlName="name" required>
-        </div>
+        </div> -->
         <div class="form-group">
           <label for="editDescription">Description</label>
           <textarea id="editDescription" class="form-control" formControlName="description" required></textarea>
@@ -214,7 +214,7 @@
         </div>
         <div class="form-group">
           <label for="editStatus">Status</label>
-          <select id="editStatus" class="form-control" formControlName="status" required>
+          <select id="editStatus" class="form-control" formControlName="projectStatus" required>
             <option *ngFor="let status of ProjectsNames" [value]="status">{{ status }}</option>
           </select>
         </div>

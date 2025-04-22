@@ -166,8 +166,6 @@
                   <option value="Freelance">Freelance</option>
                   <option value="Apprenticeship">Apprenticeship</option>
                   <option value="Internship">Internship</option>
-                  <option value="Part_time">Part-time</option>
-                  <option value="Seasonal">Seasonal</option>
                 </select>
               </div>
 
@@ -231,12 +229,9 @@
               <div class="mb-4">
                 <label for="status" class="form-label">Status</label>
                 <select class="form-control form-control-lg shadow-sm" id="status" [(ngModel)]="newContract.status" name="status">
-                  <option value="active">Active</option>
+                  <option value="ACTIVE">Active</option>
                   <option value="PENDING">PENDING</option>
                   <option value="EXPIRED">EXPIRED</option>
-                  <option value="TERMINATED">TERMINATED</option>
-                  <option value="SUSPENDED">SUSPENDED</option>
-                  <option value="CANCELLED">CANCELLED</option>
                 </select>
               </div>
             </div>
@@ -273,8 +268,7 @@
                   <option value="Freelance">Freelance</option>
                   <option value="Apprenticeship">Apprenticeship</option>
                   <option value="Internship">Internship</option>
-                  <option value="Part_time">Part-time</option>
-                  <option value="Seasonal">Seasonal</option>
+  
                 </select>
               </div>
               <div class="col-md-6 mb-4">
@@ -320,12 +314,9 @@
             <div class="mb-4">
               <label for="editStatus" class="form-label">Status</label>
               <select class="form-control form-control-lg shadow-sm" id="editStatus" formControlName="status">
-                <option value="active">Active</option>
+                <option value="ACTIVE">Active</option>
                 <option value="PENDING">PENDING</option>
                 <option value="EXPIRED">EXPIRED</option>
-                <option value="TERMINATED">TERMINATED</option>
-                <option value="SUSPENDED">SUSPENDED</option>
-                <option value="CANCELLED">CANCELLED</option>
               </select>
             </div>
           </form>

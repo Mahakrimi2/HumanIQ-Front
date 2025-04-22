@@ -6,37 +6,36 @@ import { PointageService } from 'src/app/services/pointage-service.service';
 @Component({
   selector: 'app-pointagerh',
   templateUrl: './pointagerh.component.html',
-  styleUrls: ['./pointagerh.component.css']  ,
+  styleUrls: ['./pointagerh.component.css'],
   animations: [
-      
-      trigger('buttonAnimation', [
-        state(
-          'normal',
-          style({
-            transform: 'scale(1)',
-          })
+    trigger('buttonAnimation', [
+      state(
+        'normal',
+        style({
+          transform: 'scale(1)',
+        })
+      ),
+      state(
+        'hover',
+        style({
+          transform: 'scale(1.1)',
+        })
+      ),
+      transition('normal <=> hover', animate('200ms ease-in-out')),
+    ]),
+
+    trigger('cardAnimation', [
+      transition(':enter', [
+        style({ opacity: 0, transform: 'translateY(20px)' }),
+        animate(
+          '0.5s ease-out',
+          style({ opacity: 1, transform: 'translateY(0)' })
         ),
-        state(
-          'hover',
-          style({
-            transform: 'scale(1.1)',
-          })
-        ),
-        transition('normal <=> hover', animate('200ms ease-in-out')),
       ]),
-  
-      trigger('cardAnimation', [
-        transition(':enter', [
-          style({ opacity: 0, transform: 'translateY(20px)' }),
-          animate(
-            '0.5s ease-out',
-            style({ opacity: 1, transform: 'translateY(0)' })
-          ),
-        ]),
-      ]),
-    ],
-  })
-export class PointagerhComponent  implements OnInit {
+    ]),
+  ],
+})
+export class PointagerhComponent implements OnInit {
   currentPointageId: number | null = null;
   getpointage: any;
   arrivalTime: string | null = null;
@@ -56,8 +55,10 @@ export class PointagerhComponent  implements OnInit {
 
   ngOnInit(): void {
     const savedDate = localStorage.getItem('lastPointageDate');
-    const today = new Date().toISOString().split('T')[0];
-  
+        const now = new Date();
+        now.setHours(now.getHours() + 1); // Add 1 hour
+    const today = now.toISOString().split('T')[0];
+
     if (savedDate !== today) {
       this.resetAllVariables();
       localStorage.setItem('lastPointageDate', today);
@@ -69,7 +70,7 @@ export class PointagerhComponent  implements OnInit {
     if (username) {
       this.currentUsername = username;
     } else {
-      console.error('Nom d\'utilisateur non trouvé.');
+      console.error("Nom d'utilisateur non trouvé.");
     }
   }
   resetAllVariables(): void {
@@ -88,19 +89,36 @@ export class PointagerhComponent  implements OnInit {
     localStorage.removeItem('isReturnPointed');
     localStorage.removeItem('isDeparturePointed');
   }
-  
+
   loadButtonStates(): void {
-    this.isArrivalPointed = JSON.parse(localStorage.getItem('isArrivalPointed') || 'false');
-    this.isPausePointed = JSON.parse(localStorage.getItem('isPausePointed') || 'false');
-    this.isReturnPointed = JSON.parse(localStorage.getItem('isReturnPointed') || 'false');
-    this.isDeparturePointed = JSON.parse(localStorage.getItem('isDeparturePointed') || 'false');
+    this.isArrivalPointed = JSON.parse(
+      localStorage.getItem('isArrivalPointed') || 'false'
+    );
+    this.isPausePointed = JSON.parse(
+      localStorage.getItem('isPausePointed') || 'false'
+    );
+    this.isReturnPointed = JSON.parse(
+      localStorage.getItem('isReturnPointed') || 'false'
+    );
+    this.isDeparturePointed = JSON.parse(
+      localStorage.getItem('isDeparturePointed') || 'false'
+    );
   }
 
   saveButtonStates(): void {
-    localStorage.setItem('isArrivalPointed', JSON.stringify(this.isArrivalPointed));
+    localStorage.setItem(
+      'isArrivalPointed',
+      JSON.stringify(this.isArrivalPointed)
+    );
     localStorage.setItem('isPausePointed', JSON.stringify(this.isPausePointed));
-    localStorage.setItem('isReturnPointed', JSON.stringify(this.isReturnPointed));
-    localStorage.setItem('isDeparturePointed', JSON.stringify(this.isDeparturePointed));
+    localStorage.setItem(
+      'isReturnPointed',
+      JSON.stringify(this.isReturnPointed)
+    );
+    localStorage.setItem(
+      'isDeparturePointed',
+      JSON.stringify(this.isDeparturePointed)
+    );
   }
 
   getPointagebyid(): void {
@@ -113,7 +131,6 @@ export class PointagerhComponent  implements OnInit {
         this.departureTime = data.departureTime ?? null;
         this.getpointage = data;
         console.log(data);
-        
       },
       (error) => {
         console.error('Erreur lors du chargement des pointages:', error);
@@ -122,9 +139,11 @@ export class PointagerhComponent  implements OnInit {
   }
 
   pointArrival(): void {
-    this.arrivalTime = new Date().toISOString();
+    const now = new Date();
+    now.setHours(now.getHours() + 1); // Add 1 hour
+    this.arrivalTime = now.toISOString();
     console.log(this.arrivalTime);
-    
+
     this.isArrivalPointed = true;
     this.saveButtonStates();
     this.savePointage();
@@ -132,7 +151,9 @@ export class PointagerhComponent  implements OnInit {
 
   pointPause(): void {
     if (!this.currentPointageId) return;
-    this.pauseStartTime = new Date().toISOString();
+        const now = new Date();
+        now.setHours(now.getHours() + 1); 
+    this.pauseStartTime = now.toISOString();
     this.isPausePointed = true;
     this.saveButtonStates();
     this.updatepointage();
@@ -140,7 +161,9 @@ export class PointagerhComponent  implements OnInit {
 
   pointReturn(): void {
     if (!this.currentPointageId) return;
-    this.pauseEndTime = new Date().toISOString();
+        const now = new Date();
+        now.setHours(now.getHours() + 1); // Add 1 hour
+    this.pauseEndTime = now.toISOString();
     this.isReturnPointed = true;
     this.saveButtonStates();
     this.updatepointage();
@@ -148,7 +171,9 @@ export class PointagerhComponent  implements OnInit {
 
   pointDeparture(): void {
     if (!this.currentPointageId) return;
-    this.departureTime = new Date().toISOString();
+        const now = new Date();
+        now.setHours(now.getHours() + 1); // Add 1 hour
+    this.departureTime = now.toISOString();
     this.isDeparturePointed = true;
     this.saveButtonStates();
     this.updatepointage();
@@ -163,15 +188,17 @@ export class PointagerhComponent  implements OnInit {
       pauseEndTime: this.pauseEndTime,
       departureTime: this.departureTime,
     };
-    this.pointageService.updatePointage(this.currentPointageId, pointageData).subscribe(
-      (response) => {
-        console.log('Pointage mis à jour:', response);
-        this.getPointagebyid();
-      },
-      (error) => {
-        console.error('Erreur lors de la mise à jour du pointage:', error);
-      }
-    );
+    this.pointageService
+      .updatePointage(this.currentPointageId, pointageData)
+      .subscribe(
+        (response) => {
+          console.log('Pointage mis à jour:', response);
+          this.getPointagebyid();
+        },
+        (error) => {
+          console.error('Erreur lors de la mise à jour du pointage:', error);
+        }
+      );
   }
 
   savePointage(): void {
@@ -181,16 +208,18 @@ export class PointagerhComponent  implements OnInit {
       pauseEndTime: null,
       departureTime: null,
     };
-    this.pointageService.createPointage(this.currentUsername, pointageData).subscribe(
-      (response) => {
-        console.log('Pointage enregistré:', response);
-        localStorage.setItem('idpointage', String(response.id));
-        this.currentPointageId = Number(localStorage.getItem("idpointage"));
-        this.getPointagebyid();
-      },
-      (error) => {
-        console.error('Erreur lors de l\'enregistrement du pointage:', error);
-      }
-    );
+    this.pointageService
+      .createPointage(this.currentUsername, pointageData)
+      .subscribe(
+        (response) => {
+          console.log('Pointage enregistré:', response);
+          localStorage.setItem('idpointage', String(response.id));
+          this.currentPointageId = Number(localStorage.getItem('idpointage'));
+          this.getPointagebyid();
+        },
+        (error) => {
+          console.error("Erreur lors de l'enregistrement du pointage:", error);
+        }
+      );
   }
 }

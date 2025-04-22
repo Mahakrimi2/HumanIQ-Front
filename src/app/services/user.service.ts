@@ -114,7 +114,7 @@ export class UserService {
       Authorization: `Bearer ${token}`,
     });
     return this.http.delete(
-      `${this.apiUrl}/users/${userId}/deleteProfileImage`,
+      ` http://localhost:8082/api/users/users/${userId}/deleteProfileImage`,
       { headers, responseType: 'text' as 'json' }
     );
   }

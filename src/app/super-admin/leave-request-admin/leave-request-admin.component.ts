@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { Holiday } from 'src/app/models/holiday.model';
 import { HolidayService } from 'src/app/services/holiday.service';
@@ -92,17 +93,18 @@ export class LeaveRequestAdminComponent {
               request.status = this.newStatus;
             }
             this.closeStatusModal();
+            this.loadLeaveRequests()
             Swal.fire({
               title: 'Statut mis à jour avec succès !',
               icon: 'success',
               confirmButtonText: 'OK',
             });
           },
-          (error) => {
+          (error:HttpErrorResponse) => {
             console.error('Erreur lors de la mise à jour du statut:', error);
             Swal.fire({
               title: 'Erreur',
-              text: 'Une erreur est survenue lors de la mise à jour du statut.',
+              text: error.error.text,
               icon: 'error',
               confirmButtonText: 'OK',
             });

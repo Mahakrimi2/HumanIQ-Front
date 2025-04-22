@@ -17,8 +17,8 @@
         <div *ngFor="let project of projects" class="project-card">
           <div class="card-header">
             <h3 class="project-name">{{ project.name }}</h3>
-            <span class="project-status-badge" [ngClass]="getStatusClass(project.status)">
-              {{ project.status }}
+            <span class="project-status-badge" [ngClass]="getStatusClass(project.projectStatus)">
+              {{ project.projectStatus }}
             </span>
           </div>
           

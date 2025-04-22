@@ -65,7 +65,7 @@ export class ProjectServiceService {
     });
 
     return this.http
-      .put<any>(`${this.apiUrl}/${id}`, project, { headers })
+      .put<any>(`${this.apiUrl}/update/${id}`, project, { headers })
       .pipe(
         catchError((error) => {
           console.error('Error updating project:', error);

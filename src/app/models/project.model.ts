@@ -6,8 +6,8 @@ export interface Project {
   description: string;
   startDate: string;
   endDate: string;
-  status: string;
+  projectStatus: string;
   employees?: any[];
   projectManager?: User;
-  priority:string
+  priority: string;
 }

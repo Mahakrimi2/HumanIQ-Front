@@ -75,7 +75,7 @@ export class HolidayService {
     const params = new HttpParams().set('status', status); // Ajouter le statut comme paramètre de requête
     return this.http.put<Holiday>(`${this.apiUrl}/${id}/status`, null, {
       headers,
-      params,
+      params,responseType:"text" as "json"
     });
   }
 
