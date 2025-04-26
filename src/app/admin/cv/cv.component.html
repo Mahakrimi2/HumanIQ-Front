@@ -1,4 +1,4 @@
-<app-navbar></app-navbar>
+<!-- <app-navbar></app-navbar>
 <app-sidebar></app-sidebar>
 
 <main id="main" class="main">
@@ -12,56 +12,169 @@
         <h3>Upload a CV</h3>
       </div>
       <div class="card-body">
+
         <div class="mb-3">
-          <label class="form-label">Select CV File (PDF, DOC, DOCX)</label>
+          <label class="form-label">Select CV File (PDF/DOC/DOCX)</label>
           <input type="file" class="form-control" (change)="onFileSelected($event)" accept=".pdf,.doc,.docx">
         </div>
-        
-        <button class="btn btn-primary" (click)="onUpload()" [disabled]="!selectedFile">
+
+        <button class="btn btn-primary" (click)="upload()" [disabled]="!selectedFile">
           Upload CV
         </button>
 
-        <div *ngIf="uploadProgress !== null" class="mt-3">
-          <div class="progress">
-            <div class="progress-bar" [style.width.%]="uploadProgress" role="progressbar">
-              {{uploadProgress}}%
-            </div>
-          </div>
-        </div>
-
         <div *ngIf="uploadSuccess" class="alert alert-success mt-3">
-          CV uploaded successfully!
+          CV uploaded and parsed successfully!
         </div>
 
         <div *ngIf="uploadError" class="alert alert-danger mt-3">
-          Error uploading CV
+          Error uploading or parsing the CV.
         </div>
       </div>
     </div>
 
-    <div class="card mt-4">
-      <div class="card-header">
-        <h3>Available CVs</h3>
+    <div *ngIf="cvs.length > 0" class="table-responsive">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Nom</th>
+            <th>Email</th>
+            <th>Mobile</th>
+            <th>Compétences Techniques</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let cv of cvs">
+            <td>{{ cv.name }}</td>
+            <td>{{ cv.email }}</td>
+            <td>{{ cv.mobile }}</td>
+            <td>
+              <ul class="list-unstyled mb-0">
+                <ng-container *ngIf="getParsedSkills(cv).length > 0">
+                  <li
+                    *ngFor="let skill of isExpanded(cv.id) ? getParsedSkills(cv) : getParsedSkills(cv).slice(0, 5)"
+                    class="badge bg-primary text-white me-1 mb-1"
+                  >
+                    {{ skill }}
+                  </li>
+                  <li *ngIf="getParsedSkills(cv).length > 10">
+                    <button
+                      class="btn btn-sm btn-link p-0"
+                      (click)="toggleExpanded(cv.id)"
+                    >
+                      {{ isExpanded(cv.id) ? 'Voir moins ▲' : '... Voir plus ▼' }}
+                    </button>
+                  </li>
+                </ng-container>
+              </ul>
+            </td>
+            <td>
+              <button class="btn btn-sm btn-danger" (click)="deleteCV(cv.id)">
+                <i class="bi bi-trash"></i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</main> -->
+<app-navbar></app-navbar>
+<app-sidebar></app-sidebar>
+
+<main id="main" class="main">
+  <div class="pagetitle">
+    <h1>CV Management</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/">Home</a></li>
+        <li class="breadcrumb-item active">CV Management</li>
+      </ol>
+    </nav>
+  </div>
+
+  <div class="container mt-4">
+    <div class="card border-0 shadow-sm">
+      <div class="card-header bg-primary text-white">
+        <h3 class="mb-0"><i class="bi bi-upload me-2"></i>Upload a CV</h3>
       </div>
       <div class="card-body">
-        <div *ngIf="cvs.length === 0" class="alert alert-info">
-          No CVs available for this job offer.
+        <div class="mb-4">
+          <label class="form-label fw-semibold">Select CV File (PDF/DOC/DOCX)</label>
+          <div class="input-group">
+            <input type="file" class="form-control" (change)="onFileSelected($event)" accept=".pdf,.doc,.docx">
+            <button class="btn btn-primary" (click)="upload()" [disabled]="!selectedFile">
+              <i class="bi bi-cloud-upload me-1"></i> Upload CV
+            </button>
+          </div>
+          <small class="text-muted">Max file size: 5MB</small>
         </div>
 
-        <div *ngIf="cvs.length > 0" class="table-responsive">
-          <table class="table table-striped">
-            <thead>
+        <div *ngIf="uploadSuccess" class="alert alert-success alert-dismissible fade show mt-3">
+          <i class="bi bi-check-circle-fill me-2"></i>
+          CV uploaded and parsed successfully!
+          <button type="button" class="btn-close" (click)="uploadSuccess = false"></button>
+        </div>
+
+        <div *ngIf="uploadError" class="alert alert-danger alert-dismissible fade show mt-3">
+          <i class="bi bi-exclamation-triangle-fill me-2"></i>
+          Error uploading or parsing the CV.
+          <button type="button" class="btn-close" (click)="uploadError = false"></button>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="cvs.length > 0" class="card border-0 shadow-sm mt-4">
+      <div class="card-header bg-light">
+        <h3 class="mb-0"><i class="bi bi-file-earmark-text me-2"></i>CV Database</h3>
+      </div>
+      <div class="card-body p-0">
+        <div class="table-responsive">
+          <table class="table table-hover align-middle mb-0">
+            <thead class="table-light">
               <tr>
-                <th>File Name</th>
-                <th>Actions</th>
+                <th class="ps-4">Candidate</th>
+                <th>Contact</th>
+                <th>Technical Skills</th>
+                <th class="text-end pe-4">Actions</th>
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let cv of cvs">
-                <td>{{ cv.fileName }}</td>
+              <tr *ngFor="let cv of cvs" class="position-relative">
+                <td class="ps-4">
+  <div class="d-flex align-items-center">
+    <div class="avatar-circle me-3" 
+         [style.background-color]="getAvatarColor(cv.name)">
+      {{ getFirstInitial(cv.name) }}
+    </div>
+    <div>
+                      <div class="fw-semibold">{{ cv.name }}</div>
+                    
+                    </div>
+                  </div>
+                </td>
                 <td>
-                  <button class="btn btn-sm btn-primary" (click)="downloadCV(cv.id, cv.fileName)">
-                    <i class="bi bi-download"></i> Download
+                  <div><i class="bi bi-envelope me-2 text-primary"></i>{{ cv.email }}</div>
+                  <div><i class="bi bi-phone me-2 text-primary"></i>{{ cv.mobile }}</div>
+                </td>
+                <td>
+                  <div class="d-flex flex-wrap gap-1">
+                    <ng-container *ngIf="getParsedSkills(cv).length > 0">
+                      <span *ngFor="let skill of isExpanded(cv.id) ? getParsedSkills(cv) : getParsedSkills(cv).slice(0, 5)" 
+                            class="badge bg-primary bg-opacity-10 text-primary border border-primary border-opacity-25">
+                        {{ skill }}
+                      </span>
+                      <button *ngIf="getParsedSkills(cv).length > 5"
+                              class="btn btn-sm btn-link p-0 text-decoration-none"
+                              (click)="toggleExpanded(cv.id)">
+                        {{ isExpanded(cv.id) ? 'Show less ▲' : 'Show more ▼' }}
+                      </button>
+                    </ng-container>
+                  </div>
+                </td>
+                <td class="text-end pe-4">
+                  <button class="btn btn-sm btn-outline-danger" (click)="deleteCV(cv.id)" title="Delete CV">
+                    <i class="bi bi-trash"></i>
                   </button>
                 </td>
               </tr>

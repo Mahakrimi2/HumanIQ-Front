@@ -18,7 +18,8 @@ export class ChatsComponent implements OnInit {
   username: any;
   users: any[] = [];
   usersfilter: any[] = [];
-
+  searchTerm: string = '';
+  filteredUsers: any[] = []; // Liste filtrée
   constructor(
     private chatService: ChatService,
     private chatRoomService: ChatRoomService,
@@ -30,7 +31,9 @@ export class ChatsComponent implements OnInit {
   SenderProfile: any;
   ShowUsers: boolean = true;
   ShowChat: boolean = false;
-
+  getRandomUnreadCount(): number {
+    return Math.floor(Math.random() * 5); // Génère un nombre entre 0 et 4
+  }
   ngOnInit() {
     this.username = this.auth.getUsername();
 
@@ -57,6 +60,7 @@ export class ChatsComponent implements OnInit {
       );
       this.usersfilter = this.usersfilter.map((user: any) => ({
         ...user,
+        unreadCount: this.getRandomUnreadCount(),
         profileImageUrl:
           'http://localhost:8082/api/rh/users/profileImage/' +
           user.profileImagePath,
@@ -74,8 +78,19 @@ export class ChatsComponent implements OnInit {
       },
       (error) => console.error('Erreur lors du chargement des rooms:', error)
     );
+    this.filteredUsers = [...this.usersfilter]; // Copie initiale
+  }
+filterUsers() {
+  if (!this.searchTerm) {
+    this.filteredUsers = [...this.usersfilter];
+    return;
   }
 
+  const term = this.searchTerm.toLowerCase();
+  this.filteredUsers = this.usersfilter.filter(user => 
+    user.fullname.toLowerCase().includes(term)
+  );
+}
   toggleChat() {
     this.ShowChat = !this.ShowChat;
     this.ShowUsers = !this.ShowUsers;
@@ -90,6 +105,7 @@ export class ChatsComponent implements OnInit {
     this.messages = [];
     this.getuserconnect();
   }
+
   getuserconnect() {
     this.userservice.getCurrentUserProfile().subscribe({
       next: (data) => {

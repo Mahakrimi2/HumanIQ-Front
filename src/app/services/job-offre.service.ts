@@ -25,11 +25,16 @@ export class JobOffreService {
       Authorization: `Bearer ${token}`,
     });
     return this.http.post<JobOffer>(`${this.apiUrl}/offre`, jobOffer, {
-      headers,
+      headers: this.getAuthHeaders(),
     });
   }
 
   getAllActiveJobOffers(): Observable<JobOffer[]> {
+    const token = localStorage.getItem('token');
+    console.log('Token envoyé dans header:', token); // 👈 debug log
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+    });
     return this.http.get<JobOffer[]>(`${this.apiUrl}/offres`, {
       headers: this.getAuthHeaders(),
     });
@@ -54,12 +59,14 @@ export class JobOffreService {
   }
 
   getContratctsTypes(): Observable<string[]> {
-    const token = localStorage.getItem('token');
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${token}`,
-    });
     return this.http.get<string[]>(`${this.apiUrl}/Contractstypes`, {
-      headers,
+      headers: this.getAuthHeaders(),
+    });
+  }
+  
+  matchCvsWithJob(jobId: number): Observable<any> {
+    return this.http.get(`http://localhost:8082/api/rh/match/${jobId}`, {
+      headers: this.getAuthHeaders(),
     });
   }
 }

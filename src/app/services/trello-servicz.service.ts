@@ -124,7 +124,15 @@ export class TrelloService {
 
     return this.http.post<any>(`${this.apiUrl}/boards/`, {}, { params }).pipe(
       catchError((error) => {
-        console.error('Erreur lors de la création du board:', error);
+        console.error('Erreur complète:', error);
+        if (error.status === 429) {
+          console.error(
+            '🚨 Limite de requêtes atteinte ! Détails:',
+            error.error
+          );
+        } else {
+          console.error('Erreur serveur Trello :', error.error);
+        }
         return throwError(() => new Error('Impossible de créer le board.'));
       })
     );

@@ -18,6 +18,7 @@
         <div class="card">
           <div class="card-body">
             <h5 class="card-title">{{ event.title }}</h5>
+          
             <h6 class="card-subtitle mb-2 text-muted">
               {{ event.startDateTime | date:'medium' }}
               <span *ngIf="event.endDateTime"> - {{ event.endDateTime | date:'shortTime' }}</span>
@@ -31,12 +32,22 @@
               }">
                 {{ event.type }}
               </span>
+              
+             <!-- === NOUVEAU bouton supprimer === -->
+            <button class="btn btn-danger mt-2" (click)="deleteEvent(event.id!)">
+              Supprimer
+            </button>
             </p>
+
+           
           </div>
+
         </div>
       </div>
     </div>
   </div>
+
+  
 
 
   <div class="modal-backdrop fade" [class.show]="showModal" (click)="closeModal()"></div>

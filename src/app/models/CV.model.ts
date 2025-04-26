@@ -1,5 +1,8 @@
 export interface CV {
   id: number;
   fileName: string;
-  jobOfferId: number;
+  name: string;
+  email: string;
+  mobile: string;
+  skills: string;
 }

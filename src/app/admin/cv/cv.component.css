@@ -1,42 +1,101 @@
+/* Styles personnalisés */
 .card {
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 0.5rem;
 }
 
-.card-header {
-    background-color: #3498db;
+.avatar-circle {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #0d6efd;
     color: white;
-    border-radius: 9px 9px 0 0 !important;
-}
-
-.progress {
-    height: 25px;
-    border-radius: 5px;
-}
-
-.progress-bar {
-    transition: width 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 0.9rem;
 }
 
 .table {
-    margin-top: 20px;
+    font-size: 0.95rem;
 }
 
+.table thead th {
+    border-bottom: 2px solid #dee2e6;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
+    color: #6c757d;
+}
+
+.table-hover tbody tr:hover {
+    background-color: rgba(0, 123, 255, 0.03);
+}
+
+.badge {
+    font-weight: 500;
+    padding: 0.35em 0.65em;
+    border-radius: 0.25rem;
+}
+
+/* Style pour les boutons "Show more/less" */
+.btn-link {
+    font-size: 0.85rem;
+}
+
+/* Animation pour les alertes */
 .alert {
-    border-radius: 5px;
+    transition: all 0.3s ease;
 }
 
-.btn-primary {
-    background-color: #3498db;
-    border-color: #3498db;
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .table-responsive {
+        border: 0;
+    }
+
+    .table thead {
+        display: none;
+    }
+
+    .table tr {
+        display: block;
+        margin-bottom: 1rem;
+        border: 1px solid #dee2e6;
+        border-radius: 0.25rem;
+    }
+
+    .table td {
+        display: block;
+        text-align: right;
+        padding-left: 50%;
+        position: relative;
+        border-bottom: 1px solid #dee2e6;
+    }
+
+    .table td::before {
+        content: attr(data-label);
+        position: absolute;
+        left: 1rem;
+        width: calc(50% - 1rem);
+        padding-right: 1rem;
+        text-align: left;
+        font-weight: bold;
+    }
 }
 
-.btn-primary:hover {
-    background-color: #2980b9;
-    border-color: #2980b9;
-}
-
-.btn-sm {
-    padding: 5px 10px;
-    font-size: 0.875rem;
+.avatar-circle {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    color: white;
+    flex-shrink: 0;
+    /* Empêche le rétrécissement */
 }

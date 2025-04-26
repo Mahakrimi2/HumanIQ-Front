@@ -123,12 +123,6 @@ export class ProjectsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // this.trelloService
-    //   .addMemberToBoard('UwZB1ACH', 'email@exemple.com', 'normal')
-    //   .subscribe({
-    //     next: (response) => console.log('Membre ajouté avec succès:', response),
-    //     error: (error) => console.error('Erreur:', error),
-    //   });
     this.trelloService.getBoards().subscribe({
       next: (boards) => {
         boards.forEach((board) =>
@@ -164,6 +158,41 @@ export class ProjectsComponent implements OnInit {
         console.error('Error loading projects', error);
       }
     );
+  }
+  openEmployeeListModal(project: Project) {
+    this.selectedProject = project;
+    this.loadEmployees(); // charger les employés
+    // Ici tu peux afficher une modal ou ouvrir un div
+  }
+
+  addEmployee(employeeId: number) {
+    if (this.selectedProject) {
+      this.projectService
+        .addEmployeeToProject(this.selectedProject.id, employeeId)
+        .subscribe({
+          next: (updatedProject) => {
+            this.loadEmployees();
+            console.log('Employee added to project!', updatedProject);
+            Swal.fire({
+              icon: 'success',
+              title: 'Succès',
+              text: 'Employé ajouté avec succès !',
+              timer: 2000,
+              showConfirmButton: false,
+            });
+            this.selectedProject = null; // fermer la liste après
+            // Tu peux aussi recharger ta liste de projets ici si besoin
+          },
+          error: (error) => {
+            console.error("Erreur lors de l'ajout de l'employé:", error);
+            Swal.fire({
+              icon: 'error',
+              title: 'Erreur',
+              text: "Erreur lors de l'ajout de l'employé.",
+            });
+          },
+        });
+    }
   }
 
   loadProjectStatus(): void {

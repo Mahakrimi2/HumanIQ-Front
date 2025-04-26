@@ -73,6 +73,11 @@
             <button class="btn btn-outline-primary btn-sm" (click)="openEditProjectModal(project)">
               <i class="fa-solid fa-pen-to-square"></i> Edit
             </button>
+              <button class="btn btn-outline-success btn-sm" (click)="openEmployeeListModal(project)">
+      <i class="fa-solid fa-user-plus"></i> Add Employee
+    </button>
+
+    
             <button class="btn btn-outline-danger btn-sm" (click)="deleteProject(project.id!)">
               <i class="fa-solid fa-trash"></i> Delete
             </button>
@@ -82,7 +87,39 @@
     </div>
     </div>
   </section>
+  <!-- Modal pour la liste des employés -->
+<div *ngIf="selectedProject" class="modal fade show d-block" tabindex="-1" role="dialog" style="background-color: rgba(0,0,0,0.5);">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content border-0 shadow rounded-3">
+      <div class="modal-header">
+        <h5 class="modal-title">Add Employees to "{{ selectedProject.name }}"</h5>
+        <button type="button" class="btn-close" (click)="selectedProject = null"></button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group mb-3">
+          <label class="form-label">Select an Employee:</label>
+          <ul class="list-group" style="max-height: 300px; overflow-y: auto;">
+            <li *ngFor="let employee of employees" class="list-group-item d-flex justify-content-between align-items-center">
+              <span>{{ employee.fullname }}</span>
+              <button class="btn btn-sm btn-success" (click)="addEmployee(employee.id)">
+                <i class="bi bi-person-plus"></i> <!-- Icône Add -->
+              </button>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="selectedProject = null">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 </main>
+
+
+
 
 <main id="main" class="main">
   <div *ngIf="showAddProjectModal" class="modern-modal">

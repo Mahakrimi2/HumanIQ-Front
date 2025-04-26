@@ -14,7 +14,16 @@ export class OffreComponent implements OnInit {
   isLoading = true;
   errorMessage = '';
   jobOfferForm: FormGroup;
-  contractstypes: string[] | undefined;
+  contractstypes: string[] = [
+    'PEC',
+    'FTC',
+    'Freelance',
+    'Apprenticeship',
+    'Internship',
+    'Par_time',
+    'Seasonal',
+  ];
+  matchingResults: any[] = [];
 
   constructor(
     private jobOffreService: JobOffreService,
@@ -36,7 +45,7 @@ export class OffreComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadJobOffers();
-    this.loadContratctsTypes();
+    // this.loadContratctsTypes();
   }
 
   openAddModal(content: any): void {
@@ -112,14 +121,29 @@ export class OffreComponent implements OnInit {
     });
   }
 
-  loadContratctsTypes() {
-    this.jobOffreService.getContratctsTypes().subscribe(
-      (types) => {
-        this.contractstypes = types;
+  matchFreelancers(jobOfferId: any) {
+    this.jobOffreService.matchCvsWithJob(jobOfferId).subscribe({
+      next: (res) => {
+        this.matchingResults = res;
+        console.log('Matching Results:', res);
+        // Si tu veux afficher un modal de résultats :
+        // this.modalService.open(matchingModal); // avec ng-template #matchingModal
       },
-      (error) => {
-        console.error('Erreur lors de la récupération des statuts:', error);
-      }
-    );
+      error: (err) => {
+        console.error('Error fetching matches:', err);
+      },
+    });
   }
+
+  // loadContratctsTypes() {
+  //   this.jobOffreService.getContratctsTypes().subscribe(
+  //     (types) => {
+  //       this.contractstypes = types;
+  //       console.log('Types de contrats:', this.contractstypes);
+  //     },
+  //     (error) => {
+  //       console.error('Erreur lors de la récupération des statuts:', error);
+  //     }
+  //   );
+  // }
 }

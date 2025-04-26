@@ -108,4 +108,19 @@ export class ProjectServiceService {
       { headers }
     );
   }
+  addEmployeeToProject(
+    projectId: any,
+    employeeId: number
+  ): Observable<Project> {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+    });
+
+    return this.http.put<Project>(
+      `${this.apiUrl}/${projectId}/add-employee?employeeId=${employeeId}`,
+      {},
+      { headers: headers } 
+    );
+  }
 }

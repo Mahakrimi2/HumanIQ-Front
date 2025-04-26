@@ -18,24 +18,13 @@ export class CvServiceService {
     });
   }
 
-  uploadCV( file: File): Observable<HttpEvent<any>> {
-    const formData = new FormData();
-    formData.append('file', file);
-
-    return this.http.post<any>(`${this.apiUrl}/uploadCV`, formData, {
-      headers: this.getAuthHeaders(),
-      reportProgress: true,
-      observe: 'events',
-    });
-  }
-
   getCVsByJobOffer(): Observable<CV[]> {
-       const token = localStorage.getItem('token');
-       const headers = new HttpHeaders({
-         Authorization: `Bearer ${token}`,
-       });
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+    });
     return this.http.get<CV[]>(`${this.apiUrl}/job-offer/cvs`, {
-      headers,
+      headers: this.getAuthHeaders(),
     });
   }
 
@@ -43,6 +32,27 @@ export class CvServiceService {
     return this.http.get(`${this.apiUrl}/cv/${cvId}/download`, {
       headers: this.getAuthHeaders(),
       responseType: 'blob',
+    });
+  }
+
+  uploadCV(file: File): Observable<CV> {
+    const formData = new FormData();
+    formData.append('resume', file);
+
+    return this.http.post<CV>(`${this.apiUrl}/upload-parse-cv`, formData, {
+      headers: this.getAuthHeaders(),
+    });
+  }
+
+  loadCVs(): Observable<CV[]> {
+    return this.http.get<CV[]>(`${this.apiUrl}/load-resumes`, {
+      headers: this.getAuthHeaders(),
+    });
+  }
+
+  deleteCV(cvId: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/delete-cv/${cvId}`, {
+      headers: this.getAuthHeaders(),
     });
   }
 }

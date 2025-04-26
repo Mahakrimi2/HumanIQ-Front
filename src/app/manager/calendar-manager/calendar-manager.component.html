@@ -1,15 +1,60 @@
 <app-navbar></app-navbar>
 <app-sidebar></app-sidebar>
+
 <main id="main" class="main">
-    <div class="container-fluid">
-  <div class="row">
-    <div class="col-lg-12">
-      <div class="row">
-        <full-calendar [options]="calendarOptions"></full-calendar>
-
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="row">
+          <full-calendar [options]="calendarOptions"></full-calendar>
+        </div>
       </div>
-      </div>
-      </div>
-      </div>
-
+    </div>
+  </div>
 </main>
+
+<!-- Modal pour afficher les détails -->
+<!-- Modal pour afficher les détails -->
+<!-- Modal pour afficher les détails de l'événement -->
+<div *ngIf="isModalOpen" class="modal-overlay">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2>{{ selectedEvent?.title }}</h2>
+      <button class="close-button" (click)="closeModal()">&times;</button>
+    </div>
+    
+    <div class="modal-body">
+      <!-- Date et heure de début -->
+      <div class="modal-row">
+        <i class="bi bi-calendar-event"></i>
+        <div>
+          <p class="modal-label">Date</p>
+          <p>{{ selectedEvent?.startDateTime }}</p>
+        </div>
+      </div>
+      
+    
+      <!-- Description -->
+      <div class="modal-row" *ngIf="selectedEvent?.description">
+        <i class="bi bi-card-text"></i>
+        <div>
+          <p class="modal-label">Description</p>
+          <p>{{ selectedEvent?.description }}</p>
+        </div>
+      </div>
+      
+      <!-- Lieu -->
+      <div class="modal-row" *ngIf="selectedEvent?.location">
+        <i class="bi bi-geo-alt"></i>
+        <div>
+          <p class="modal-label">Lieu</p>
+          <p>{{ selectedEvent?.location }}</p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="modal-footer">
+      <button class="btn btn-primary" (click)="closeModal()">Fermer</button>
+    </div>
+  </div>
+</div>
