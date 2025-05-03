@@ -16,6 +16,9 @@ import { PointageComponent } from './pointage/pointage.component';
 import { CalenderComponent } from './calender/calender.component';
 import { DashbaordEmpComponent } from './dashbaord-emp/dashbaord-emp.component';
 import { MyProjectsComponent } from './my-projects/my-projects.component';
+import { CompanyComponent } from './company/company.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+
 
 @NgModule({
   declarations: [
@@ -26,6 +29,8 @@ import { MyProjectsComponent } from './my-projects/my-projects.component';
     CalenderComponent,
     DashbaordEmpComponent,
     MyProjectsComponent,
+    CompanyComponent,
+    
 
   ],
   imports: [
@@ -37,6 +42,7 @@ import { MyProjectsComponent } from './my-projects/my-projects.component';
     HttpClientModule,
     ReactiveFormsModule,
     RouterLink,
+     NgbModule,
   ],
 })
 export class EmployeeModule {}

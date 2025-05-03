@@ -12,9 +12,10 @@ import { EventsManagerComponent } from './events-manager/events-manager.componen
 import { PointageManagerComponent } from './pointage-manager/pointage-manager.component';
 import { CalendarManagerComponent } from './calendar-manager/calendar-manager.component';
 import { FullCalendarModule } from '@fullcalendar/angular';
+import { CompanymanagerComponent } from './companymanager/companymanager.component';
 
 @NgModule({
-  declarations: [ProjectsComponent, DashbaordManagaerComponent, EventsManagerComponent, PointageManagerComponent, CalendarManagerComponent],
+  declarations: [ProjectsComponent, DashbaordManagaerComponent, EventsManagerComponent, PointageManagerComponent, CalendarManagerComponent, CompanymanagerComponent],
   imports: [
     CommonModule,
     ManagerRoutingModule,

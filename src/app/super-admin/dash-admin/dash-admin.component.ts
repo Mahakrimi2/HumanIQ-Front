@@ -12,6 +12,13 @@ import { WeatherService } from 'src/app/services/weather.service';
   styleUrls: ['./dash-admin.component.css'],
 })
 export class DashAdminComponent implements OnInit {
+  // Ajoutez ces propriétés
+  activeContracts: number = 0;
+  expiredContracts: number = 0;
+  pendingContracts: number = 0;
+  totalContracts: number = 0;
+  contractTypeStats: any = {};
+  averageSeniority: number = 0;
   totalEmployees: number = 0;
   totalDep: number = 0;
   chart: any;
@@ -99,6 +106,7 @@ export class DashAdminComponent implements OnInit {
     );
   }
 
+  // Modifiez la méthode loadEmployees()
   loadEmployees(): void {
     this.userService.getUsers().subscribe(
       (users) => {
@@ -107,6 +115,8 @@ export class DashAdminComponent implements OnInit {
 
         this.activeEmployees = [];
         this.inactiveEmployees = [];
+        let totalSeniority = 0;
+        let validUsers = 0;
 
         users.forEach((user: any) => {
           if (user.isDisabled === undefined) {
@@ -116,9 +126,29 @@ export class DashAdminComponent implements OnInit {
           if (!user.isDisabled) {
             this.activeEmployees.push(user);
           } else {
-            this.inactiveEmployees.push(user); // Ajouter à la liste des employés inactifs
+            this.inactiveEmployees.push(user);
+          }
+
+          // Calcul de l'ancienneté si hireDate existe
+          if (user.hireDate) {
+            const hireDate = new Date(user.hireDate);
+            if (!isNaN(hireDate.getTime())) {
+              const today = new Date();
+              const seniorityInMs = today.getTime() - hireDate.getTime();
+              const seniorityInYears =
+                seniorityInMs / (1000 * 60 * 60 * 24 * 365.25);
+              totalSeniority += seniorityInYears;
+              validUsers++;
+            }
           }
         });
+
+        // Calcul de la moyenne
+        if (validUsers > 0) {
+          this.averageSeniority = parseFloat(
+            (totalSeniority / validUsers).toFixed(1)
+          );
+        }
 
         console.log('Employés actifs :', this.activeEmployees);
         console.log('Employés inactifs :', this.inactiveEmployees);
@@ -349,4 +379,6 @@ export class DashAdminComponent implements OnInit {
       },
     });
   }
+
+  
 }

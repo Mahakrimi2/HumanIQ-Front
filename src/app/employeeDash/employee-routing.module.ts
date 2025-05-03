@@ -13,6 +13,7 @@ import { PointageComponent } from './pointage/pointage.component';
 import { CalenderComponent } from './calender/calender.component';
 import { MyProjectsComponent } from './my-projects/my-projects.component';
 import { DashbaordEmpComponent } from './dashbaord-emp/dashbaord-emp.component';
+import { CompanyComponent } from './company/company.component';
 
 const routes: Routes = [
   {
@@ -23,12 +24,13 @@ const routes: Routes = [
       { path: 'payroll', component: PayrollComponent },
 
       { path: 'my-contracts', component: ContractsComponent },
-     
+
       { path: 'holiday-request', component: HolidayRequestComponent },
       { path: 'add-holiday-request', component: AddHolidayRequestComponent },
       { path: 'emp-pointage', component: PointageComponent },
       { path: 'calender', component: CalenderComponent },
       { path: 'my-projects', component: MyProjectsComponent },
+      { path: 'company', component: CompanyComponent },
       {
         path: '',
         redirectTo: 'dashboard',

@@ -6,7 +6,7 @@ import { EmployeesListAdminComponent } from './employees-list-admin/employees-li
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { SharedModule } from '../shared/shared.module';
+
 import { LeaveRequestAdminComponent } from './leave-request-admin/leave-request-admin.component';
 import { DepartmentAdminComponent } from './department-admin/department-admin.component';
 import { ContractsListAdminComponent } from './contracts-list-admin/contracts-list-admin.component';
@@ -16,6 +16,8 @@ import { CompanyAdminComponent } from './company-admin/company-admin.component';
 import { DashAdminComponent } from './dash-admin/dash-admin.component';
 import { EventsComponent } from './events/events.component';
 import { FullCalendarModule } from '@fullcalendar/angular';
+import { PayslipComponent } from './payslip/payslip.component';
+import { SharedModule } from '../shared/shared.module';
 
 
 @NgModule({
@@ -28,7 +30,8 @@ import { FullCalendarModule } from '@fullcalendar/angular';
     PointageListAdminComponent,
     CompanyAdminComponent,
     DashAdminComponent,
-    EventsComponent
+    EventsComponent,
+    PayslipComponent
   ],
   imports: [
     CommonModule,
@@ -37,8 +40,9 @@ import { FullCalendarModule } from '@fullcalendar/angular';
         FormsModule,
         FullCalendarModule,
         NgbModule,
-        ReactiveFormsModule,
+    ReactiveFormsModule,
         SharedModule
+    
   ]
 })
 export class SuperAdminModule { }

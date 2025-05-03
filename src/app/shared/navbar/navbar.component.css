@@ -104,85 +104,25 @@
     /* Effet de zoom au survol */
 }
 
-/* Animation pour les notifications et messages */
-.notification-item,
-.message-item {
-    transition: background-color 0.3s ease;
-}
-
-.notification-item:hover,
-.message-item:hover {
-    background-color: rgba(106, 17, 203, 0.1);
-}
-
-/* Indicateur de statut */
-.status-badge {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    border: 2px solid white;
-}
-
-.status-badge.online {
-    background-color: #28a745;
-    /* Vert */
-    animation: pulse 1.5s infinite;
-}
-
-.status-badge.offline {
-    background-color: #dc3545;
-    /* Rouge */
-}
-
-@keyframes pulse {
-    0% {
-        transform: scale(1);
-    }
-
-    50% {
-        transform: scale(1.2);
-    }
-
-    100% {
-        transform: scale(1);
-    }
-}
-/* Photo de profil */
-.nav-profile img {
-    width: 40px;
-    height: 40px;
-    object-fit: cover;
-    position: relative;
-}
-
-/* Conteneur du nom de l'utilisateur */
-.nav-profile span {
-    margin-left: 10px;
-    display: inline-block;
-    /* Assure que le texte est visible */
-}
-.nav-profile .dropdown-toggle {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    /* Espace entre la photo et le texte */
-}
-/* Notification dropdown styles */
+/* notification.component.css */
 .notifications {
-    width: 380px;
-    max-height: 60vh;
+    max-width: 350px;
+    max-height: 500px;
     overflow-y: auto;
 }
 
+.notification-item.unread {
+    background-color: #f8f9fa;
+    border-left: 3px solid #0d6efd;
+}
+
 .notification-item {
-    transition: background-color 0.2s ease;
+    cursor: pointer;
+    transition: background-color 0.2s;
 }
 
 .notification-item:hover {
-    background-color: rgba(var(--bs-primary-rgb), 0.05);
+    background-color: #e9ecef;
 }
 
 .avatar-sm {
@@ -190,23 +130,78 @@
     height: 36px;
 }
 
-/* Modern scrollbar for dropdown */
-.notifications::-webkit-scrollbar {
-    width: 6px;
+.event-details {
+    font-size: 0.85rem;
+    border-left: 2px solid #0d6efd;
+    background-color: #f8f9fa;
+    margin-top: 5px;
 }
 
-.notifications::-webkit-scrollbar-track {
-    background: #f1f1f1;
-    border-radius: 10px;
+.dropdown-footer {
+    background-color: #f8f9fa;
 }
 
-.notifications::-webkit-scrollbar-thumb {
-    background: #888;
-    border-radius: 10px;
+.dropdown-footer a:hover {
+    text-decoration: underline;
 }
 
-.notifications::-webkit-scrollbar-thumb:hover {
-    background: #555;
+/* Styles pour les notifications */
+.notifications {
+    max-width: 350px;
+    max-height: 500px;
+    overflow-y: auto;
 }
 
+.notification-item {
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
 
+.notification-item.unread {
+    background-color: #f8f9fa;
+    border-left: 3px solid #0d6efd;
+}
+
+.notification-item:hover {
+    background-color: #e9ecef;
+}
+
+.avatar-sm {
+    width: 36px;
+    height: 36px;
+}
+
+.event-details {
+    font-size: 0.85rem;
+    border-left: 2px solid #0d6efd;
+}
+
+.dropdown-footer {
+    background-color: #f8f9fa;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+.dropdown-footer a:hover {
+    text-decoration: underline;
+}
+
+.notification-item {
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.notification-item .btn-link {
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.notification-item:hover .btn-link {
+    opacity: 1;
+}
+
+.btn-link.text-danger:hover {
+    color: #dc3545 !important;
+}

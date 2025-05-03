@@ -27,10 +27,10 @@
 
 
     <li class="nav-item" *ngIf="isSuperAdmin">
-      <a class="nav-link collapsed" data-bs-target="#p-nav" data-bs-toggle="collapse" href="#">
+      <a class="nav-link collapsed" data-bs-target="#per-nav" data-bs-toggle="collapse" href="#">
         <i class="bi bi-people"></i><span>Personnel</span><i class="bi bi-chevron-down ms-auto"></i>
       </a>
-      <ul id="p-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+      <ul id="per-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
         <li>
           <a routerLink="/superAdmin/employees-list">
            <span>All Personnel</span>
@@ -283,12 +283,12 @@
 
 <li class="nav-item" *ngIf="isSuperAdmin">
   <a class="nav-link collapsed" data-bs-target="#p-nav" data-bs-toggle="collapse" href="#">
-    <i class="bi bi-person-fill"></i><span>Pointage</span><i class="bi bi-chevron-down ms-auto"></i>
+    <i class="bi bi-person-fill"></i><span>Payslip</span><i class="bi bi-chevron-down ms-auto"></i>
   </a>
   <ul id="p-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
     <li>
-      <a routerLink="/superAdmin/pointage">
-        <i class="bi bi-person-fill"></i><span>Pointage</span>
+      <a routerLink="/superAdmin/payslip">
+        <i class="bi bi-person-fill"></i><span>Payslip</span>
       </a>
     </li>
   </ul>
@@ -406,6 +406,48 @@
     <li>
       <a routerLink="/superAdmin/company">
         <i class="bi bi-list-task"></i><span>Company setting</span>
+      </a>
+    </li>
+  </ul>
+</li>
+
+
+
+  <li class="nav-item" *ngIf="isEmployee">
+  <a class="nav-link collapsed" data-bs-target="#project-nav" data-bs-toggle="collapse" href="#">
+    <i class="bi bi-folder"></i><span>Company</span><i class="bi bi-chevron-down ms-auto"></i>
+  </a>
+  <ul id="project-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+    <li>
+      <a routerLink="/employee/company">
+        <i class="bi bi-list-task"></i><span>Company Infos</span>
+      </a>
+    </li>
+  </ul>
+</li>
+
+
+  <li class="nav-item" *ngIf="isManager">
+  <a class="nav-link collapsed" data-bs-target="#project-nav" data-bs-toggle="collapse" href="#">
+    <i class="bi bi-folder"></i><span>Company</span><i class="bi bi-chevron-down ms-auto"></i>
+  </a>
+  <ul id="project-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+    <li>
+      <a routerLink="/manager/company">
+        <i class="bi bi-list-task"></i><span>Company Infos</span>
+      </a>
+    </li>
+  </ul>
+</li>
+
+  <li class="nav-item" *ngIf="isRH">
+  <a class="nav-link collapsed" data-bs-target="#project-nav" data-bs-toggle="collapse" href="#">
+    <i class="bi bi-folder"></i><span>Company</span><i class="bi bi-chevron-down ms-auto"></i>
+  </a>
+  <ul id="project-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+    <li>
+      <a routerLink="/admin/company">
+        <i class="bi bi-list-task"></i><span>Company Infos</span>
       </a>
     </li>
   </ul>

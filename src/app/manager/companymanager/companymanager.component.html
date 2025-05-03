@@ -1,3 +1,4 @@
+
 <app-navbar></app-navbar>
 <app-sidebar></app-sidebar>
 
@@ -136,73 +137,8 @@
         </div>
       </div>
 
-      <button class="edit-button" (click)="openEditModal()">
-        <i class="bi bi-pencil-square"></i> Edit Company Info
-      </button>
     </div>
   </ng-template>
 
-  <!-- Edit Modal -->
-  <div class="modal-overlay" *ngIf="isModalOpen" [@modalAnimation]>
-    <div class="modal-content">
-      <span class="close-btn" (click)="closeModal()">&times;</span>
-      <h2 class="modal-title"><i class="bi bi-building-gear"></i> Edit Company Information</h2>
-      <form (ngSubmit)="submitEdit()" class="edit-form">
-        <div class="form-grid">
-          <!-- Left Column -->
-          <div class="form-column">
-            <div class="form-group">
-              <label for="name"><i class="bi bi-building"></i> Company Name:</label>
-              <input type="text" [(ngModel)]="companyInfo.name" name="name" required class="form-input" />
-            </div>
-            <div class="form-group">
-              <label for="mission"><i class="bi bi-bullseye"></i> Mission:</label>
-              <input type="text" [(ngModel)]="companyInfo.mission" name="mission" required class="form-input" />
-            </div>
-            <div class="form-group">
-              <label for="description"><i class="bi bi-text-paragraph"></i> Description:</label>
-              <textarea [(ngModel)]="companyInfo.description" name="description" rows="4" required class="form-textarea"></textarea>
-            </div>
-          </div>
 
-          <!-- Right Column -->
-          <div class="form-column">
-            <div class="form-group">
-              <label for="vision"><i class="bi bi-eye"></i> Vision:</label>
-              <input type="text" [(ngModel)]="companyInfo.vision" name="vision" required class="form-input" />
-            </div>
-            <div class="form-group">
-              <label for="values"><i class="bi bi-stars"></i> Core Values:</label>
-              <input type="text" [(ngModel)]="companyInfo.values" name="values" required class="form-input" />
-            </div>
-            <div class="form-group">
-              <label for="foundedYear"><i class="bi bi-calendar-date"></i> Founded Year:</label>
-              <input type="number" [(ngModel)]="companyInfo.foundedYear" name="foundedYear" required class="form-input" />
-            </div>
-          </div>
-
-          <!-- Bottom Row -->
-          <div class="form-full-width">
-            <div class="form-group">
-              <label for="location"><i class="bi bi-geo-alt"></i> Location:</label>
-              <input type="text" [(ngModel)]="companyInfo.location" name="location" required class="form-input" />
-            </div>
-            <div class="form-group">
-              <label for="website"><i class="bi bi-link"></i> Website:</label>
-              <input type="url" [(ngModel)]="companyInfo.website" name="website" required class="form-input" />
-            </div>
-            <div class="form-group">
-              <label for="policies"><i class="bi bi-file-earmark-text"></i> Policies:</label>
-              <textarea [(ngModel)]="companyInfo.policies" name="policies" rows="3" required class="form-textarea"></textarea>
-            </div>
-          </div>
-        </div>
-
-        <div class="form-actions">
-          <button type="button" class="btn-cancel" (click)="closeModal()">Cancel</button>
-          <button type="submit" class="btn-submit">Save Changes</button>
-        </div>
-      </form>
-    </div>
-  </div>
 </main>

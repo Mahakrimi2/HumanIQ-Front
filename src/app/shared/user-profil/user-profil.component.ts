@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AvatarService } from 'src/app/avatar.service';
 import { ChangePasswordRequest } from 'src/app/models/ChangePasswordRequest.model';
-import { User } from 'src/app/models/user.model';
+
 import { UserService } from 'src/app/services/user.service';
 import Swal from 'sweetalert2';
 
@@ -9,6 +9,7 @@ import Swal from 'sweetalert2';
   selector: 'app-user-profil',
   templateUrl: './user-profil.component.html',
   styleUrls: ['./user-profil.component.css'],
+
 })
 export class UserProfilComponent implements OnInit {
   copyobj() {

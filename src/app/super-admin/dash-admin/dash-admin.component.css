@@ -445,3 +445,98 @@
     border-radius: 8px;
     text-align: center;
 }
+/* Carte carrée compacte */
+.stat-card-square {
+    width: 150px;
+    height: 150px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.square-content {
+    text-align: center;
+}
+
+.square-icon {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.square-text h3 {
+    font-size: 1rem;
+    margin: 0 0 5px 0;
+    font-weight: 500;
+}
+
+.square-value {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin: 0;
+    line-height: 1.2;
+}
+
+.contract-stats-container {
+    padding: 20px;
+}
+
+.stats-grid {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.stat-card {
+    flex: 1;
+    min-width: 200px;
+    padding: 15px;
+    border-radius: 8px;
+    color: white;
+    display: flex;
+    align-items: center;
+}
+
+.stat-card .icon {
+    font-size: 2rem;
+    margin-right: 15px;
+}
+
+.stat-card .stats {
+    flex-grow: 1;
+}
+
+.stat-card h3 {
+    margin: 0 0 5px 0;
+    font-size: 1rem;
+}
+
+.stat-card .count {
+    margin: 0;
+    font-size: 1.8rem;
+    font-weight: bold;
+}
+
+.stat-card .percentage {
+    margin: 5px 0 0 0;
+    font-size: 0.9rem;
+    opacity: 0.9;
+}
+
+/* Couleurs des cartes */
+.active {
+    background-color: #4CAF50;
+}
+
+.expired {
+    background-color: #F44336;
+}
+
+.pending {
+    background-color: #FF9800;
+}

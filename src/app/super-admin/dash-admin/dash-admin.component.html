@@ -162,6 +162,8 @@
             </div>
           </div>
 
+          
+
           <!-- Low Priority -->
           <div class="priority-card low-priority">
             <div class="priority-content">
@@ -208,6 +210,8 @@
     </div>
   </div>
 
+  
+
   <div class="weather-error" *ngIf="weatherError">
     <p>{{ weatherError }}</p>
   </div>
@@ -216,6 +220,17 @@
         </div>
       </div>
     </section>
+<div class="stat-card-square seniority-card">
+  <div class="square-content">
+    <div class="square-icon">
+      <i class="fa-solid fa-business-time"></i>
+    </div>
+    <div class="square-text">
+      <h3>Ancienneté</h3>
+      <p class="square-value">{{ averageSeniority }} ans</p>
+    </div>
+  </div>
+</div>
 
     <!-- Charts Section -->
     <section class="charts-section">
@@ -248,5 +263,5 @@
     </section>
   </div>
 
-  
+
 </main>

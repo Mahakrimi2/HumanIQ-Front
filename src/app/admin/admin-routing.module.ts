@@ -20,6 +20,7 @@ import { DashbaordRhComponent } from './dashbaord-rh/dashbaord-rh.component';
 import { EventsComponent } from './events/events.component';
 import { OffreComponent } from './offre/offre.component';
 import { CvComponent } from './cv/cv.component';
+import { CompanyRHComponent } from './company-rh/company-rh.component';
 
 const routes: Routes = [
   {
@@ -40,6 +41,7 @@ const routes: Routes = [
       { path: 'archived-contracts', component: ArchivedContractsComponent },
       { path: 'pointage-list', component: PointageListComponent },
       { path: 'DashRh', component: DashbaordRhComponent },
+      { path: 'company', component:CompanyRHComponent },
 
       {
         path: '',

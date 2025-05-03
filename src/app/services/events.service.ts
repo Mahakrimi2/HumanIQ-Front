@@ -23,7 +23,7 @@ export class EventsService {
     });
   }
 
-  getEvents(): Observable<Event[]> {
+  getEvents(): Observable<any[]> {
      const token = localStorage.getItem('token');
      const headers = new HttpHeaders({
        Authorization: `Bearer ${token}`,

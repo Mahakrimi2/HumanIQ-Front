@@ -11,6 +11,7 @@ import { PointageListAdminComponent } from './pointage-list-admin/pointage-list-
 import { CompanyAdminComponent } from './company-admin/company-admin.component';
 import { DashAdminComponent } from './dash-admin/dash-admin.component';
 import { EventsComponent } from './events/events.component';
+import { PayslipComponent } from './payslip/payslip.component';
 
 const routes: Routes = [
   {
@@ -22,6 +23,7 @@ const routes: Routes = [
       { path: 'department', component: DepartmentAdminComponent },
       { path: 'list-contracts', component: ContractsListAdminComponent },
       { path: 'list-events', component: EventsComponent },
+      { path: 'payslip', component:PayslipComponent },
       {
         path: 'archived-contracts',
         component: ContractsArchivedAdminComponent,

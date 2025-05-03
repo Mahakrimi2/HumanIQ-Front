@@ -7,6 +7,7 @@ import { EventsManagerComponent } from './events-manager/events-manager.componen
 import { PointageComponent } from '../employeeDash/pointage/pointage.component';
 import { PointageManagerComponent } from './pointage-manager/pointage-manager.component';
 import { CalendarManagerComponent } from './calendar-manager/calendar-manager.component';
+import { CompanymanagerComponent } from './companymanager/companymanager.component';
 const routes: Routes = [
   {
     path: '',
@@ -18,6 +19,8 @@ const routes: Routes = [
       { path: 'calendar', component: CalendarManagerComponent },
 
       { path: 'list-events', component: EventsManagerComponent },
+
+      { path: 'company', component: CompanymanagerComponent },
       {
         path: '',
         redirectTo: 'dashboard',

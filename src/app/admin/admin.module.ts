@@ -24,6 +24,10 @@ import { DashbaordRhComponent } from './dashbaord-rh/dashbaord-rh.component';
 import { EventsComponent } from './events/events.component';
 import { OffreComponent } from './offre/offre.component';
 import { CvComponent } from './cv/cv.component';
+import { SidebarComponent } from '../shared/sidebar/sidebar.component';
+import { NavbarComponent } from '../shared/navbar/navbar.component';
+import { CompanyRHComponent } from './company-rh/company-rh.component';
+
 
 
 @NgModule({
@@ -36,13 +40,14 @@ import { CvComponent } from './cv/cv.component';
     PayrollComponent,
     ListContractsComponent,
     ArchivedContractsComponent,
-    UserProfilComponent,
+    CompanyRHComponent,
     PointageListComponent,
     PointagerhComponent,
     DashbaordRhComponent,
     EventsComponent,
     OffreComponent,
     CvComponent,
+    
   ],
   imports: [
     CommonModule,
@@ -57,6 +62,6 @@ import { CvComponent } from './cv/cv.component';
     NgbPaginationModule,
   ],
 
-  exports: [],
+  exports: [SidebarComponent,NavbarComponent],
 })
 export class AdminModule {}
