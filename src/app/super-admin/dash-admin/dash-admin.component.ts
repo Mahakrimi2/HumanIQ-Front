@@ -5,6 +5,7 @@ import { UserService } from 'src/app/services/user.service';
 import { Chart, ChartConfiguration, ChartType, registerables } from 'chart.js';
 import { ProjectServiceService } from 'src/app/services/project-service.service';
 import { WeatherService } from 'src/app/services/weather.service';
+import { ContractService } from 'src/app/services/contract.service';
 
 @Component({
   selector: 'app-dash-admin',
@@ -12,12 +13,17 @@ import { WeatherService } from 'src/app/services/weather.service';
   styleUrls: ['./dash-admin.component.css'],
 })
 export class DashAdminComponent implements OnInit {
-  // Ajoutez ces propriétés
+  
+
+  contractStats: any = {}; 
+  loading = false;
+  error = '';
   activeContracts: number = 0;
   expiredContracts: number = 0;
   pendingContracts: number = 0;
   totalContracts: number = 0;
   contractTypeStats: any = {};
+
   averageSeniority: number = 0;
   totalEmployees: number = 0;
   totalDep: number = 0;
@@ -49,13 +55,15 @@ export class DashAdminComponent implements OnInit {
     this.intervalId = setInterval(() => this.updateTime(), 1000);
     this.loadPriorityStats();
     this.loadWeather();
+    this.loadContractStats();
   }
 
   constructor(
     private userService: UserService,
     private depService: DepartmentService,
     private projectService: ProjectServiceService,
-    private weatherService: WeatherService
+    private weatherService: WeatherService,
+    private contractService: ContractService
   ) {
     Chart.register(...registerables);
   }
@@ -214,21 +222,16 @@ export class DashAdminComponent implements OnInit {
     this.depService.getAllDepartments().subscribe(
       (departments: any[]) => {
         console.log('Départements récupérés :', departments);
-
-        // Tableaux pour stocker les noms des départements et le nombre d'utilisateurs
         const departmentNames: string[] = [];
         const employeeCounts: number[] = [];
-
-        // Pour chaque département, récupérer le nombre d'utilisateurs
         departments.forEach((department) => {
-          departmentNames.push(department); // Ajouter le nom du département
-          employeeCounts.push(department.users?.length || 0); // Ajouter le nombre d'utilisateurs (ou 0 si users est undefined)
+          departmentNames.push(department.name); 
+          employeeCounts.push(department.users?.length || 0);
           console.log('====================================');
           console.log(employeeCounts);
           console.log('====================================');
         });
 
-        // Afficher le graphique avec les données réelles
         this.renderChart(departmentNames, employeeCounts);
       },
       (error) => {
@@ -341,7 +344,7 @@ export class DashAdminComponent implements OnInit {
     this.chart = new Chart(ctx, {
       type: 'line',
       data: {
-        labels: departments.map((a: any) => a.name),
+        labels: departments.map((a: any) => a),
         datasets: [
           {
             label: "Nombre d'employés par département",
@@ -380,5 +383,61 @@ export class DashAdminComponent implements OnInit {
     });
   }
 
-  
+  loadContractStats(): void {
+    this.loading = true;
+    this.error = '';
+    this.contractService.getAllstatus().subscribe({
+      next: (response) => {
+        console.log('====================================');
+        console.log("contracts:",response);
+        console.log('====================================');
+        this.contractStats = response;
+        this.loading = false;
+      },
+      error: (err) => {
+        this.error = 'Erreur lors du chargement des statistiques';
+        this.loading = false;
+        console.error(err);
+      },
+    });
+  }
+  getFormattedStats(): any[] {
+    return Object.keys(this.contractStats).map((status) => {
+      return {
+        label: this.getStatusLabel(status),
+        value: this.contractStats[status],
+        icon: this.getStatusIcon(status),
+        class: this.getStatusClass(status),
+      };
+    });
+  }
+
+  private getStatusLabel(status: string): string {
+    const labels: { [key: string]: string } = {
+      ACTIVE: 'Actifs',
+      EXPIRED: 'Expirés',
+      PENDING: 'En attente',
+      TERMINATED: 'Résiliés',
+    };
+    return labels[status] || status;
+  }
+
+  private getStatusIcon(status: string): string {
+    const icons: { [key: string]: string } = {
+      ACTIVE: 'fa-check-circle',
+      EXPIRED: 'fa-ban',
+      PENDING: 'fa-clock',
+      TERMINATED: 'fa-file-contract',
+    };
+    return 'fa-solid ' + (icons[status] || 'fa-file-alt');
+  }
+
+  private getStatusClass(status: string): string {
+    const classes: { [key: string]: string } = {
+      ACTIVE: 'active',
+      EXPIRED: 'expired',
+      PENDING: 'pending',
+    };
+    return classes[status] || '';
+  }
 }

@@ -262,6 +262,29 @@
       </div>
     </section>
   </div>
+<!-- Dans la section User Statistics Cards, ajoutez ces nouvelles cartes -->
+<div class="stats-container">
+  <!-- Carte pour chaque statut -->
+  <!-- <div *ngIf="!loading && !error">
+    <div class="stat-card" *ngFor="let stat of getFormattedStats()">
+      <div class="stat-icon">
+        <i [class]="stat.icon"></i>
+      </div>
+      <div class="stat-content">
+        <h3>{{ stat.label }}</h3>
+        <p class="stat-value">{{ stat.value }}</p>
+      </div>
+    </div>
+  </div> -->
+
+  <!-- États de chargement et erreur -->
+  <!-- <div *ngIf="loading" class="loading">
+    <i class="fa-solid fa-spinner fa-spin"></i> Chargement...
+  </div> -->
+  <div *ngIf="error" class="error">
+    {{ error }}
+  </div>
+</div>
 
 
 </main>
