@@ -1,0 +1,64 @@
+.main-content {
+    padding: 100px;
+}
+
+/* Main Container */
+.card.shadow-sm {
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+/* Card Title */
+.card-title {
+    font-weight: 600;
+    color: #2c3e50;
+    font-size: 1.5rem;
+    border-bottom: 1px solid #f0f0f0;
+    padding-bottom: 0.75rem;
+}
+
+/* Request Cards */
+.card.shadow-sm-hover {
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.card.shadow-sm-hover:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+}
+
+/* Badges */
+.badge {
+    font-weight: 500;
+    font-size: 0.75rem;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+/* Icons */
+.bi {
+    font-size: 1rem;
+}
+
+/* Buttons */
+.btn-outline-primary {
+    border-width: 1px;
+    transition: all 0.2s;
+}
+
+.btn-outline-primary:hover {
+    background-color: #0454a5;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .card-title {
+        font-size: 1.3rem;
+    }
+
+    .col-md-4 {
+        padding-bottom: 1rem;
+    }
+}

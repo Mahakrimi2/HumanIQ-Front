@@ -1,0 +1,117 @@
+/* Main Layout */
+.main {
+    padding: 2rem;
+    background-color: #f8fafc;
+}
+
+.pagetitle {
+    margin-bottom: 2rem;
+}
+
+.page-title {
+    color: #2c3e50;
+    font-weight: 700;
+}
+
+.breadcrumb {
+    background-color: transparent;
+    padding: 0.5rem 0;
+}
+
+/* Card Styling */
+.form-card {
+    border-radius: 12px;
+    border: none;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+}
+
+.card-header {
+    padding: 1.25rem 1.5rem;
+    background-color: #6795ca;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Form Elements */
+.form-control,
+.form-select {
+    padding: 0.75rem 1rem;
+    border: 1px solid #e0e6ed;
+    border-radius: 8px;
+    transition: all 0.3s;
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: #7d99b6;
+    box-shadow: 0 0 0 0.25rem rgba(4, 84, 165, 0.15);
+}
+
+.form-control-lg {
+    font-size: 1rem;
+}
+
+.input-group-text {
+    background-color: #f8fafc;
+    border-right: none;
+}
+
+.input-group .form-control {
+    border-left: none;
+}
+
+/* Labels */
+.col-form-label {
+    padding-top: 0.875rem;
+    color: #4a5568;
+}
+
+/* Error Messages */
+.invalid-feedback {
+    margin-top: 0.5rem;
+    font-size: 0.875rem;
+    color: #dc3545;
+}
+
+/* File Upload */
+.file-upload-wrapper {
+    position: relative;
+}
+
+.file-upload-wrapper input[type=file] {
+    padding: 0.5rem;
+}
+
+/* Button Styling */
+.btn-primary {
+    background-color: #0454a5;
+    border: none;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    transition: all 0.3s;
+}
+
+.btn-primary:hover {
+    background-color: #03407c;
+    transform: translateY(-1px);
+}
+
+.btn-primary:disabled {
+    background-color: #a0bcdb;
+    cursor: not-allowed;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .col-form-label {
+        padding-bottom: 0.5rem;
+    }
+
+    .offset-sm-3 {
+        margin-left: 0;
+    }
+
+    .btn-lg {
+        width: 100%;
+    }
+}

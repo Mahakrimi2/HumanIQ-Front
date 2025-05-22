@@ -1,4 +1,3 @@
-
 <app-navbar></app-navbar>
 <app-sidebar></app-sidebar>
 
@@ -27,7 +26,7 @@
             <h2><i class="bi bi-building"></i> About Us</h2>
           </div>
           <div class="card-body">
-            <p>{{ companyInfo?.description }}</p>
+            <p style="white-space: pre-line">{{ companyInfo?.description }}</p>
           </div>
         </div>
 
@@ -37,7 +36,7 @@
             <h2><i class="bi bi-eye"></i> Our Vision</h2>
           </div>
           <div class="card-body">
-            <p>{{ companyInfo?.vision }}</p>
+            <p style="white-space: pre-line">{{ companyInfo?.vision }}</p>
           </div>
         </div>
 
@@ -46,9 +45,10 @@
           <div class="card-header">
             <h2><i class="bi bi-star"></i> Core Values</h2>
           </div>
-          <div class="card-body">
-            <p>{{ companyInfo?.values }}</p>
-          </div>
+         <!-- Dans la section "Core Values" -->
+<div class="card-body">
+  <p style="white-space: pre-line">{{ companyInfo?.values }}</p>
+</div>
         </div>
 
         <!-- Basic Info Section -->
@@ -78,7 +78,7 @@
             <h2><i class="bi bi-file-text"></i> Our Policies</h2>
           </div>
           <div class="card-body">
-            <p>{{ companyInfo?.policies }}</p>
+            <p style="white-space: pre-line">{{ companyInfo?.policies }}</p>
           </div>
         </div>
 

@@ -8,6 +8,10 @@ import { PointageComponent } from '../employeeDash/pointage/pointage.component';
 import { PointageManagerComponent } from './pointage-manager/pointage-manager.component';
 import { CalendarManagerComponent } from './calendar-manager/calendar-manager.component';
 import { CompanymanagerComponent } from './companymanager/companymanager.component';
+import { LeaveRequestManagerComponent } from './leave-request-manager/leave-request-manager.component';
+import { RequestListmanagerComponent } from './request-listmanager/request-listmanager.component';
+import { ContractsmanagerComponent } from './contractsmanager/contractsmanager.component';
+import { MyPayslipsComponent } from './my-payslips/my-payslips.component';
 const routes: Routes = [
   {
     path: '',
@@ -19,8 +23,13 @@ const routes: Routes = [
       { path: 'calendar', component: CalendarManagerComponent },
 
       { path: 'list-events', component: EventsManagerComponent },
+      { path: 'leave-request', component: LeaveRequestManagerComponent },
+      { path: 'request-list', component: RequestListmanagerComponent },
+
+      { path: 'contracts-manager', component: ContractsmanagerComponent },
 
       { path: 'company', component: CompanymanagerComponent },
+      { path: 'my-payslips-manager', component: MyPayslipsComponent},
       {
         path: '',
         redirectTo: 'dashboard',

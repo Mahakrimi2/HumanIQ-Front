@@ -1,0 +1,108 @@
+/* Style des cartes */
+.contract-card {
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.contract-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* En-tête de carte */
+.contract-card .card-header {
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.contract-id {
+    font-size: 0.75rem;
+    color: #6c757d;
+    background: rgba(0, 0, 0, 0.05);
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+}
+
+/* Détails du contrat */
+.contract-details {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.detail-item {
+    display: flex;
+    align-items: center;
+    font-size: 0.9rem;
+}
+
+.detail-item i {
+    color: #6c757d;
+}
+
+/* Badges de statut */
+.status-badge {
+    padding: 0.35em 0.65em;
+    border-radius: 50px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.status-active {
+    background-color: rgba(40, 167, 69, 0.1);
+    color: #28a745;
+}
+
+.status-pending {
+    background-color: rgba(255, 193, 7, 0.1);
+    color: #ffc107;
+}
+
+.status-expired {
+    background-color: rgba(108, 117, 125, 0.1);
+    color: #6c757d;
+}
+
+.status-suspended {
+    background-color: rgba(220, 53, 69, 0.1);
+    color: #dc3545;
+}
+
+.status-cancelled {
+    background-color: rgba(108, 117, 125, 0.1);
+    color: #6c757d;
+}
+
+/* Animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.contract-card {
+    animation: fadeIn 0.4s ease-out forwards;
+}
+
+/* Délai d'animation pour chaque carte */
+.contract-card:nth-child(1) {
+    animation-delay: 0.1s;
+}
+
+.contract-card:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.contract-card:nth-child(3) {
+    animation-delay: 0.3s;
+}
