@@ -17,7 +17,6 @@ import { Observable } from 'rxjs';
 })
 export class EmployeesListComponent implements OnInit {
   filteredUsers: any[] = [];
-
   departments: any[] = [];
   paginatedUsers: any[] = [];
   currentPage: number = 1;
@@ -27,15 +26,13 @@ export class EmployeesListComponent implements OnInit {
   selectedUser: User | null = null;
   addUserForm!: FormGroup;
   editUserForm!: FormGroup;
-
   roles: any[] | undefined;
   selectedDepartment: string = '';
-
   searchText: string = '';
   statusFilter: 'all' | 'active' | 'inactive' = 'all';
-
   sortColumn: string = '';
   sortDirection: 'asc' | 'desc' = 'asc';
+  loading: boolean = false;
   constructor(
     private fb: FormBuilder,
     private userService: UserService,
@@ -50,7 +47,7 @@ export class EmployeesListComponent implements OnInit {
     this.loadDepartments();
     this.loadRoles();
   }
-  loading:boolean=false
+
   initAddUserForm(): void {
     this.addUserForm = this.fb.group({
       fullname: ['', Validators.required, Validators.minLength(3)],
@@ -75,9 +72,6 @@ export class EmployeesListComponent implements OnInit {
       nationalID: ['', Validators.required],
       position: ['', Validators.required],
       roles: [[], Validators.required],
-      //      password: ['', [Validators.required]],
-
-      // department: ['', Validators.required],
     });
   }
   exportToExcel(): void {
@@ -126,16 +120,15 @@ export class EmployeesListComponent implements OnInit {
 
   getAvatarColor(fullname: string): string {
     const darkColors = [
-      '#2c3e50', // Noir bleuté très foncé
-      '#34495e', // Noir bleuté foncé
-      '#2c3e50', // Bleu nuit
-      '#1a237e', // Bleu indigo foncé
-      '#0d47a1', // Bleu marine
-      '#263238', // Gris anthracite
-      '#212121', // Noir profond
-      '#311b92', // Violet très foncé
+      '#2c3e50', 
+      '#34495e', 
+      '#2c3e50', 
+      '#1a237e',
+      '#0d47a1',
+      '#263238', 
+      '#212121',
+      '#311b92', 
     ];
-
     const charCode = fullname?.charCodeAt(0) || 0;
     return darkColors[charCode % darkColors.length];
   }
@@ -159,7 +152,6 @@ export class EmployeesListComponent implements OnInit {
     this.totalItems = this.filteredUsers.length;
     this.currentPage = 1;
     this.updatePaginatedUsers();
-
     console.log('Filtered Users:', this.filteredUsers);
   }
 
@@ -184,7 +176,6 @@ export class EmployeesListComponent implements OnInit {
     if (this.sortColumn) {
       this.sortUsers();
     }
-
     this.updatePagination();
   }
 
@@ -249,29 +240,6 @@ export class EmployeesListComponent implements OnInit {
 
   ProfilImageUrl: any;
 
-  // loadUsers(): void {
-  //   this.userService.getAllUsers().subscribe({
-  //     next: (data: User[]) => {
-  //       console.log(data);
-
-  //       this.filteredUsers = data.map((user: any) => ({
-  //         ...user,
-  //         profileImageUrl:
-  //           'http://localhost:8082/api/rh/users/profileImage/' +
-  //           user.profileImagePath,
-
-  //       }
-  //       ));
-
-  //       // this.filteredUsers = [...data];
-  //       console.log('====================================');
-  //       console.log(data);
-  //       console.log('====================================');
-  //     },
-  //     error: (err: any) => console.error('Failed to load users:', err),
-  //   });
-  // }
-
   loadUsers(): void {
     this.userService.getAllUsers().subscribe({
       next: (data: User[]) => {
@@ -290,7 +258,6 @@ export class EmployeesListComponent implements OnInit {
         this.totalItems = this.filteredUsers.length;
         this.updatePaginatedUsers();
       },
-
       error: (err: any) => console.error('Failed to load users:', err),
     });
   }
@@ -469,13 +436,13 @@ export class EmployeesListComponent implements OnInit {
       return;
     }
     console.log(this.selectedid);
-this.loading=true
+    this.loading = true;
     const newUser = this.addUserForm.value;
     console.log(newUser);
     this.auth.register(newUser, this.selectedid).subscribe({
       next: (data: User) => {
         this.loadUsers();
-this.loading = false;
+        this.loading = false;
 
         Swal.fire('Success', 'User added successfully!', 'success');
         this.addUserForm.reset();

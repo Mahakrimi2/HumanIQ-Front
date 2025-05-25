@@ -9,9 +9,11 @@ import Swal from 'sweetalert2';
   selector: 'app-user-profil',
   templateUrl: './user-profil.component.html',
   styleUrls: ['./user-profil.component.css'],
-
 })
 export class UserProfilComponent implements OnInit {
+  currentPasswordVisible = false;
+  newPasswordVisible = false;
+  renewPasswordVisible = false;
   copyobj() {
     this.edituser.id = this.user.id;
     this.edituser.fullname = this.user.fullname;
@@ -40,7 +42,7 @@ export class UserProfilComponent implements OnInit {
   constructor(
     private userService: UserService,
     private avatarService: AvatarService
-  ) { }
+  ) {}
   ngOnInit(): void {
     this.uploadProfileImage();
     this.loadUserProfile();
@@ -192,8 +194,10 @@ export class UserProfilComponent implements OnInit {
     return this.avatarService.getAvatarColor(this.user?.fullname || '');
   }
   generateAndSaveAvatar(): void {
-    const avatarInfo = this.avatarService.generateAvatar(this.user?.fullname || '');
-  
+    const avatarInfo = this.avatarService.generateAvatar(
+      this.user?.fullname || ''
+    );
+
     const canvas = document.createElement('canvas');
     canvas.width = 200;
     canvas.height = 200;
@@ -205,20 +209,38 @@ export class UserProfilComponent implements OnInit {
       ctx.beginPath();
       ctx.arc(100, 100, 100, 0, Math.PI * 2);
       ctx.fill();
-  
+
       ctx.font = 'bold 80px Arial';
       ctx.fillStyle = '#FFFFFF';
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
       ctx.fillText(avatarInfo.initial, 100, 100);
-  
-      canvas.toBlob(blob => {
+
+      canvas.toBlob((blob) => {
         if (blob) {
-          const avatarFile = new File([blob], 'avatar.png', { type: 'image/png' });
+          const avatarFile = new File([blob], 'avatar.png', {
+            type: 'image/png',
+          });
           this.selectedFile = avatarFile;
           this.uploadProfileImage();
         }
       }, 'image/png');
     }
   }
+
+  togglePasswordVisibility(field: string) {
+    switch (field) {
+      case 'current':
+        this.currentPasswordVisible = !this.currentPasswordVisible;
+        break;
+      case 'new':
+        this.newPasswordVisible = !this.newPasswordVisible;
+        break;
+      case 'renew':
+        this.renewPasswordVisible = !this.renewPasswordVisible;
+        break;
+    }
+  }
 }
+
+ 

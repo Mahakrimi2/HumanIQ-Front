@@ -15,10 +15,13 @@
               <table class="table table-hover align-middle">
                 <thead class="table-light">
                   <tr>
+
+                    <th class="ps-3 py-3">User</th>
                     <th class="ps-3 py-3">Type</th>
                     <th class="py-3">Leave from</th>
                     <th class="py-3 text-center">Duration</th>
                     <th class="py-3">Status</th>
+                    <th class="py-3">Justification</th> <!-- Nouvelle colonne -->
                     <th class="py-3">User</th>
                     <th class="py-3 text-center">Leave Balance</th>
                     <th class="pe-3 py-3 text-end">Actions</th>
@@ -26,6 +29,7 @@
                 </thead>
                 <tbody>
                   <tr *ngFor="let request of leaveRequests">
+                    <td class="py-2 align-middle">{{ request.user?.fullname }}</td>
                     <td class="ps-3 py-2 align-middle">{{ request.type }}</td>
                     <td class="py-2 align-middle">{{ request.startDate | date }}</td>
                     <td class="py-2 align-middle text-center">{{ request.duration }} days</td>
@@ -37,6 +41,21 @@
                       }">
                         {{ request.status }}
                       </span>
+                    </td>
+                   
+                    <td class="py-2 align-middle">
+                      <!-- Afficher le certificat s'il existe -->
+                      <ng-container *ngIf="request.ficher">
+                        <a [href]="getFileUrl(request)" 
+                           target="_blank" 
+                           class="btn btn-sm btn-outline-primary">
+                          <i class="fa-solid me-1" [ngClass]="{
+                            'fa-file-pdf': isPdfFile(request.ficher),
+                            'fa-file-image': !isPdfFile(request.ficher)
+                          }"></i> View
+                        </a>
+                      </ng-container>
+                      <span *ngIf="!request.ficher" class="text-muted">No file</span>
                     </td>
                     <td class="py-2 align-middle">{{ request.user?.fullname || "N/A" }}</td>
                     <td class="py-2 align-middle text-center">{{ request.user?.leave_balance || "N/A" }}</td>

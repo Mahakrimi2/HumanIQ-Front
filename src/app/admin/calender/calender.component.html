@@ -10,7 +10,7 @@
     <!-- Modal pour afficher les détails -->
 <!-- Modal pour afficher les détails -->
 <!-- Modal pour afficher les détails de l'événement -->
-<div *ngIf="isModalOpen" class="modal-overlay">
+<!-- <div *ngIf="isModalOpen" class="modal-overlay">
   <div class="modal-content">
     <div class="modal-header">
       <h2>{{ selectedEvent?.title }}</h2>
@@ -18,7 +18,7 @@
     </div>
     
     <div class="modal-body">
-      <!-- Date et heure de début -->
+ 
       <div class="modal-row">
         <i class="bi bi-calendar-event"></i>
         <div>
@@ -28,7 +28,7 @@
       </div>
       
     
-      <!-- Description -->
+     
       <div class="modal-row" *ngIf="selectedEvent?.description">
         <i class="bi bi-card-text"></i>
         <div>
@@ -36,8 +36,7 @@
           <p>{{ selectedEvent?.description }}</p>
         </div>
       </div>
-      
-      <!-- Lieu -->
+   
       <div class="modal-row" *ngIf="selectedEvent?.location">
         <i class="bi bi-geo-alt"></i>
         <div>
@@ -51,4 +50,4 @@
       <button class="btn btn-primary" (click)="closeModal()">Fermer</button>
     </div>
   </div>
-</div>
+</div> -->

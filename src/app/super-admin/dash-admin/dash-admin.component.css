@@ -61,7 +61,38 @@
     color: #1e293b;
     margin: 0;
 }
+.btn-export {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-left: auto;
+    /* Pour aligner à droite */
+}
 
+.btn-export:hover {
+    background-color: #c0392b;
+}
+
+.dashboard-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 20px; }
+
+        @media print {
+            .no-print {
+                display: none !important;
+            }
+    
+            body {
+                background: white !important;
+                color: black !important;
+            }     }
 /* Section Titles */
 .section-title {
     font-size: 1.5rem;

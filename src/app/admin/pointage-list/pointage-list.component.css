@@ -100,3 +100,50 @@ tr:hover {
         display: flex;
 
         }}
+
+
+/* Dans votre fichier CSS */
+.fc-event {
+    border-radius: 3px;
+    padding: 2px 4px;
+    margin: 1px;
+    font-size: 0.85em;
+}
+
+.fc-event-absent {
+    background-color: #ffcc00;
+    border-color: #ffaa00;
+    color: #000;
+}
+
+.fc-event-weekend {
+    background-color: #6c757d;
+    border-color: #5a6268;
+    color: #fff;
+}
+
+.fc-daygrid-event {
+    margin-top: 1px;
+}
+
+.fc-daygrid-day-frame {
+    min-height: 60px; }
+    .fc-event-absent {
+        background-color: #ffcc00 !important;
+        opacity: 0.6;
+        border: 1px dashed #cc9900;
+        color: #333;
+        font-weight: bold;
+        text-align: center;
+    }
+    
+    .fc-event-weekend {
+        background-color: #6c757d !important;
+        opacity: 0.4;
+        color: #fff;
+        font-style: italic;
+        text-align: center;
+    }
+    
+    .fc-daygrid-day {
+        min-height: 80px;     }

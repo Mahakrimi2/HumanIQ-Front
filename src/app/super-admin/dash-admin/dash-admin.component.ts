@@ -6,6 +6,8 @@ import { Chart, ChartConfiguration, ChartType, registerables } from 'chart.js';
 import { ProjectServiceService } from 'src/app/services/project-service.service';
 import { WeatherService } from 'src/app/services/weather.service';
 import { ContractService } from 'src/app/services/contract.service';
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
 
 @Component({
   selector: 'app-dash-admin',
@@ -13,9 +15,7 @@ import { ContractService } from 'src/app/services/contract.service';
   styleUrls: ['./dash-admin.component.css'],
 })
 export class DashAdminComponent implements OnInit {
-  
-
-  contractStats: any = {}; 
+  contractStats: any = {};
   loading = false;
   error = '';
   activeContracts: number = 0;
@@ -225,7 +225,7 @@ export class DashAdminComponent implements OnInit {
         const departmentNames: string[] = [];
         const employeeCounts: number[] = [];
         departments.forEach((department) => {
-          departmentNames.push(department.name); 
+          departmentNames.push(department.name);
           employeeCounts.push(department.users?.length || 0);
           console.log('====================================');
           console.log(employeeCounts);
@@ -389,7 +389,7 @@ export class DashAdminComponent implements OnInit {
     this.contractService.getAllstatus().subscribe({
       next: (response) => {
         console.log('====================================');
-        console.log("contracts:",response);
+        console.log('contracts:', response);
         console.log('====================================');
         this.contractStats = response;
         this.loading = false;
@@ -439,5 +439,55 @@ export class DashAdminComponent implements OnInit {
       PENDING: 'pending',
     };
     return classes[status] || '';
+  }
+
+  exportDashboardAsPDF(): void {
+    const dashboardElement = document.getElementById('main') as HTMLElement;
+
+    // Options pour html2canvas
+    const options = {
+      scale: 2, // Augmente la qualité
+      useCORS: true, // Pour les images externes
+      allowTaint: true,
+      logging: true,
+    };
+
+    // Afficher un loader pendant la génération
+    this.loading = true;
+
+    html2canvas(dashboardElement, options)
+      .then((canvas) => {
+        const imgData = canvas.toDataURL('image/png');
+        const pdf = new jsPDF('p', 'mm', 'a4');
+        const imgWidth = 210; // A4 width in mm
+        const pageHeight = 295; // A4 height in mm
+        const imgHeight = (canvas.height * imgWidth) / canvas.width;
+        let heightLeft = imgHeight;
+        let position = 0;
+
+        pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+        heightLeft -= pageHeight;
+
+        // Ajouter des pages supplémentaires si nécessaire
+        while (heightLeft >= 0) {
+          position = heightLeft - imgHeight;
+          pdf.addPage();
+          pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+          heightLeft -= pageHeight;
+        }
+
+        // Générer le nom du fichier avec la date
+        const fileName = `Dashboard_Export_${new Date()
+          .toISOString()
+          .slice(0, 10)}.pdf`;
+
+        // Télécharger le PDF
+        pdf.save(fileName);
+        this.loading = false;
+      })
+      .catch((error) => {
+        console.error('Erreur lors de la génération du PDF:', error);
+        this.loading = false;
+      });
   }
 }

@@ -26,11 +26,7 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {
-    // if (this.authService.isLoggedIn()) {
-    //   this.router.navigate(['/superAdmin/dashboard']);
-
-  }
+  ngOnInit(): void {}
 
   get isSuperAdmin(): boolean {
     return this.userRole === 'ROLE_SUPERADMIN';
@@ -54,24 +50,21 @@ export class LoginComponent implements OnInit {
           this.loading = false;
           localStorage.setItem('token', response.token);
           console.log('token:', response.token);
-this.userRole = this.authService.getRole();
+          this.userRole = this.authService.getRole();
 
-
-if (this.userRole === 'ROLE_SUPERADMIN') {
-  this.router.navigate(['/superAdmin/dashboard']);
-} else if (this.userRole === 'ROLE_MANAGER') {
-  this.router.navigate(['/manager/projects-list']);
-} else if (this.userRole === 'ROLE_RH') {
-  this.router.navigate(['/admin/list-employees']);
-  
-} else if (this.userRole === 'ROLE_EMPLOYEE') {
-  this.router.navigate(['/employee/emp-pointage']);
-} else {
-  // Redirection par défaut si le rôle n'est pas reconnu
-  this.router.navigate(['/default/dashboard']);
-}
-       
- },
+          if (this.userRole === 'ROLE_SUPERADMIN') {
+            this.router.navigate(['/superAdmin/dashboard']);
+          } else if (this.userRole === 'ROLE_MANAGER') {
+            this.router.navigate(['/manager/projects-list']);
+          } else if (this.userRole === 'ROLE_RH') {
+            this.router.navigate(['/admin/list-employees']);
+          } else if (this.userRole === 'ROLE_EMPLOYEE') {
+            this.router.navigate(['/employee/emp-pointage']);
+          } else {
+        
+            this.router.navigate(['/default/dashboard']);
+          }
+        },
         error: (error) => {
           console.error('Erreur de connexion:', error);
           this.loading = false;

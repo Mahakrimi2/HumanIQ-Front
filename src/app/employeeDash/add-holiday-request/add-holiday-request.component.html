@@ -3,80 +3,107 @@
 <main id="main" class="main">
   <div class="pagetitle">
     <div class="d-flex justify-content-between align-items-center">
-      <h1>Holiday Request</h1>
+      <h1 class="page-title">Holiday Request</h1>
     </div>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/">Home</a></li>
+        <li class="breadcrumb-item active">Holiday Request</li>
+      </ol>
+    </nav>
   </div>
+  
   <div class="container-fluid">
-    <div class="row">
-      <!-- Main Content -->
+    <div class="row justify-content-center">
       <div class="col-lg-10">
-        <div class="card">
+        <div class="card form-card">
+          <div class="card-header text-white">
+            <h5 class="card-title mb-0">Request Form</h5>
+          </div>
           <div class="card-body">
             <form [formGroup]="holidayRequestForm" (ngSubmit)="onSubmit()">
+              
               <!-- Leave Type -->
-              <div class="row mb-3">
-                <label for="type" class="col-sm-2 col-form-label">Leave Type</label>
-                <div class="col-sm-10">
-                  <select class="form-select" formControlName="type">
+              <div class="row mb-4">
+                <label for="type" class="col-sm-3 col-form-label fw-bold">Leave Type</label>
+                <div class="col-sm-9">
+                  <select class="form-select form-select-lg" formControlName="type">
                     <option value="">Select a type</option>
                     <option *ngFor="let type of holidayTypes" [value]="type">{{ type }}</option>
                   </select>
-                  <div *ngIf="holidayRequestForm.get('type')?.invalid && holidayRequestForm.get('type')?.touched" class="text-danger">
-                    Leave type is required.
+                  <div *ngIf="holidayRequestForm.get('type')?.invalid && holidayRequestForm.get('type')?.touched" 
+                       class="invalid-feedback d-block">
+                    <i class="bi bi-exclamation-circle me-2"></i>Leave type is required.
                   </div>
                 </div>
               </div>
 
               <!-- Start Date -->
-              <div class="row mb-3">
-                <label for="startDate" class="col-sm-2 col-form-label">Start Date</label>
-                <div class="col-sm-10">
-                  <input type="date" class="form-control" formControlName="startDate">
-                  <div *ngIf="holidayRequestForm.get('startDate')?.invalid && holidayRequestForm.get('startDate')?.touched" class="text-danger">
-                    Start date is required.
+              <div class="row mb-4">
+                <label for="startDate" class="col-sm-3 col-form-label fw-bold">Start Date</label>
+                <div class="col-sm-9">
+                  <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-calendar-date"></i></span>
+                    <input type="date" class="form-control form-control-lg" formControlName="startDate">
+                  </div>
+                  <div *ngIf="holidayRequestForm.get('startDate')?.invalid && holidayRequestForm.get('startDate')?.touched" 
+                       class="invalid-feedback d-block">
+                    <i class="bi bi-exclamation-circle me-2"></i>Start date is required.
                   </div>
                 </div>
               </div>
 
               <!-- Duration -->
-              <div class="row mb-3">
-                <label for="duration" class="col-sm-2 col-form-label">Duration (days)</label>
-                <div class="col-sm-10">
-                  <input type="number" class="form-control" formControlName="duration">
-                  <div *ngIf="holidayRequestForm.get('duration')?.invalid && holidayRequestForm.get('duration')?.touched" class="text-danger">
-                    Duration must be at least 1 day.
+              <div class="row mb-4">
+                <label for="duration" class="col-sm-3 col-form-label fw-bold">Duration (days)</label>
+                <div class="col-sm-9">
+                  <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-clock"></i></span>
+                    <input type="number" class="form-control form-control-lg" formControlName="duration" min="1">
+                  </div>
+                  <div *ngIf="holidayRequestForm.get('duration')?.invalid && holidayRequestForm.get('duration')?.touched" 
+                       class="invalid-feedback d-block">
+                    <i class="bi bi-exclamation-circle me-2"></i>Duration must be at least 1 day.
                   </div>
                 </div>
               </div>
 
               <!-- Reason -->
-              <div class="row mb-3">
-                <label for="reason" class="col-sm-2 col-form-label">Reason</label>
-                <div class="col-sm-10">
-                  <textarea class="form-control" formControlName="reason" rows="3"></textarea>
-                  <div *ngIf="holidayRequestForm.get('reason')?.invalid && holidayRequestForm.get('reason')?.touched" class="text-danger">
-                    Reason is required.
+              <div class="row mb-4">
+                <label for="reason" class="col-sm-3 col-form-label fw-bold">Reason</label>
+                <div class="col-sm-9">
+                  <textarea class="form-control form-control-lg" formControlName="reason" rows="4" placeholder="Please provide details..."></textarea>
+                  <div *ngIf="holidayRequestForm.get('reason')?.invalid && holidayRequestForm.get('reason')?.touched" 
+                       class="invalid-feedback d-block">
+                    <i class="bi bi-exclamation-circle me-2"></i>Reason is required.
                   </div>
                 </div>
               </div>
 
-             <div class="row mb-3" *ngIf="showCertificate">
-  <label for="file" class="col-sm-2 col-form-label">Certificate</label>
-  <div class="col-sm-10">
-    <input type="file" class="form-control" (change)="onFileChange($event)" formControlName="file" required>
-    <div *ngIf="showCertificate && holidayRequestForm.get('file')?.invalid && holidayRequestForm.get('file')?.touched" class="text-danger">
-      Medical certificate is required for sick leave.
-    </div>
-  </div>
-</div>
-    <div class="row mb-3">
-  <div class="col-sm-10 offset-sm-2">
-    <button type="submit" class="btn btn-primary" 
-            [disabled]="holidayRequestForm.invalid || (showCertificate && !holidayRequestForm.get('file')?.value)">
-      Submit
-    </button>
-  </div>
-</div>
+              <!-- Certificate -->
+              <div class="row mb-4" *ngIf="showCertificate">
+                <label for="file" class="col-sm-3 col-form-label fw-bold">Certificate</label>
+                <div class="col-sm-9">
+                  <div class="file-upload-wrapper">
+                    <input type="file" class="form-control form-control-lg" (change)="onFileChange($event)" formControlName="file" required>
+                    <small class="form-text text-muted">Only PDF, JPG, or PNG files (max 5MB)</small>
+                  </div>
+                  <div *ngIf="showCertificate && holidayRequestForm.get('file')?.invalid && holidayRequestForm.get('file')?.touched" 
+                       class="invalid-feedback d-block">
+                    <i class="bi bi-exclamation-circle me-2"></i>Medical certificate is required for sick leave.
+                  </div>
+                </div>
+              </div>
+
+              <!-- Submit Button -->
+              <div class="row mt-5">
+                <div class="col-sm-9 offset-sm-3">
+                  <button type="submit" class="btn btn-primary btn-lg px-5 py-2" 
+                          [disabled]="holidayRequestForm.invalid || (showCertificate && !holidayRequestForm.get('file')?.value)">
+                    <i class="bi bi-send me-2"></i>Submit Request
+                  </button>
+                </div>
+              </div>
             </form>
           </div>
         </div>

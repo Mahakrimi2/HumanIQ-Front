@@ -127,7 +127,7 @@ a:hover {
 
 /* Animation de rotation */
 /* Animation de rebond */
-@keyframes bounce {
+/* @keyframes bounce {
 
     0%,
     100% {
@@ -142,4 +142,3 @@ a:hover {
 .logo-animation {
     animation: bounce 2s ease-in-out infinite;
     /* Rebond continu */
-}

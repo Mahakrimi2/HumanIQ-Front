@@ -4,11 +4,10 @@
       <div class="container">
         <div class="row justify-content-center">
           <div class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
-            
+             
             <div class="d-flex justify-content-center py-4">
               <img src="assets/img/logo.png" alt="" class="d-lg logo-animation" width="200px">
-            </div><!-- End Logo -->
-
+            </div>
             <div class="card mb-3">
               <div class="card-body">
                 <div class="pt-4 pb-2">
@@ -55,29 +54,20 @@
                       Please enter your password.
                     </div>
                   </div>
-
-              
-
-                  <!-- Submit button -->
                   <div class="col-12">
                     <button class="btn btn-primary w-100" type="submit" [disabled]="loading">
                       {{ loading ? 'Logging in...' : 'Login' }}
                     </button>
                   </div>
-
-                  <!-- Links to Register and Forgot Password -->
                   <div class="col-12">
                     <p class="small mb-0">Forgot your password? <a href="javascript:void(0);" (click)="goToForgotPWD()">Reset password</a></p>
                   </div>
-
                 </form>
               </div>
             </div>
-
             <div class="credits">
               Designed by <a href="#">HumanIQ</a>
             </div>
-
           </div>
         </div>
       </div>

@@ -10,5 +10,6 @@ export class Contract {
   Signed!: boolean;
   status!: string;
   userId!: number;
+  
   archived!:Boolean;
 }

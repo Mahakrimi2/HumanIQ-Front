@@ -14,6 +14,8 @@ import { CalenderComponent } from './calender/calender.component';
 import { MyProjectsComponent } from './my-projects/my-projects.component';
 import { DashbaordEmpComponent } from './dashbaord-emp/dashbaord-emp.component';
 import { CompanyComponent } from './company/company.component';
+import { PayslipComponent } from '../super-admin/payslip/payslip.component';
+import { PayslipListComponent } from './payslip-list/payslip-list.component';
 
 const routes: Routes = [
   {
@@ -21,7 +23,7 @@ const routes: Routes = [
     children: [
       { path: 'dashboard', component: DashbaordEmpComponent },
 
-      { path: 'payroll', component: PayrollComponent },
+  
 
       { path: 'my-contracts', component: ContractsComponent },
 
@@ -31,6 +33,7 @@ const routes: Routes = [
       { path: 'calender', component: CalenderComponent },
       { path: 'my-projects', component: MyProjectsComponent },
       { path: 'company', component: CompanyComponent },
+      { path: 'my-payslips', component: PayslipListComponent },
       {
         path: '',
         redirectTo: 'dashboard',

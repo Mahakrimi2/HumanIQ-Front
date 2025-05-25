@@ -4,30 +4,33 @@ import { PayslipService } from 'src/app/services/payslip.service';
 import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-my-payslips',
-  templateUrl: './my-payslips.component.html',
-  styleUrls: ['./my-payslips.component.css'],
+  selector: 'app-payslip-list',
+  templateUrl: './payslip-list.component.html',
+  styleUrls: ['./payslip-list.component.css'],
 })
-export class MyPayslipsComponent implements OnInit {
+export class PayslipListComponent implements OnInit {
   payslips: any[] = [];
   loading = false;
+
+  constructor(private payslipService: PayslipService) {}
+
+  ngOnInit(): void {
+    this.loadPayslips();
+  }
   currentDate = new Date();
 
   refreshPayslips(): void {
     this.loading = true;
     this.loadPayslips();
   }
-  constructor(private payslipService: PayslipService) {}
-
-  ngOnInit(): void {
-    this.loadPayslips();
-  }
-
   loadPayslips(): void {
     this.loading = true;
     this.payslipService.getMyPayslips().subscribe(
       (data) => {
         this.payslips = data;
+        console.log('====================================');
+        console.log(data);
+        console.log('====================================');
         this.loading = false;
       },
       (error) => {
@@ -47,6 +50,9 @@ export class MyPayslipsComponent implements OnInit {
       }
     );
   }
+
+
+  
   getMonthFromFilename(filename: string): string {
     const monthNumber = filename.split('_')[1].split('.')[0];
     const date = new Date();
@@ -87,4 +93,3 @@ export class MyPayslipsComponent implements OnInit {
     });
   }
 }
-

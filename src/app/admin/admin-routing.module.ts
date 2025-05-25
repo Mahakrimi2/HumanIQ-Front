@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { NavbarComponent } from '../shared/navbar/navbar.component';
-import { AuthGuard } from '../auth/Guard/auth_guard';
+
 import { EmployeesListComponent } from './employees-list/employees-list.component';
 import { LeaveRequestComponent } from './leave-request/leave-request.component';
 import { DepartmentComponent } from './department/department.component';

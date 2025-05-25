@@ -1,4 +1,4 @@
-<app-navbar></app-navbar>
+<!-- <app-navbar></app-navbar>
 <app-sidebar></app-sidebar>
 
 <main id="main" class="main">
@@ -11,7 +11,6 @@
     </div>
   </div>
 
-  <!-- Table of contracts -->
   <section class="section">
     <div class="row">
       <div class="col-lg-12">
@@ -31,6 +30,7 @@
               <table class="table table-hover align-middle">
                 <thead class="table-light">
                   <tr>
+                    
                     <th class="py-3">Type</th>
                     <th class="py-3">Description</th>
                     <th class="py-3">Start Date</th>
@@ -47,9 +47,18 @@
                     <td class="py-2">
                       <span class="fw-medium">{{ contract.contractType }}</span>
                     </td>
-                    <td class="py-2 text-truncate" style="max-width: 200px;" title="{{ contract.description }}">
-                      {{ contract.description }}
-                    </td>
+          <td class="py-2" style="max-width: 200px;">
+  <span *ngIf="contract.description && contract.description.length > 30; else showFullDesc">
+    {{ contract.description | slice:0:30 }}...
+    <a (click)="openDescriptionPopup(contract.description)" 
+       style="color: blue; text-decoration: underline; cursor: pointer;">
+      Learn More
+    </a>
+  </span>
+  <ng-template #showFullDesc>
+    {{ contract.description || 'No description' }}
+  </ng-template>
+</td>
                     <td class="py-2">{{ contract.startDate | date:'shortDate' }}</td>
                     <td class="py-2">{{ contract.endDate | date:'shortDate' }}</td>
                     <td class="py-2 text-center">{{ contract.workingHours }}</td>
@@ -62,12 +71,10 @@
                       </a>
                     </span>
   
-  <!-- Si texte court -->
   <ng-template #showAll>
     {{ contract.benefits }}
   </ng-template>
-  
-  <!-- Popup (s'affiche quand showPopup=true) -->
+
   <div *ngIf="showPopup" class="popup-overlay">
     <div class="popup-box">
       <button (click)="closePopup()" class="close-btn">×</button>
@@ -77,10 +84,20 @@
     </div>
   </div>
   </td>   
+
+  
+<div *ngIf="showDescriptionPopup" class="description-popup-overlay">
+  <div class="description-popup-box">
+    <button (click)="closePopup()" class="close-btn">×</button>
+    <div class="description-popup-content">
+      {{ popupDescriptionText }}
+    </div>
+  </div>
+</div>
               <td class="py-2 text-end">{{ contract.salary | number }} DT</td>
                   <td>
   <span class="status-badge" [ngClass]="{
-    'active': contract.status === 'active',
+    'active': contract.status === 'ACTIVE',
     'pending': contract.status === 'PENDING',
     'expired': contract.status === 'EXPIRED',
     'terminated': contract.status === 'TERMINATED',
@@ -117,7 +134,6 @@
               </tbody>
             </table>
 
-           <!-- Modal pour afficher les avantages complets -->
 <div class="modal fade" #benefitsModal tabindex="-1" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -138,7 +154,167 @@
     </div>
   </section>
 
-
+ -->
+ <app-navbar></app-navbar>
+ <app-sidebar></app-sidebar>
+ 
+ <main id="main" class="main">
+   <div class="pagetitle">
+     <div class="d-flex justify-content-between align-items-center">
+       <h1>Contracts List</h1>
+       <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addContractModal">
+         <i class="fa-solid fa-plus"></i> Add Contract
+       </button>
+     </div>
+   </div>
+ 
+   <!-- Cards Display -->
+   <section class="section">
+     <div class="row">
+       <div class="col-lg-12">
+         <div class="card">
+           <div class="card-body">
+             <div class="mb-3">
+               <input
+                 type="text"
+                 class="form-control"
+                 placeholder="Search by Contract Type"
+                 [(ngModel)]="searchText"
+                 (keyup)="filterContracts($event)"
+                 aria-label="Search"
+               />
+             </div>
+ 
+             <div class="row g-3">
+               <!-- Contract Card -->
+               <div *ngFor="let contract of filteredContracts" class="col-md-6 col-lg-4">
+                 <div class="card contract-card h-100">
+                   <div class="card-header">
+                     <h5 class="card-title mb-0">{{ contract.contractType }}</h5>
+                   </div>
+                   <div class="card-body">
+                     <div class="contract-info">
+                       <div class="info-item">
+                         <span class="info-label">Description:</span>
+                         <span *ngIf="contract.description && contract.description.length > 30; else showFullDesc">
+                           {{ contract.description | slice:0:30 }}...
+                           <a (click)="openDescriptionPopup(contract.description)" 
+                             class="text-primary">
+                             Learn More
+                           </a>
+                         </span>
+                         <ng-template #showFullDesc>
+                           {{ contract.description || 'No description' }}
+                         </ng-template>
+                       </div>
+ 
+                       <div class="info-item">
+                         <span class="info-label">Dates:</span>
+                         {{ contract.startDate | date:'shortDate' }} - {{ contract.endDate | date:'shortDate' }}
+                       </div>
+ 
+                       <div class="info-item">
+                         <span class="info-label">Hours/Month:</span>
+                         {{ contract.workingHours }}
+                       </div>
+ 
+                       <div class="info-item">
+                         <span class="info-label">Benefits:</span>
+                         <span *ngIf="contract.benefits.length>5; else showAll">
+                           {{ contract.benefits | slice:0:50 }}...
+                           <a (click)="openPopup(contract.benefits)" 
+                             class="text-primary">
+                             Learn More
+                           </a>
+                         </span>
+                         <ng-template #showAll>
+                           {{ contract.benefits }}
+                         </ng-template>
+                       </div>
+ 
+                       <div class="info-item">
+                         <span class="info-label">Salary:</span>
+                         {{ contract.salary | number }} DT
+                       </div>
+ 
+                       <div class="info-item">
+                         <span class="info-label">Status:</span>
+                         <span class="status-badge" [ngClass]="{
+                           'active': contract.status === 'ACTIVE',
+                           'pending': contract.status === 'PENDING',
+                           'expired': contract.status === 'EXPIRED',
+                           'terminated': contract.status === 'TERMINATED',
+                           'suspended': contract.status === 'SUSPENDED',
+                           'cancelled': contract.status === 'CANCELLED'
+                         }">
+                           {{ contract.status }}
+                         </span>
+                       </div>
+                     </div>
+                   </div>
+                   <div class="card-footer bg-transparent">
+                     <div class="d-flex justify-content-end">
+                       <i class="fa-solid fa-pen-to-square text-primary me-3"
+                          style="cursor: pointer;"
+                          data-bs-toggle="modal"
+                          data-bs-target="#editContractModal"
+                          (click)="loadContractForEdit(contract)">
+                       </i>
+                       
+                       <i class="fa-solid fa-trash text-danger me-3"
+                          style="cursor: pointer;"
+                          (click)="deleteContract(contract.id)">
+                       </i>
+                       
+                       <i class="fa-solid fa-print text-info"
+                          style="cursor: pointer;"
+                          (click)="downloadContract(contract.id)">
+                       </i>
+                     </div>
+                   </div>
+                 </div>
+               </div>
+             </div>
+           </div>
+         </div>
+       </div>
+     </div>
+   </section>
+ 
+   <!-- Popups (conservés tels quels) -->
+   <div *ngIf="showPopup" class="popup-overlay">
+     <div class="popup-box">
+       <button (click)="closePopup()" class="close-btn">×</button>
+       <div class="popup-content">
+         {{ popupText }}
+       </div>
+     </div>
+   </div>
+ 
+   <div *ngIf="showDescriptionPopup" class="description-popup-overlay">
+     <div class="description-popup-box">
+       <button (click)="closePopup()" class="close-btn">×</button>
+       <div class="description-popup-content">
+         {{ popupDescriptionText }}
+       </div>
+     </div>
+   </div>
+ 
+   <div class="modal fade" #benefitsModal tabindex="-1" aria-hidden="true">
+     <div class="modal-dialog">
+       <div class="modal-content">
+         <div class="modal-header">
+           <h5 class="modal-title">Full Benefits</h5>
+           <button type="button" class="btn-close" (click)="hideModal()"></button>
+         </div>
+         <div class="modal-body">
+           {{ fullBenefits }}
+         </div>
+       </div>
+     </div>
+   </div>
+ </main>
+ 
 
   
 <div class="modal" id="addContractModal" tabindex="-1" aria-labelledby="addContractModalLabel" >
@@ -249,7 +425,7 @@
 </div>
 
   <!-- Edit Contract Modal -->
-  <div class="modal fade" id="editContractModal" tabindex="-1" aria-labelledby="editContractModalLabel" aria-hidden="true" >
+  <div class="modal" id="editContractModal" tabindex="-1" aria-labelledby="editContractModalLabel"  >
     <div class="modal-dialog modal-dialog-centered modal-lg">
       <div class="modal-content shadow-lg rounded-4 border-0">
         <div class="modal-header bg-gradient-to-r from-primary to-secondary text-black">
@@ -328,4 +504,3 @@
       </div>
     </div>
   </div>
-</main>

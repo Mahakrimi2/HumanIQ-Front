@@ -2,93 +2,147 @@
 <app-sidebar></app-sidebar>
 
 <main id="main" class="main">
-  <div class="container mt-4">
-    <h2>Event List</h2>
-    
-  
-<button class="btn btn-primary" (click)="openCreateEventModal()">
-  <i class="bi bi-plus-circle me-2"></i>
-  Create New Event
-</button>
-    <div class="row">
-      <div *ngFor="let event of events" class="col-md-6 mb-4">
-        <div class="card">
+  <div class="container-fluid py-4">
+    <!-- Header Section -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h2 class="mb-0">Event Management</h2>
+      <button class="btn btn-primary" (click)="openCreateEventModal()">
+        <i class="bi bi-plus-circle me-2"></i>
+        Create New Event
+      </button>
+    </div>
+
+    <!-- Events Grid -->
+    <div class="row g-4">
+      <div *ngFor="let event of events" class="col-md-6 col-lg-4">
+        <div class="card h-100 shadow-sm border-0">
           <div class="card-body">
-            <h5 class="card-title">{{ event.title }}</h5>
-            <h6 class="card-subtitle mb-2 text-muted">
-              {{ event.startDateTime | date:'medium' }}
-              <span *ngIf="event.endDateTime"> - {{ event.endDateTime | date:'shortTime' }}</span>
-            </h6>
-            <p class="card-text">{{ event.description }}</p>
-            <p>
+            <div class="d-flex justify-content-between align-items-start mb-2">
+              <h5 class="card-title mb-0">{{ event.title }}</h5>
               <span class="badge" [ngClass]="{
                 'bg-primary': event.type === 'ONLINE',
                 'bg-success': event.type === 'IN_PERSON',
-                'bg-warning': event.type === 'HYBRID'
+                'bg-warning text-dark': event.type === 'HYBRID'
               }">
-                {{ event.type }}
+                {{ event.type.replace('_', ' ') }}
               </span>
-            </p>
+            </div>
+            
+            <div class="d-flex align-items-center text-muted mb-3">
+              <i class="bi bi-calendar-event me-2"></i>
+              <small>
+                {{ event.startDateTime | date:'mediumDate' }}
+                <span *ngIf="event.endDateTime"> 
+                  - {{ event.endDateTime | date:'mediumDate' }}
+                </span>
+              </small>
+            </div>
+            
+            <div class="d-flex align-items-center text-muted mb-3">
+              <i class="bi bi-clock me-2"></i>
+              <small>
+                {{ event.startDateTime | date:'shortTime' }}
+                <span *ngIf="event.endDateTime"> 
+                  - {{ event.endDateTime | date:'shortTime' }}
+                </span>
+              </small>
+            </div>
+            
+            <div class="d-flex align-items-center text-muted mb-3">
+              <i class="bi" 
+                 [class.bi-link-45deg]="event.type === 'ONLINE'"
+                 [class.bi-geo-alt]="event.type !== 'ONLINE'"
+                 class="me-2"></i>
+              <small>{{ event.location }}</small>
+            </div>
+            
+            <p class="card-text text-truncate-3">{{ event.description }}</p>
+          </div>
+          <div class="card-footer bg-transparent border-top-0">
+            <button class="btn btn-sm btn-outline-primary me-2">
+              <i class="bi bi-pencil-square"></i> Edit
+            </button>
+            <button class="btn btn-sm btn-outline-danger">
+              <i class="bi bi-trash"></i> Delete
+            </button>
           </div>
         </div>
       </div>
     </div>
+
+    <!-- Empty State -->
+    <div *ngIf="events.length === 0" class="text-center py-5">
+      <i class="bi bi-calendar-x text-muted" style="font-size: 3rem;"></i>
+      <h4 class="my-3">No Events Found</h4>
+      <p class="text-muted">Click the "Create New Event" button to add your first event</p>
+      <button class="btn btn-primary" (click)="openCreateEventModal()">
+        <i class="bi bi-plus-circle me-2"></i>
+        Create Event
+      </button>
+    </div>
   </div>
 
-
-  <div class="modal-backdrop fade" [class.show]="showModal" (click)="closeModal()"></div>
-
-<div class="modal fade" [class.show]="showModal" [style.display]="showModal ? 'block' : 'none'" (click)="$event.stopPropagation()">
-  <div class="modal-dialog modal-lg" (click)="$event.stopPropagation()">
-    <div class="modal-content">
-        <div class="modal-header">
+  <!-- Create Event Modal -->
+  <div class="modal fade" [class.show]="showModal" [style.display]="showModal ? 'block' : 'none'">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content border-0 shadow">
+        <div class="modal-header bg-primary text-white">
           <h5 class="modal-title">Create New Event</h5>
-          <button type="button" class="btn-close" (click)="closeModal()" aria-label="Close"></button>
+          <button type="button" class="btn-close btn-close-white" (click)="closeModal()" aria-label="Close"></button>
         </div>
         <div class="modal-body">
           <form [formGroup]="eventForm" (ngSubmit)="onSubmit()">
-            <div class="mb-3">
-              <label class="form-label">Title*</label>
-              <input type="text" class="form-control" formControlName="title" required>
+            <div class="mb-4">
+              <label class="form-label fw-bold">Title*</label>
+              <input type="text" class="form-control form-control-lg" formControlName="title" required>
             </div>
 
-            <div class="row mb-3">
-              <div class="col-md-6">
-                <label class="form-label">Start Date & Time*</label>
+            <div class="row mb-4">
+              <div class="col-md-6 mb-3 mb-md-0">
+                <label class="form-label fw-bold">Start Date & Time*</label>
                 <input type="datetime-local" class="form-control" formControlName="startDateTime" required>
               </div>
               <div class="col-md-6">
-                <label class="form-label">End Date & Time</label>
+                <label class="form-label fw-bold">End Date & Time</label>
                 <input type="datetime-local" class="form-control" formControlName="endDateTime">
               </div>
             </div>
 
-            <div class="mb-3">
-              <label class="form-label">Location/URL*</label>
+            <div class="mb-4">
+              <label class="form-label fw-bold">Location/URL*</label>
               <input type="text" class="form-control" formControlName="location" required>
             </div>
 
-            <div class="mb-3">
-              <label class="form-label">Event Type*</label>
+            <div class="mb-4">
+              <label class="form-label fw-bold">Event Type*</label>
               <select class="form-select" formControlName="type" required>
+                <option value="" disabled selected>Select event type...</option>
                 <option value="ONLINE">Online</option>
                 <option value="IN_PERSON">In Person</option>
                 <option value="HYBRID">Hybrid</option>
               </select>
             </div>
 
-            <div class="mb-3">
-              <label class="form-label">Description</label>
-              <textarea class="form-control" formControlName="description" rows="3"></textarea>
+            <div class="mb-4">
+              <label class="form-label fw-bold">Description</label>
+              <textarea class="form-control" formControlName="description" rows="4" 
+                        placeholder="Add event details..."></textarea>
             </div>
 
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" (click)="closeModal()">Cancel</button>
-              <button type="submit" class="btn btn-primary" [disabled]="eventForm.invalid">Create Event</button>
+            <div class="modal-footer border-top-0">
+              <button type="button" class="btn btn-outline-secondary" (click)="closeModal()">Cancel</button>
+              <button type="submit" class="btn btn-primary px-4" [disabled]="eventForm.invalid">
+                <i class="bi bi-check-circle me-2"></i> Create Event
+              </button>
             </div>
           </form>
         </div>
       </div>
     </div>
   </div>
+
+  
+
+  <!-- Modal Backdrop -->
+  <div class="modal-backdrop fade" [class.show]="showModal" (click)="closeModal()"></div>
 </main>

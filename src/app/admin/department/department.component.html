@@ -2,170 +2,215 @@
 <app-sidebar></app-sidebar>
 
 <main id="main" class="main">
-  <div class="pagetitle d-flex justify-content-between align-items-center">
-    <h1>Departments List</h1>
-    <button class="btn btn-success" (click)="openAddDepartmentModal()">
-      <i class="fa-solid fa-plus"></i> Add Department
-    </button>
-  </div>
-  <section class="section">
-    <div class="row">
-      <div class="col-lg-12">
-        <div class="card">
-          <div class="card-body">
-            <table class="table datatable">
-              <thead>
-                <tr>
-                  <th>Department Name</th>
-                  <th>Head of Department</th>
-                  <th>Total Employees</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let department of departments">
-                  <td>{{ department.name }}</td>
-                 <td>{{ department.responsableDep?.fullname || 'No responsable' }}</td>
-                  <td>{{ department.totalEmployees }}</td>
-                  <td>
-<button class="btn btn-primary" (click)="openEditDepartmentModal(department)">
-  <i class="fa-solid fa-pen-to-square"></i> Edit
-</button>
+  <div class="container-fluid">
+    <!-- Page Title and Add Button -->
+    <div class="pagetitle d-flex justify-content-between align-items-center mb-4">
+      <div>
+        <h1 class="fw-bold text-dark">Departments Management</h1>
+        <nav>
+          <ol class="breadcrumb">
+     
+            <li class="breadcrumb-item active">Departments</li>
+          </ol>
+        </nav>
+      </div>
+      <button class="btn btn-success btn-lg" (click)="openAddDepartmentModal()">
+        <i class="bi bi-plus-circle me-2"></i>Add Department
+      </button>
+    </div>
 
-                       <button class="btn btn-primary" (click)="copyUsers(department.users!)">
-                      Voir Employee
-                    </button>
-                    <i class="fa-solid fa-trash text-danger ms-2" 
-                       style="cursor: pointer" 
-                       (click)="deleteDepartment(department.id!)"
-                      >
-                    </i>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+    <!-- Departments Table Section -->
+    <section class="section">
+      <div class="row">
+        <div class="col-12">
+          <div class="card shadow-sm border-0">
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-hover datatable">
+                  <thead class="table-light">
+                    <tr>
+                      <th class="py-3">Department Name</th>
+                      <th class="py-3">Head of Department</th>
+                      <th class="py-3 text-center">Total Employees</th>
+                      <th class="py-3 text-end">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let department of departments" class="align-middle">
+                      <td class="fw-semibold">{{ department.name }}</td>
+                      <td>
+                        <span class="badge bg-info bg-opacity-10 text-info" *ngIf="department.responsableDep?.fullname">
+                          {{ department.responsableDep?.fullname }}
+                        </span>
+                        <span class="badge bg-secondary bg-opacity-10 text-secondary" *ngIf="!department.responsableDep?.fullname">
+                          No responsable
+                        </span>
+                      </td>
+                      <td class="text-center">
+                        <span class="badge bg-primary rounded-pill">{{ department.totalEmployees }}</span>
+                      </td>
+                      <td class="text-end">
+                        <div class="d-flex justify-content-end gap-2">
+                          <button class="btn btn-sm btn-outline-primary" (click)="openEditDepartmentModal(department)">
+                            <i class="bi bi-pencil-square me-1"></i>Edit
+                          </button>
+                          <button class="btn btn-sm btn-outline-secondary" (click)="copyUsers(department.users!)">
+                            <i class="bi bi-people me-1"></i>View Employees
+                          </button>
+                          <button class="btn btn-sm btn-outline-danger" (click)="deleteDepartment(department.id!)">
+                            <i class="bi bi-trash"></i>
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  </section>
-    <section class="section" *ngIf="Opentable">
-    <div class="row">
-      <div class="col-lg-12">
-        <div class="card">
-          <div class="card-body">
-            <table class="table datatable" >
-              <thead>
-                <tr>
-                  <th>Full Name</th>
-                  <th>Email</th>
-                  <th>Tel Number</th>
-                  <th>Address</th>
-                  <th>Position</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let user of listUser">
-                  <td>{{user.fullname}}</td>
-                  <td>{{user.username}}</td>
-                  <td>{{user.telNumber}}</td>
-                  <td>{{user.address}}</td>
-                  <td>{{user.position}}</td>
-                </tr>
-              </tbody>
-              <!-- <button (click)="Opentable=false" >Close</button> -->
-            </table>
+    </section>
+
+    <!-- Employees Table Section (Conditional) -->
+    <section class="section mt-4" *ngIf="Opentable">
+      <div class="row">
+        <div class="col-12">
+          <div class="card shadow-sm border-0">
+            <div class="card-header bg-white border-0 d-flex justify-content-between align-items-center">
+              <h5 class="card-title m-0">Department Employees</h5>
+              <button class="btn btn-sm btn-outline-secondary" (click)="Opentable=false">
+                <i class="bi bi-x-lg"></i> Close
+              </button>
+            </div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-hover">
+                  <thead class="table-light">
+                    <tr>
+                      <th>Full Name</th>
+                      <th>Email</th>
+                      <th>Phone</th>
+                      <th>Address</th>
+                      <th>Position</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let user of listUser">
+                      <td class="fw-semibold">{{user.fullname}}</td>
+                      <td>{{user.username}}</td>
+                      <td>{{user.telNumber}}</td>
+                      <td>{{user.address}}</td>
+                      <td>
+                        <span class="badge bg-success bg-opacity-10 text-success">{{user.position}}</span>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
+  </div>
 </main>
+
+<!-- Department Detail Modal -->
 <div id="departmentModal" class="modal fade" tabindex="-1">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content border-0 shadow">
+      <div class="modal-header bg-primary text-white">
         <h5 class="modal-title">Department Details</h5>
-        <button type="button" class="btn-close" (click)="closeAddDepartmentModal()"></button>
+        <button type="button" class="btn-close btn-close-white" (click)="closeAddDepartmentModal()"></button>
       </div>
       <div class="modal-body">
-        <p><strong>Department Name:</strong> {{ selectedDepartment?.name}}</p>
-        <p><strong>Head of Department:</strong> {{ selectedDepartment?.responsableDep}}</p>
-        <p><strong>Total Employees:</strong> {{ selectedDepartment?.totalEmployees }}</p>
+        <div class="mb-3">
+          <label class="form-label text-muted small">Department Name</label>
+          <p class="fw-semibold">{{ selectedDepartment?.name}}</p>
+        </div>
+        <div class="mb-3">
+          <label class="form-label text-muted small">Head of Department</label>
+          <p class="fw-semibold">{{ selectedDepartment?.responsableDep || 'Not assigned'}}</p>
+        </div>
+        <div class="mb-3">
+          <label class="form-label text-muted small">Total Employees</label>
+          <p class="fw-semibold">{{ selectedDepartment?.totalEmployees || 0 }}</p>
+        </div>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" (click)="closeAddDepartmentModal()">Close</button>
+      <div class="modal-footer border-0">
+        <button type="button" class="btn btn-light" (click)="closeAddDepartmentModal()">Close</button>
       </div>
     </div>
   </div>
 </div>
 
-          
-<main id="main" class="main">
-
-  <!-- Add Department Modal -->
-  <div *ngIf="showAddDepartmentModal" class="modal fade show d-block" tabindex="-1">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Add New Department</h5>
-          <button type="button" class="btn-close" (click)="closeAddDepartmentModal()"></button>
-        </div>
-        <div class="modal-body">
-          <form [formGroup]="addDepartmentForm" (ngSubmit)="onAddDepartmentSubmit()">
-            <div class="form-group mb-3">
-               <select id="name" class="form-control" formControlName="name" required>
-              <option *ngFor="let department of departmentNames" [value]="department" aria-placeholder="select a department">{{ department }}</option>
+<!-- Add Department Modal -->
+<div *ngIf="showAddDepartmentModal" class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5)">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content border-0 shadow">
+      <div class="modal-header bg-success text-white">
+        <h5 class="modal-title">Add New Department</h5>
+        <button type="button" class="btn-close btn-close-white" (click)="closeAddDepartmentModal()"></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="addDepartmentForm" (ngSubmit)="onAddDepartmentSubmit()">
+          <div class="mb-3">
+            <label for="name" class="form-label">Department Name</label>
+            <select id="name" class="form-select" formControlName="name" required>
+              <option value="" disabled selected>Select a department</option>
+              <option *ngFor="let department of departmentNames" [value]="department">{{ department }}</option>
             </select>
-            </div>
-            <div class="form-group mb-3">
-             <select id="head" class="form-control" (change)="Onselected($event)" required>
+          </div>
+          <div class="mb-4">
+            <label for="head" class="form-label">Head of Department</label>
+            <select id="head" class="form-select" (change)="Onselected($event)" required>
+              <option value="" disabled selected>Select department head</option>
               <option *ngFor="let user of availableHeads" [value]="user.id">{{ user.fullname }}</option>
-             </select>
-            </div>
-<!--            
-            <div class="form-group mb-3">
-              <label for="capacity">Employee Capacity</label>
-              <input type="number" id="capacity" class="form-control" formControlName="capacity">
-            </div> -->
-      
-            <button type="submit" class="btn btn-primary">Add Department</button>
-          </form>
-        </div>
+            </select>
+          </div>
+          <div class="d-grid gap-2">
+            <button type="submit" class="btn btn-success">
+              <i class="bi bi-check-circle me-2"></i>Add Department
+            </button>
+          </div>
+        </form>
       </div>
     </div>
   </div>
-</main>
+</div>
 
-
-
-<!-- Modal de mise à jour -->
-<div *ngIf="showEditDepartmentModal" class="modal fade show d-block" tabindex="-1">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
+<!-- Edit Department Modal -->
+<div *ngIf="showEditDepartmentModal" class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5)">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content border-0 shadow">
+      <div class="modal-header bg-primary text-white">
         <h5 class="modal-title">Update Department</h5>
-        <button type="button" class="btn-close" (click)="closeEditDepartmentModal()"></button>
+        <button type="button" class="btn-close btn-close-white" (click)="closeEditDepartmentModal()"></button>
       </div>
       <div class="modal-body">
         <form [formGroup]="updateDepartmentForm" (ngSubmit)="onUpdateDepartmentSubmit()">
-          <div class="form-group mb-3">
-            <label for="name">Department Name</label>
-            
-           <select id="name" class="form-control" formControlName="name" (change)="Onselecteddep($event)" required>
-  <option *ngFor="let department of departmentNames" [ngValue]="department">
-    {{ department }}
-  </option>
-</select>
-
+          <div class="mb-3">
+            <label for="name" class="form-label">Department Name</label>
+            <select id="name" class="form-select" formControlName="name" (change)="Onselecteddep($event)" required>
+              <option value="" disabled selected>Select a department</option>
+              <option *ngFor="let department of departmentNames" [ngValue]="department">
+                {{ department }}
+              </option>
+            </select>
           </div>
-          <div class="form-group mb-3">
-            <label for="head">Head of Department</label>
-            <select id="head" class="form-control" (change)="Onselected($event)" required>
+          <div class="mb-4">
+            <label for="head" class="form-label">Head of Department</label>
+            <select id="head" class="form-select" (change)="Onselected($event)" required>
+              <option value="" disabled selected>Select department head</option>
               <option *ngFor="let user of availableHeads" [value]="user.id">{{ user.fullname}}</option>
             </select>
           </div>
-          <button type="submit" class="btn btn-primary">Update Department</button>
+          <div class="d-grid gap-2">
+            <button type="submit" class="btn btn-primary">
+              <i class="bi bi-save me-2"></i>Update Department
+            </button>
+          </div>
         </form>
       </div>
     </div>

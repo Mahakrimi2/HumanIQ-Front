@@ -11,16 +11,24 @@ import Swal from 'sweetalert2';
   templateUrl: './calender.component.html',
   styleUrls: ['./calender.component.css'],
 })
-
 export class CalenderComponent implements OnInit {
   calendarOptions: CalendarOptions = {
     initialView: 'dayGridMonth',
-    editable: true,
-    selectable: true,
-    events: [], 
+    editable: false,
+    selectable: false,
+    events: [],
     plugins: [interactionPlugin, dayGridPlugin],
+   
+    headerToolbar: {
+      left: 'prev,next today',
+      center: 'title',
+      right: 'dayGridMonth,timeGridWeek',
+    },
   };
 
+
+  currentEvents: EventInput[] = [];
+  weekends: Date[] = [];
   constructor(
     private pointageService: PointageService,
     private authService: AuthService
@@ -35,17 +43,17 @@ export class CalenderComponent implements OnInit {
     this.pointageService.getPointagesByUser(username!).subscribe(
       (data: pointage[]) => {
         console.log(data);
-        
+
         this.calendarOptions.events = data.flatMap((pointage) => [
           {
             title: 'Arrivée',
-            start: pointage.arrivalTime, 
-            color: '#00ff00', 
+            start: pointage.arrivalTime,
+            color: '#00ff00',
           },
           {
             title: 'Départ',
-            start: pointage.departureTime,  
-            color: '#ff0000', 
+            start: pointage.departureTime,
+            color: '#ff0000',
           },
         ]);
       },

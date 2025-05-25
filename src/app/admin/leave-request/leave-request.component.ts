@@ -9,10 +9,9 @@ import Swal from 'sweetalert2';
   styleUrls: ['./leave-request.component.css'],
 })
 export class LeaveRequestComponent {
-
-  leaveRequests: Holiday[] = []; 
+  leaveRequests: Holiday[] = [];
   holidayStatuses: string[] = [];
-  selectedRequest: Holiday | null = null; 
+  selectedRequest: Holiday | null = null;
   newStatus: string = ''; // Nouveau statut sélectionné
 
   constructor(private holidayService: HolidayService) {}
@@ -21,7 +20,6 @@ export class LeaveRequestComponent {
     this.loadLeaveRequests();
     this.loadHolidayStatuses();
   }
-
 
   loadLeaveRequests() {
     this.holidayService.getAllHolidays().subscribe(
@@ -46,7 +44,6 @@ export class LeaveRequestComponent {
     );
   }
 
-  
   loadHolidayStatuses() {
     this.holidayService.getHolidayStatus().subscribe(
       (statuses) => {
@@ -60,7 +57,7 @@ export class LeaveRequestComponent {
 
   openStatusModal(request: Holiday) {
     this.selectedRequest = request;
-    this.newStatus = request.status; 
+    this.newStatus = request.status;
     const modal = document.getElementById('statusModal');
     if (modal) {
       modal.classList.add('show');
@@ -68,7 +65,6 @@ export class LeaveRequestComponent {
     }
   }
 
- 
   closeStatusModal() {
     this.selectedRequest = null;
     this.newStatus = '';
@@ -85,7 +81,6 @@ export class LeaveRequestComponent {
         .updateHolidayStatus(this.selectedRequest.id!, this.newStatus)
         .subscribe(
           () => {
-           
             const request = this.leaveRequests.find(
               (r) => r.id === this.selectedRequest?.id
             );
@@ -111,7 +106,6 @@ export class LeaveRequestComponent {
         );
     }
   }
-
 
   deleteRequest(id: number) {
     Swal.fire({
@@ -148,5 +142,23 @@ export class LeaveRequestComponent {
         );
       }
     });
+  }
+
+  // Méthode pour construire l'URL complète du fichier
+  getFileUrl(request: Holiday): string {
+    if (!request.ficher) return '';
+
+    // Si c'est déjà une URL complète
+    if (request.ficher.startsWith('http')) {
+      return request.ficher;
+    }
+
+    // Sinon construire l'URL avec votre base
+    return `http://localhost:8082/api/rh/users/profileImage/${request.ficher}`;
+  }
+
+  // Méthode pour vérifier si c'est un PDF
+  isPdfFile(filename: string): boolean {
+    return filename?.toLowerCase().endsWith('.pdf');
   }
 }

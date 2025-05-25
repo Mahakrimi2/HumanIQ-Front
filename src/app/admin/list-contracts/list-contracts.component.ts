@@ -19,10 +19,23 @@ export class ListContractsComponent implements OnInit {
   activeModal: any;
   isBenefitsModalOpen: boolean = false;
   fullBenefits: string = '';
+  showDescriptionPopup = false;
+  popupDescriptionText = '';
+  selectedContract: Contract | null = null;
+  addContract: any;
+
+  openDescriptionPopup(fullText: string) {
+    this.popupDescriptionText = fullText;
+    this.showDescriptionPopup = true;
+  }
+
+  closeDescriptionPopup() {
+    this.showDescriptionPopup = false;
+  }
   filterContracts(event: any): void {
     const searchText = event.target.value.toLowerCase().trim();
     console.log('Search Text:', searchText);
-    
+
     if (!searchText) {
       this.filteredContracts = [...this.contracts];
     } else {
@@ -35,16 +48,13 @@ export class ListContractsComponent implements OnInit {
       });
     }
   }
-    
-  selectedContract: Contract | null = null;
-  addContract: any;
-    
+
   loadContractForEdit(_t32: Contract) {
     console.log(_t32);
-    
+
     this.editContractForm.patchValue(_t32);
   }
-    
+
   contracts: Contract[] = [];
   users: User[] = [];
   newContract: any = {
@@ -59,24 +69,24 @@ export class ListContractsComponent implements OnInit {
     status: 'active',
     archived: false,
   };
-    
+
   iduser: any;
   editContractForm!: FormGroup<any>;
-    
+
   constructor(
     private contractService: ContractService,
     private modalService: NgbModal,
     private userService: UserService,
     private expdfService: ExportPdfService,
     private fb: FormBuilder
-  ) { }
-    
+  ) {}
+
   ngOnInit(): void {
     this.loadContracts();
     this.loadUsers();
     this.initEditForm();
   }
-    
+
   loadContracts() {
     this.contractService.getAllContractsbystatus().subscribe(
       (response: Contract[]) => {
@@ -89,14 +99,14 @@ export class ListContractsComponent implements OnInit {
       }
     );
   }
-    
+
   loadUsers(): void {
     this.userService.getAllUsers().subscribe(
       (data) => (this.users = data),
       (error) => console.error('Error fetching users', error)
     );
   }
-    
+
   initEditForm(): void {
     this.editContractForm = this.fb.group({
       id: [],
@@ -113,7 +123,7 @@ export class ListContractsComponent implements OnInit {
       archived: [null],
     });
   }
-    
+
   openAddContractModal(content: any): void {
     this.modalService.open(content, { size: 'lg' });
   }
@@ -121,7 +131,7 @@ export class ListContractsComponent implements OnInit {
     this.editContractForm.patchValue(contract);
     this.modalService.open(content, { size: 'lg' });
   }
-    
+
   saveChanges(): void {
     console.log('====================================');
     console.log(this.iduser);
@@ -134,7 +144,7 @@ export class ListContractsComponent implements OnInit {
         .createContract(this.newContract, this.iduser)
         .subscribe(
           () => {
-            this.loadContracts()
+            this.loadContracts();
             this.modalService.dismissAll();
             this.resetForm();
             Swal.fire({
@@ -163,7 +173,7 @@ export class ListContractsComponent implements OnInit {
       });
     }
   }
-    
+
   resetForm(): void {
     this.newContract = {
       contractType: '',
@@ -177,31 +187,31 @@ export class ListContractsComponent implements OnInit {
       status: 'active',
     };
   }
-    
+
   deleteContract(id: number): void {
     Swal.fire({
-      title: 'Êtes-vous sûr ?',
-      text: 'Vous ne pourrez pas annuler cette action !',
+      title: 'Are you sure?',
+      text: 'You will not be able to undo this action!',
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonText: 'Oui, archiver !',
-      cancelButtonText: 'Annuler',
+      confirmButtonText: 'Yes, archive it!',
+      cancelButtonText: 'Cancel',
     }).then((result) => {
       if (result.isConfirmed) {
         this.contractService.archiveContrat(id).subscribe(
           () => {
             this.loadContracts();
             Swal.fire(
-              'Archivé!',
-              'Le contrat a été archivé et retiré de la liste des contrats actifs.',
+              'Archived!',
+              'The contract has been archived and removed from the active list.',
               'success'
             );
           },
           (error) => {
-            console.error("Erreur lors de l'archivage du contrat :", error);
+            console.error('Error while archiving the contract:', error);
             Swal.fire({
-              title: 'Erreur !',
-              text: "Une erreur est survenue lors de l'archivage du contrat.",
+              title: 'Error!',
+              text: 'An error occurred while archiving the contract.',
               icon: 'error',
               confirmButtonText: 'OK',
             });
@@ -225,32 +235,31 @@ export class ListContractsComponent implements OnInit {
             this.loadContracts();
             this.modalService.dismissAll();
             Swal.fire({
-              title: 'Contrat mis à jour avec succès !',
+              title: 'Contract updated successfully!',
               icon: 'success',
               confirmButtonText: 'OK',
             });
           },
           (error) => {
-            console.error('Erreur lors de la mise à jour du contrat :', error);
+            console.error('Error while updating the contract:', error);
             Swal.fire({
-              title: 'Erreur !',
-              text: 'Une erreur est survenue lors de la mise à jour du contrat.',
+              title: 'Error!',
+              text: 'An error occurred while updating the contract.',
               icon: 'error',
               confirmButtonText: 'OK',
             });
           }
         );
     } else {
-      console.error('Formulaire invalide');
+      console.error('Invalid form');
       Swal.fire({
-        title: 'Erreur !',
-        text: 'Veuillez remplir tous les champs obligatoires.',
+        title: 'Error!',
+        text: 'Please fill in all required fields.',
         icon: 'error',
         confirmButtonText: 'OK',
       });
     }
   }
-    
   onContractSelect(event: any): void {
     this.iduser = event;
     console.log('Contrat sélectionné :', event);
@@ -258,16 +267,16 @@ export class ListContractsComponent implements OnInit {
   downloadContract(contractId: number): void {
     this.expdfService.downloadContractPdf(contractId);
   }
-    
+
   @ViewChild('benefitsModal') benefitsModal!: ElementRef;
-    
+
   showFullBenefits(benefits: string) {
     this.fullBenefits = benefits;
     this.benefitsModal.nativeElement.classList.add('show');
     this.benefitsModal.nativeElement.style.display = 'block';
     document.body.classList.add('modal-open');
   }
-    
+
   hideModal() {
     this.benefitsModal.nativeElement.classList.remove('show');
     this.benefitsModal.nativeElement.style.display = 'none';
@@ -275,13 +284,14 @@ export class ListContractsComponent implements OnInit {
   }
   showPopup = false;
   popupText = '';
-    
+
   openPopup(fullText: string) {
     this.popupText = fullText;
     this.showPopup = true;
   }
-    
+
   closePopup() {
     this.showPopup = false;
+    this.showDescriptionPopup = false;
   }
 }

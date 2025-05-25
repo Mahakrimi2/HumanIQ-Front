@@ -55,6 +55,8 @@
 .company-title {
     flex: 1;
 }
+.card-body p {
+    white-space: pre-line; }
 
 .company-name {
     font-size: 2.5rem;

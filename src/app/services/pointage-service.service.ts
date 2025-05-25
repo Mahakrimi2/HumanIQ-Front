@@ -59,7 +59,7 @@ export class PointageService {
       .get<pointage>(`${this.apiUrl}/byid/${id}`, { headers })
       .pipe(catchError(this.handleError));
   }
-  getAllPointages(): Observable<pointage[]> {
+  getAllPointages(): Observable<any[]> {
     const token = localStorage.getItem('token');
     if (!token) {
       return throwError('Token not found in local storage');

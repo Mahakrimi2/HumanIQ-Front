@@ -91,24 +91,7 @@ export class AuthService {
         })
       );
   }
-  // resetPassword(username: string): Observable<string> {
-  //   return this.http
-  //     .post<string>(`http://localhost:8082/api/password/forgot`, {
-  //       username,
-  //     })
-  //     .pipe(
-  //       catchError((error) => {
-  //         console.error(
-  //           'Erreur lors de la demande de réinitialisation:',
-  //           error
-  //         );
-  //         return throwError(
-  //           () => new Error('Impossible de traiter la demande.')
-  //         );
-  //       })
-  //     );
-  // }
-  // auth.service.ts
+
   resetPassword(username: string): Observable<any> {
     // Envoyer le username comme corps de la requête (JSON)
     return this.http
@@ -199,8 +182,5 @@ export class AuthService {
     }
     return null;
   }
-  // logout(): void {
-  //   this.userId = null;
-  //   localStorage.removeItem('userId');
-  // }
+ 
 }

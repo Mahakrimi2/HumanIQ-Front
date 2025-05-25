@@ -7,6 +7,6 @@ export class Holiday {
     type!: string;
     reason!:string
   status!: string;
-  file?: string;
+  ficher?: string;
   user?: User;
 }

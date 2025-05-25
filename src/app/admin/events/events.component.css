@@ -1,108 +1,47 @@
-/* Améliorations visuelles uniquement - ne modifie pas la structure HTML */
-.main {
-    background-color: #f8f9fa;
-    padding: 2rem;
+/* Custom styles for event component */
+.text-truncate-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .card {
-    border: none;
-    border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-    transition: all 0.3s ease;
-    margin-bottom: 1.5rem;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    border-radius: 0.75rem;
 }
 
 .card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
-}
-
-.card-body {
-    padding: 1.5rem;
-}
-
-.card-title {
-    font-weight: 600;
-    color: #2c3e50;
-    margin-bottom: 0.75rem;
-}
-
-.card-subtitle {
-    font-size: 0.9rem;
-    color: #6c757d;
-}
-
-.badge {
-    padding: 6px 12px;
-    border-radius: 20px;
-    font-weight: 500;
-    font-size: 0.75rem;
-}
-
-.bg-primary {
-    background-color: rgba(13, 110, 253, 0.1) !important;
-    color: #0d6efd !important;
-}
-
-.bg-success {
-    background-color: rgba(25, 135, 84, 0.1) !important;
-    color: #198754 !important;
-}
-
-.bg-warning {
-    background-color: rgba(255, 193, 7, 0.1) !important;
-    color: #ffc107 !important;
+    transform: translateY(-5px);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
 }
 
 .modal-content {
-    border-radius: 12px;
-    border: none;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
-}
-
-.modal-header {
-    border-bottom: 1px solid #e9ecef;
-    padding: 1.25rem 1.5rem;
-}
-
-.modal-title {
-    font-weight: 600;
-}
-
-.btn {
-    border-radius: 8px;
-    padding: 0.5rem 1.25rem;
-    font-weight: 500;
+    border-radius: 0.75rem;
+    overflow: hidden;
 }
 
 .form-control,
 .form-select {
-    border-radius: 8px;
     padding: 0.75rem 1rem;
+    border-radius: 0.5rem;
 }
 
-/* Animation douce pour le modal */
-.modal.fade .modal-dialog {
-    transition: transform 0.3s ease-out;
-    transform: translate(0, -20px);
+.btn {
+    border-radius: 0.5rem;
+    padding: 0.5rem 1.25rem;
 }
 
-.modal.show .modal-dialog {
-    transform: none;
+.badge {
+    font-weight: 500;
+    padding: 0.35em 0.65em;
+    border-radius: 0.5rem;
 }
 
-/* Pour le bouton de création */
-.btn-primary {
-    box-shadow: 0 4px 12px rgba(13, 110, 253, 0.2);
-}
-
-/* Amélioration responsive */
+/* Responsive adjustments */
 @media (max-width: 768px) {
-    .card {
-        margin-bottom: 1rem;
-    }
-
     .modal-dialog {
-        margin: 0.5rem auto;
+        margin: 1rem auto;
     }
 }

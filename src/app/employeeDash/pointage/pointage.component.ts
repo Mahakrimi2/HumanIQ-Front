@@ -54,24 +54,9 @@ export class PointageComponent implements OnInit {
   isReturnPointed = false;
   isDeparturePointed = false;
   currentUsername: string = '';
-  private notificationTimes = [
-    {
-      hour: 9,
-      type: 'arrival',
-      message: "N'oubliez pas de pointer votre arrivée!",
-    },
-    { hour: 13, type: 'pause', message: "C'est l'heure de la pause déjeuner!" },
-    {
-      hour: 14,
-      type: 'return',
-      message: "C'est l'heure de reprendre le travail!",
-    },
-    {
-      hour: 17,
-      type: 'departure',
-      message: "N'oubliez pas de pointer votre départ!",
-    },
-  ];
+
+
+  
   constructor(
     private pointageService: PointageService,
     private authService: AuthService
@@ -79,7 +64,9 @@ export class PointageComponent implements OnInit {
 
   ngOnInit(): void {
     const savedDate = localStorage.getItem('lastPointageDate');
-    const today = new Date().toISOString().split('T')[0];
+    const now = new Date();
+    now.setHours(now.getHours() + 1); // Add 1 hour
+    const today = now.toISOString().split('T')[0];
 
     if (savedDate !== today) {
       this.resetAllVariables();
@@ -161,7 +148,11 @@ export class PointageComponent implements OnInit {
   }
 
   pointArrival(): void {
-    this.arrivalTime = new Date().toISOString();
+    const now = new Date();
+    now.setHours(now.getHours() + 1); // Add 1 hour
+    this.arrivalTime = now.toISOString();
+    console.log(this.arrivalTime);
+
     this.isArrivalPointed = true;
     this.saveButtonStates();
     this.savePointage();
@@ -169,7 +160,9 @@ export class PointageComponent implements OnInit {
 
   pointPause(): void {
     if (!this.currentPointageId) return;
-    this.pauseStartTime = new Date().toISOString();
+    const now = new Date();
+    now.setHours(now.getHours() + 1);
+    this.pauseStartTime = now.toISOString();
     this.isPausePointed = true;
     this.saveButtonStates();
     this.updatepointage();
@@ -177,7 +170,9 @@ export class PointageComponent implements OnInit {
 
   pointReturn(): void {
     if (!this.currentPointageId) return;
-    this.pauseEndTime = new Date().toISOString();
+    const now = new Date();
+    now.setHours(now.getHours() + 1); // Add 1 hour
+    this.pauseEndTime = now.toISOString();
     this.isReturnPointed = true;
     this.saveButtonStates();
     this.updatepointage();
@@ -185,10 +180,13 @@ export class PointageComponent implements OnInit {
 
   pointDeparture(): void {
     if (!this.currentPointageId) return;
-    this.departureTime = new Date().toISOString();
+    const now = new Date();
+    now.setHours(now.getHours() + 1); // Add 1 hour
+    this.departureTime = now.toISOString();
     this.isDeparturePointed = true;
     this.saveButtonStates();
     this.updatepointage();
+    localStorage.removeItem('idpointage');
   }
 
   updatepointage(): void {

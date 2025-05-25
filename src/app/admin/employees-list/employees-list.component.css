@@ -7,7 +7,7 @@
 
 /* En-tête du modal */
 #addUserModal .modal-header {
-    background:rgb(224, 221, 221);
+    background:#eee;
     color: white;
     padding: 1.5rem;
     border-bottom: none;
@@ -279,3 +279,6 @@
 .gap-2>*+* {
     margin-left: 0.5rem;
 }
+
+.ng-invalid.ng-touched:not(form) {
+    border-color: #dc3545; }

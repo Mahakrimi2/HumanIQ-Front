@@ -31,7 +31,7 @@ export class JobOffreService {
 
   getAllActiveJobOffers(): Observable<JobOffer[]> {
     const token = localStorage.getItem('token');
-    console.log('Token envoyé dans header:', token); // 👈 debug log
+    console.log('Token envoyé dans header:', token); 
     const headers = new HttpHeaders({
       Authorization: `Bearer ${token}`,
     });

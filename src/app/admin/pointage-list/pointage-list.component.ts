@@ -20,6 +20,8 @@ export class PointageListComponent implements OnInit {
   PointageStatus: string[] = [];
   today = new Date().toISOString().split('T')[0];
 
+  selectedUserId: string | null = null;
+  selectedDate: string = new Date().toISOString().split('T')[0];
   constructor(
     private pointageService: PointageService,
     private userService: UserService
@@ -27,7 +29,7 @@ export class PointageListComponent implements OnInit {
 
   ngOnInit(): void {
     // this.loadPointages();
-    this.loadUsers()
+    this.loadUsers();
     this.loadHolidayStatuses();
   }
   calendarOptions: CalendarOptions = {
@@ -36,30 +38,181 @@ export class PointageListComponent implements OnInit {
     selectable: true,
     events: [],
     plugins: [interactionPlugin, dayGridPlugin],
+    eventDisplay: 'block',
+    validRange: {
+      start: new Date(new Date().setDate(new Date().getDate() - 90)),
+      end: new Date(new Date().setDate(new Date().getDate() + 2)),
+    },
+    height: 'auto', // Ajuster la hauteur automatiquement
+    eventOverlap: false,
   };
   selecteuserid: any;
+
+  // Onselected(event: any) {
+  //   this.selecteuserid = (event.target as HTMLSelectElement).value;
+  //   this.pointageService
+  //     .getPointagesByUser(this.selecteuserid)
+  //     .subscribe((data) => {
+  //       //this.pointages = data;
+  //       this.calendarOptions.events = data.flatMap((pointage) => [
+
+  //         {
+  //           title: 'Arrivée',
+  //           start: pointage.arrivalTime,
+  //           color: '#00ff00',
+  //         },
+  //         {
+  //           title: 'Départ',
+  //           start: pointage.departureTime,
+  //           color: '#ff0000',
+  //         },
+  //       ]);
+  //       const absentEvents = this.getAbsentDays(data);
+  //     });
+  //   // Ajouter les jours sans pointage comme "Absent"
+
+  //   console.log('====================================');
+  //   console.log(this.selecteuserid);
+  //   console.log('====================================');
+  // }
   Onselected(event: any) {
     this.selecteuserid = (event.target as HTMLSelectElement).value;
-    this.pointageService
-      .getPointagesByUser(this.selecteuserid)
-      .subscribe((data) => {
-        //this.pointages = data;
-        this.calendarOptions.events = data.flatMap((pointage) => [
-          {
-            title: 'Arrivée',
-            start: pointage.arrivalTime,
-            color: '#00ff00',
+    console.log('Utilisateur sélectionné:', this.selecteuserid);
+
+    this.pointageService.getPointagesByUser(this.selecteuserid).subscribe({
+      next: (pointages) => {
+        console.log('Pointages reçus:', pointages);
+
+        const pointageEvents = pointages.flatMap((p, index) => {
+          const events = [];
+          if (p.arrivalTime && !isNaN(new Date(p.arrivalTime).getTime())) {
+            events.push({
+              id: `arrival-${index}`,
+              title: `Arrivée: ${new Date(p.arrivalTime).toLocaleTimeString(
+                [],
+                { hour: '2-digit', minute: '2-digit' }
+              )}`,
+              start: new Date(p.arrivalTime),
+              color: '#28a745',
+              allDay: false,
+              display: 'block',
+            });
+          } else {
+            console.warn(`Pointage invalide (arrivalTime) pour pointage:`, p);
+          }
+          if (p.departureTime && !isNaN(new Date(p.departureTime).getTime())) {
+            events.push({
+              id: `departure-${index}`,
+              title: `Départ: ${new Date(p.departureTime).toLocaleTimeString(
+                [],
+                { hour: '2-digit', minute: '2-digit' }
+              )}`,
+              start: new Date(p.departureTime),
+              color: '#dc3545',
+              allDay: false,
+              display: 'block',
+            });
+          } else {
+            console.warn(`Pointage invalide (departureTime) pour pointage:`, p);
+          }
+          return events;
+        });
+
+        console.log('Événements de pointage générés:', pointageEvents);
+
+        // 2. Obtenir les jours absents
+        const absentEvents = this.getAbsentDays(pointages);
+        console.log("Événements d'absence générés:", absentEvents);
+
+        // 3. Mettre à jour les options du calendrier
+        this.calendarOptions = {
+          ...this.calendarOptions,
+          events: [...pointageEvents, ...absentEvents],
+          eventDisplay: 'block',
+          validRange: {
+            start: new Date(new Date().setDate(new Date().getDate() - 90)),
+            end: new Date(new Date().setDate(new Date().getDate() + 2)),
           },
-          {
-            title: 'Départ',
-            start: pointage.departureTime,
-            color: '#ff0000',
-          },
-        ]);
-      });
-    console.log('====================================');
-    console.log(this.selecteuserid);
-    console.log('====================================');
+        };
+
+        console.log(
+          'Options du calendrier mises à jour:',
+          this.calendarOptions
+        );
+      },
+      error: (err) => {
+        console.error('Erreur lors du chargement des pointages:', err);
+      },
+    });
+  }
+  private getAbsentDays(pointages: pointage[]): any[] {
+    const absentDays: any[] = [];
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // Aujourd'hui : 24 mai 2025
+
+    // 1. Extraire les dates de pointage valides
+    const pointageDates = pointages
+      .filter((p) => p.arrivalTime && !isNaN(new Date(p.arrivalTime).getTime()))
+      .map((p) => new Date(p.arrivalTime).toISOString().split('T')[0])
+      .filter((date) => date !== null);
+
+    console.log('Dates de pointage valides:', pointageDates);
+
+    // 2. Définir la période à vérifier (90 jours pour couvrir plusieurs mois, incluant aujourd'hui)
+    const daysToCheck = 90;
+    const startDate = new Date(today);
+    startDate.setDate(today.getDate() - daysToCheck + 1); // Commencer 90 jours avant aujourd'hui
+
+    // 3. Parcourir chaque jour de la période jusqu'à aujourd'hui
+    for (let i = 0; i <= daysToCheck; i++) {
+      const checkDate = new Date(startDate);
+      checkDate.setDate(startDate.getDate() + i);
+      const dateStr = checkDate.toISOString().split('T')[0];
+      const dayOfWeek = checkDate.getDay();
+
+      // 4. Ignorer les jours futurs (après aujourd'hui)
+      if (checkDate > today && i > 0) {
+        console.log(`Date ${dateStr}: Ignorée (futur)`);
+        break; // Arrêter après aujourd'hui
+      }
+
+      // 5. Identifier les weekends (samedi = 6, dimanche = 0)
+      if (dayOfWeek === 6 || dayOfWeek === 0) {
+        // Samedi (6) ou dimanche (0)
+        absentDays.push({
+          id: `weekend-${dateStr}`, // ID unique
+          title: 'Weekend',
+          start: dateStr,
+          color: '#6c757d',
+          allDay: true,
+          display: 'background',
+        });
+        console.log(`Date ${dateStr}: Weekend (jour ${dayOfWeek})`);
+        continue;
+      }
+
+      // 6. Vérifier si la date a un pointage
+      const hasPointage = pointageDates.includes(dateStr);
+
+      // 7. Ajouter un événement "Absent" si aucun pointage
+      if (!hasPointage) {
+        absentDays.push({
+          id: `absent-${dateStr}`, // ID unique
+          title: 'Absent',
+          start: dateStr,
+          color: '#ffcc00',
+          allDay: true,
+          display: 'background',
+          classNames: ['fc-event-absent'],
+        });
+        console.log(`Date ${dateStr}: Absent (jour ${dayOfWeek})`);
+      } else {
+        console.log(`Date ${dateStr}: Présent (jour ${dayOfWeek})`);
+      }
+    }
+
+    console.log("Événements d'absence générés:", absentDays);
+    return absentDays;
   }
   loadPointages(): void {
     this.pointageService.getAllPointages().subscribe(

@@ -18,6 +18,8 @@ import { DashbaordEmpComponent } from './dashbaord-emp/dashbaord-emp.component';
 import { MyProjectsComponent } from './my-projects/my-projects.component';
 import { CompanyComponent } from './company/company.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { PayslipListComponent } from './payslip-list/payslip-list.component';
+
 
 
 @NgModule({
@@ -30,6 +32,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     DashbaordEmpComponent,
     MyProjectsComponent,
     CompanyComponent,
+    PayslipListComponent,
+    
     
 
   ],
