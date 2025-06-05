@@ -35,10 +35,17 @@
             </div>
           </div>
           
-        <button class="btn btn-task-view" (click)="viewTrelloBoard(project.name)">
-  <i class="bi bi-list-task"></i> View Tasks
-  <span *ngIf="loadingTrello" class="loading-trello"></span>
-</button>
+          <div class="project-actions">
+            <button class="btn btn-task-view" (click)="viewTrelloBoard(project.name)">
+              <i class="bi bi-list-task"></i> View Tasks
+              <span *ngIf="loadingTrello" class="loading-trello"></span>
+            </button>
+            
+            <!-- Bouton de suppression -->
+            <button class="btn btn-danger" (click)="confirmDelete(project.id!)">
+              <i class="bi bi-trash"></i> Delete
+            </button>
+          </div>
         </div>
       </div>
 

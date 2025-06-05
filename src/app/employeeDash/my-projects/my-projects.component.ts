@@ -35,20 +35,28 @@ export class MyProjectsComponent implements OnInit {
       console.error('Username not found. Please log in.');
     }
   }
-
   loadProjects(username: string): void {
-    this.projectService.getProjectsByEmployeeId(username).subscribe(
-      (data) => {
+    this.projectService.getProjectsByEmployeeId(username).subscribe({
+      next: (data) => {
         this.projects = data;
+        this.errorMessage = null;
       },
-      (error) => {
+      error: (error) => {
         console.error('Error fetching projects:', error);
-      }
-    );
+        this.errorMessage = 'Failed to load projects. Please try again later.';
+        this.projects = []; // Clear projects on error
+      },
+    });
   }
 
-  getStatusClass(status: string): string {
-    switch (status.toLowerCase()) {
+  getStatusClass(status: string | null | undefined): string {
+    if (!status) {
+      return 'status-default'; // Handle null/undefined cases
+    }
+
+    switch (
+      status.toUpperCase() // Convert to uppercase for comparison
+    ) {
       case 'IN_PROGRESS':
         return 'status-in-progress';
       case 'COMPLETED':
@@ -95,6 +103,43 @@ export class MyProjectsComponent implements OnInit {
         // Stocker le nom du projet pour redirection après auth
         localStorage.setItem('trello_redirect_project', projectName);
         window.location.href = `https://trello.com/b/${boardId}/${projectName}`;
+      }
+    });
+  }
+
+  confirmDelete(projectId: number) {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'You will not be able to recover this project!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Yes, delete it!',
+      cancelButtonText: 'Cancel',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.projectService.deleteProject(projectId).subscribe({
+          next: () => {
+            this.projects = this.projects.filter((p) => p.id !== projectId);
+            Swal.fire({
+              icon: 'success',
+              title: 'Deleted!',
+              text: 'Project deleted successfully!',
+              showConfirmButton: false,
+              timer: 1500,
+            });
+          },
+          error: (error) => {
+            console.error('Error deleting project', error);
+            Swal.fire({
+              icon: 'error',
+              title: 'Error!',
+              text: 'Failed to delete project. Please try again.',
+              confirmButtonText: 'OK',
+            });
+          },
+        });
       }
     });
   }

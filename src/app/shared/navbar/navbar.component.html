@@ -65,7 +65,7 @@
               </div>
             </div>
             <button class="btn btn-sm btn-link text-danger ms-2" 
-                    (click)="removeNotification(i, 'notification'); $event.stopPropagation()"
+                    (click)="markAsReadAndRemove(notification.id); $event.stopPropagation()"
                     title="Supprimer">
               <i class="bi bi-x-lg"></i>
             </button>

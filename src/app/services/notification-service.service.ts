@@ -8,6 +8,7 @@ import { Notification } from 'src/app/models/Notification.model';
 })
 export class NotificationServiceService {
   private apiUrl = 'http://localhost:8082/api/notifications';
+  
   constructor(private http: HttpClient) {}
 
   getNotifications(): Observable<Notification[]> {
@@ -26,3 +27,4 @@ export class NotificationServiceService {
     return this.http.post<void>(`${this.apiUrl}/${notificationId}/read`, {}, { headers });
   }
 }
+

@@ -1,8 +1,6 @@
 import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
-import { AuthModel } from 'src/app/models/auth.model';
 import { Event } from 'src/app/models/event.model';
 import { Holiday } from 'src/app/models/holiday.model';
-
 import { Notification } from 'src/app/models/Notification.model';
 import { AuthService } from 'src/app/services/auth.service';
 import { ChatService } from 'src/app/services/chat.service';
@@ -39,9 +37,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   }
   toggleNotifications() {
     this.showNotifications = !this.showNotifications;
-    if (this.showNotifications && this.unreadNotificationsCount > 0) {
-      this.markNotificationsAsRead();
-    }
+  
   }
 
   toggleShowAllEvents() {
@@ -73,12 +69,10 @@ export class NavbarComponent implements OnInit, OnDestroy {
     private userService: UserService,
     private chatService: ChatService,
     private holidayService: HolidayService,
-    private eventService: EventsService,
     private notificationService: NotificationServiceService
   ) {}
 
   ngOnInit(): any {
-    const AuthModel = this.authService.getUsername();
 
     this.loadUserProfile();
     this.chatService.getUnreadMessagesCount().subscribe((count) => {
@@ -234,26 +228,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
           (n) => !n.isRead
         ).length;
 
-        if (this.isRH || this.isSuperAdmin) {
-          this.holidayService.getAllHolidays().subscribe({
-            next: (requests) => {
-              this.pendingRequests = requests.filter(
-                (r) => r.status === 'PENDING'
-              );
-              this.pendingCount = this.pendingRequests.length;
-              this.updateTotalNotifications(); // met à jour totalNotifications
-            },
-            error: (err) => {
-              console.error(
-                'Erreur lors du chargement des demandes en attente:',
-                err
-              );
-            },
-          });
-        } else {
-          // Si pas RH ou SuperAdmin, on met juste à jour les notifs
-          this.updateTotalNotifications();
-        }
+        this.updateTotalNotifications();
       },
       error: (err) => {
         console.error('Erreur lors du chargement des notifications:', err);

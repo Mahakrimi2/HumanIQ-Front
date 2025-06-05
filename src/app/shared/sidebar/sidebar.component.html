@@ -293,16 +293,17 @@
 
 <li class="nav-item" *ngIf="isSuperAdmin">
   <a class="nav-link collapsed" data-bs-target="#p-nav" data-bs-toggle="collapse" href="#">
-    <i class="bi bi-person-fill"></i><span>Payslip</span><i class="bi bi-chevron-down ms-auto"></i>
+    <i class="bi bi-receipt"></i><span>Payslip</span><i class="bi bi-chevron-down ms-auto"></i>
   </a>
   <ul id="p-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
     <li>
       <a routerLink="/superAdmin/payslip">
-        <i class="bi bi-person-fill"></i><span>Payslip</span>
+        <i class="bi bi-list-task"></i><span>Payslip</span>
       </a>
     </li>
   </ul>
 </li>
+
 
  <li class="nav-item" *ngIf="isEmployee">
   <a class="nav-link collapsed" data-bs-target="#cal-nav" data-bs-toggle="collapse" href="#">
@@ -358,7 +359,7 @@
 
 <li class="nav-item" *ngIf="isSuperAdmin">
   <a class="nav-link collapsed" data-bs-target="#cal-nav" data-bs-toggle="collapse" href="#">
-    <i class="bi bi-calendar-check-fill"></i><span>Pointage & Presence</span><i class="bi bi-chevron-down ms-auto"></i>
+    <i class="bi bi-calendar-check-fill"></i><span>Attendance & Absence</span><i class="bi bi-chevron-down ms-auto"></i>
   </a>
   <ul id="cal-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
     <li  *ngIf="isSuperAdmin">
@@ -523,7 +524,7 @@
   <ul id="pay-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
     <li>
       <a routerLink="/admin/payroll">
-        <i class="bi bi-list-task"></i><span>my payslips</span>
+        <i class="bi bi-list-task"></i><span>payslips</span>
       </a>
     </li>
   </ul>

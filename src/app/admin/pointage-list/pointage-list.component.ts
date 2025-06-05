@@ -177,7 +177,7 @@ export class PointageListComponent implements OnInit {
       }
 
       // 5. Identifier les weekends (samedi = 6, dimanche = 0)
-      if (dayOfWeek === 6 || dayOfWeek === 0) {
+      if (dayOfWeek === 0 || dayOfWeek === 1) {
         // Samedi (6) ou dimanche (0)
         absentDays.push({
           id: `weekend-${dateStr}`, // ID unique
